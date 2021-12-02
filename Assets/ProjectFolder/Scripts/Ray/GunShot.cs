@@ -17,10 +17,14 @@ public class GunShot : MonoBehaviour
     private void Start()
     {
         _rayScript = _rayObj.GetComponent<ShotRay>();
+
+        //プールをつくる
+        //値を入れる
     }
 
     private void Update()
     {
+        //Debug.Log(transform.forward);
         if (_rayScript.ReturnIsHit())
         {
             Debug.Log("レイがヒットしている");
@@ -28,7 +32,7 @@ public class GunShot : MonoBehaviour
         }
         else
         {
-            Debug.Log("レイがヒットしていない");
+            //Debug.Log("レイがヒットしていない");
         }
     }
 
@@ -39,9 +43,12 @@ public class GunShot : MonoBehaviour
     {
         if (_isCoolTime) { return; }
 
+        //プールから弾を取り出す
+        //弾の方向を変える
+
         //プレハブ生成
         GameObject _bullet=Instantiate(_bulletPrefab, _rayObj.transform.position, Quaternion.identity);
-        //飛ばす
+        _bullet.GetComponent<Bullet>().ChangeMoveDirection(this.gameObject);
 
         //クールタイム
         StartCoroutine(ShotCoolTIme());
