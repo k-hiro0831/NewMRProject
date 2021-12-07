@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField]
     private Rigidbody _rb;
     [SerializeField]
     private float _moveSpeed = 100f;
+    [SerializeField]
+    private float _survivalTime = 1f;
 
     private Vector3 _moveDir = Vector3.zero;
 
@@ -29,10 +32,18 @@ public class Bullet : MonoBehaviour
     public void ChangeMoveDirection(GameObject obj)
     {
         this.transform.rotation = obj.transform.rotation;
-        _rb = GetComponent<Rigidbody>();
+        //_rb = GetComponent<Rigidbody>();
         //_moveDir = transform.forward;
         //èeÇ∆ìØÇ∂ï˚å¸Çå¸Ç©ÇπÇÈ
 
         _rb.AddForce(transform.forward * _moveSpeed);
+    }
+
+    private IEnumerator EndTimer()
+    {
+        yield return new WaitForSeconds(_survivalTime);
+        this.gameObject.SetActive(false);
+
+        yield break;
     }
 }

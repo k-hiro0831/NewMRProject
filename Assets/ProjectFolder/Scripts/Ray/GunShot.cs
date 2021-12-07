@@ -14,10 +14,15 @@ public class GunShot : MonoBehaviour
     private float _shotCoolTime = 1f;
     private bool _isCoolTime = false;
 
+    [SerializeField]
+    private Animator _anim;
+
+    private bool _isHold = false;
+
     private void Start()
     {
         _rayScript = _rayObj.GetComponent<ShotRay>();
-
+        Debug.Log(_anim.name);
         //プールをつくる
         //値を入れる
     }
@@ -27,7 +32,7 @@ public class GunShot : MonoBehaviour
         //Debug.Log(transform.forward);
         if (_rayScript.ReturnIsHit())
         {
-            Debug.Log("レイがヒットしている");
+            //Debug.Log("レイがヒットしている");
             ShotBullet();
         }
         else
@@ -49,7 +54,9 @@ public class GunShot : MonoBehaviour
         //プレハブ生成
         GameObject _bullet=Instantiate(_bulletPrefab, _rayObj.transform.position, Quaternion.identity);
         _bullet.GetComponent<Bullet>().ChangeMoveDirection(this.gameObject);
-
+        
+        //発射アニメーション
+        _anim.Play("HundGun_Fire");
         //クールタイム
         StartCoroutine(ShotCoolTIme());
     }
