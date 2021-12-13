@@ -4,25 +4,41 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField]
     private Rigidbody _rb;
     [SerializeField]
     private float _moveSpeed = 100f;
     [SerializeField]
     private float _survivalTime = 1f;
 
-    private Vector3 _moveDir = Vector3.zero;
+    private RaycastHit _hit;
+    private Vector3 _thisPos = Vector3.zero;
+    [SerializeField]
+    private float _rayRadius = 10f;
 
-    private void Start()
+    [SerializeField]
+    private GameObject _bulletMarkPrefab = null;
+
+    private void OnEnable()
     {
-        //_rb = GetComponent<Rigidbody>();
-        //_moveDir = transform.forward;
-        //_rb.AddForce(_moveDir * _moveSpeed);
+        _rb = GetComponent<Rigidbody>();
+        _rb.velocity = Vector3.zero;
     }
 
     private void Update()
     {
+        _thisPos = transform.position;
 
+        if (Physics.SphereCast(_thisPos, _rayRadius, transform.forward, out _hit, 1, LayerMask.GetMask("Enemy")))
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        //レイの表示
+        _thisPos = transform.position;
+        Gizmos.DrawWireSphere(_thisPos, _rayRadius);
     }
 
     /// <summary>
@@ -32,18 +48,18 @@ public class Bullet : MonoBehaviour
     public void ChangeMoveDirection(GameObject obj)
     {
         this.transform.rotation = obj.transform.rotation;
-        //_rb = GetComponent<Rigidbody>();
-        //_moveDir = transform.forward;
-        //銃と同じ方向を向かせる
-
         _rb.AddForce(transform.forward * _moveSpeed);
+        StartCoroutine(EndTimer());
     }
 
+    /// <summary>
+    /// 一定時間経過後、非表示
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator EndTimer()
     {
         yield return new WaitForSeconds(_survivalTime);
         this.gameObject.SetActive(false);
-
         yield break;
     }
 }

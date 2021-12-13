@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class ShotRay : MonoBehaviour
 {
-    RaycastHit _hit;
-    [SerializeField]
+    private RaycastHit _hit;
     private bool _isHit = false;
+    private GameObject _hitObj = null;
 
     [SerializeField]
     private float _rayLength = 10f;
+    [SerializeField]
+    private GameObject _rayObj = null;
+
     private Vector3 _thisPos = Vector3.zero;
-    private float _thisScale = 1f;
 
     //実行中か判別するフラグ
     private bool _isPlaying = false;
@@ -22,16 +24,18 @@ public class ShotRay : MonoBehaviour
 
     private void Update()
     {
-        _thisPos = transform.position;
+        _thisPos = _rayObj.transform.position;
 
         //敵にぶつかっていればTrue、そうでないならFalse
-        if (Physics.Raycast(_thisPos, transform.forward, out _hit, _rayLength, LayerMask.GetMask("Enemy")))
+        if (Physics.Raycast(_thisPos, _rayObj.transform.forward, out _hit, _rayLength, LayerMask.GetMask("Enemy")))
         {
             _isHit = true;
+            _hitObj = _hit.collider.gameObject.gameObject;
         }
         else
         {
             _isHit = false;
+            _hitObj = null;
         }
     }
 
@@ -43,6 +47,15 @@ public class ShotRay : MonoBehaviour
     {
         return _isHit;
     }
+    /// <summary>
+    /// ヒット情報を返す
+    /// </summary>
+    /// <returns></returns>
+    public RaycastHit ReturnRayCastHit()
+    {
+        return _hit;
+    }
+
 
     private void OnDrawGizmos()
     {
@@ -50,20 +63,20 @@ public class ShotRay : MonoBehaviour
         //処理の重複を避けるための処理
         if (!_isPlaying)
         {
-            _thisPos = transform.position;
-            _isHit = Physics.Raycast(_thisPos, transform.forward, out _hit,_rayLength);
+            _thisPos = _rayObj.transform.position;
+            _isHit = Physics.Raycast(_thisPos, _rayObj.transform.forward, out _hit,_rayLength);
         }
 
         //レイが当たっている間、当たっている位置にボックスを表示
         if (_isHit)
         {
             //線を衝突位置まで表示
-            Gizmos.DrawRay(_thisPos, transform.forward * _hit.distance);
+            Gizmos.DrawRay(_thisPos, _rayObj.transform.forward * _hit.distance);
         }
         else
         {
             //線を指定した長さ表示
-            Gizmos.DrawRay(_thisPos, transform.forward * _rayLength);
+            Gizmos.DrawRay(_thisPos, _rayObj.transform.forward * _rayLength);
         }
     }
 }
