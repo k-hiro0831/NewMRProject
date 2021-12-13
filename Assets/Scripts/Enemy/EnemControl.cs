@@ -9,9 +9,11 @@ public class EnemControl : MonoBehaviour{
     EnemyPhase enemyPhase = EnemyPhase.phase1;
 
     [SerializeField,Header("各種類の敵")]
-    private GameObject[] _enemys = new GameObject[3];
+    private GameObject[] _enemys = new GameObject[0];
     [SerializeField, Header("敵の生成位置")]
-    private GameObject[] _position = new GameObject[3];
+    private GameObject[] _position = new GameObject[0];
+    [SerializeField, Header("敵の生成位置・親オブジェクト")]
+    private GameObject _positionBase;
     [SerializeField, Header("敵のフェーズ別の数")]
     private int[] _enemysNumber = new int[0];
     [SerializeField, Header("敵に使用するオブジェクト")]
@@ -28,6 +30,7 @@ public class EnemControl : MonoBehaviour{
     /// <summary>
     /// 敵生成位置
     /// </summary>
+    [SerializeField]
     private int _enemyPos;
 
     /// <summary>
@@ -99,6 +102,9 @@ public class EnemControl : MonoBehaviour{
     }
 
     private void StartMethod() {
+        for (int x = 0;x < _position.Length;x++){
+            _position[x] = _positionBase.transform.GetChild(x).gameObject;   
+        }
         //親オブジェクトに各敵を登録
         Parent();
         //最初にオブジェクトを作っておく
@@ -114,8 +120,10 @@ public class EnemControl : MonoBehaviour{
     private void EnemyPhase1()
     {
         for (_enemyPos = 0; _enemyPos < _enemysNumber[0]; _enemyPos++) {
+            float x = Random.Range(_position[0].transform.GetChild(0).transform.position.x, _position[0].transform.GetChild(1).transform.position.x);
+            float z = Random.Range(_position[0].transform.GetChild(1).transform.position.z, _position[0].transform.GetChild(2).transform.position.z);
             GameObject _enemyPrefab = _poolPhase1.ReturnObj();
-            _enemyPrefab.transform.position = _position[_enemyPos].transform.position;
+            _enemyPrefab.transform.position = new Vector3(x, _position[0].transform.position.y, z);
             _enemyPrefab.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             _enemyList.Add(_enemyPrefab);
         }
@@ -124,8 +132,10 @@ public class EnemControl : MonoBehaviour{
     private void EnemyPhase2() {
         for (_enemyPos = _enemyPos; _enemyPos < _enemysNumber[0]+ _enemysNumber[1]; _enemyPos++)
         {
+            float x = Random.Range(_position[1].transform.GetChild(0).transform.position.x, _position[1].transform.GetChild(1).transform.position.x);
+            float z = Random.Range(_position[1].transform.GetChild(1).transform.position.z, _position[1].transform.GetChild(2).transform.position.z);
             GameObject _enemyPrefab = _poolPhase2.ReturnObj();
-            _enemyPrefab.transform.position = _position[_enemyPos].transform.position;
+            _enemyPrefab.transform.position = new Vector3(x, _position[0].transform.position.y, z);
             _enemyPrefab.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             _enemyList.Add(_enemyPrefab);
         }
@@ -135,8 +145,10 @@ public class EnemControl : MonoBehaviour{
     {
         for (_enemyPos = _enemyPos; _enemyPos < _enemysNumber[0] + _enemysNumber[1]+ _enemysNumber[2]; _enemyPos++)
         {
+            float x = Random.Range(_position[2].transform.GetChild(0).transform.position.x, _position[2].transform.GetChild(1).transform.position.x);
+            float z = Random.Range(_position[2].transform.GetChild(1).transform.position.z, _position[2].transform.GetChild(2).transform.position.z);
             GameObject _enemyPrefab = _poolPhase3.ReturnObj();
-            _enemyPrefab.transform.position = _position[_enemyPos].transform.position;
+            _enemyPrefab.transform.position = new Vector3(x, _position[0].transform.position.y, z);
             _enemyPrefab.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             _enemyList.Add(_enemyPrefab);
         }
