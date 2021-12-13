@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 1820713716363488815}
   - component: {fileID: 1826473842773636608}
   - component: {fileID: -3885456802536843819}
+  - component: {fileID: -435448819413559270}
   m_Layer: 0
   m_Name: RobotEnemy_red
   m_TagString: Enemy
@@ -329,8 +330,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
   _enemybul: {fileID: 6997273567704783022, guid: 42c247cda1bcbcd45a56c093b44b7e48, type: 3}
-  _explosion: {fileID: 100014, guid: 4be461bdf6702f64298fb518ce64cc1d, type: 3}
+  _enemyDes: {fileID: -435448819413559270}
   speed: 0.005
+--- !u!114 &-435448819413559270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820713716363488818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1820713716363488820
 GameObject:
   m_ObjectHideFlags: 0

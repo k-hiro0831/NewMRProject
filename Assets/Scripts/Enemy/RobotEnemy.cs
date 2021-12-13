@@ -12,6 +12,8 @@ public class RobotEnemy : MonoBehaviour
     private Vector3 _bulletTrf = new Vector3(0.0f, 3.0f, 3.0f);
 
     private EnemControl _enem = new EnemControl();
+    [SerializeField]
+    private EnemyDestroy _enemyDes;
 
     private Rigidbody _rb;
 
@@ -20,7 +22,7 @@ public class RobotEnemy : MonoBehaviour
     /// <summary>
     /// ìGÇÃêiÇﬁîªíË
     /// </summary>
-    private bool _robot;
+    private bool _enemyMove;
     /// <summary>
     /// ìGÇÃçUåÇîªíË
     /// </summary>
@@ -38,6 +40,7 @@ public class RobotEnemy : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
         _rdm = Random.Range(3,8);
         StartCoroutine("RobotAtk");
     }
@@ -45,29 +48,10 @@ public class RobotEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_robot && !_atk) {
+        _enemyMove = _enemyDes._enemyMovePB;
+        this.transform.LookAt(_player.transform);
+        if (!_enemyMove && !_atk) {
             Move();
-        }
-        
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        //ÉvÉåÉCÉÑÅ[ÇÃî≠éÀÇ≥ÇÍÇΩíeÇ…ìñÇΩÇ¡ÇΩîªíË
-        if (collision.gameObject.tag == "Bullet" && !_robot)
-        {
-            _robot = true;
-            StartCoroutine("RobotDes");
-        }
-    }
-
-    private void OnParticleCollision(GameObject collision)
-    {
-        //ÉvÉåÉCÉÑÅ[ÇÃî≠éÀÇ≥ÇÍÇΩíeÇ…ìñÇΩÇ¡ÇΩîªíË
-        if (collision.gameObject.tag == "Bullet" && !_robot)
-        {
-            _robot = true;
-            StartCoroutine("RobotDes");
         }
     }
 
@@ -78,7 +62,7 @@ public class RobotEnemy : MonoBehaviour
 
     private IEnumerator RobotAtk()
     {
-        if (_robot)
+        if (_enemyMove)
         {
             yield break;
         }
@@ -95,10 +79,5 @@ public class RobotEnemy : MonoBehaviour
         }
     }
 
-    private IEnumerator RobotDes(){
-        _ani.SetBool("dei", true);
-        yield return new WaitForSeconds(2.0f);
-        _enem.Removed(this.gameObject);
-        this.gameObject.SetActive(false);
-    }
+
 }
