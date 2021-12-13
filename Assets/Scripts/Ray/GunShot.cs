@@ -7,6 +7,15 @@ public class GunShot : MonoBehaviour
     [SerializeField]
     private GameObject _bulletPrefab = null;
     [SerializeField]
+    private GameObject _poolParent = null;
+    [SerializeField]
+    private int _poolObjCount = 10;
+
+    //[SerializeField]
+    //private GameObject _bulletMarkParent = null;
+    //private BulletMarkManager _markScript;
+
+    [SerializeField]
     private GameObject _rayObj = null;
     private ShotRay _rayScript;
 
@@ -17,25 +26,24 @@ public class GunShot : MonoBehaviour
     [SerializeField]
     private Animator _anim;
 
+    private ObjectPool _pool;
+
     private void Start()
     {
-        _rayScript = _rayObj.GetComponent<ShotRay>();
+        _rayScript = GetComponent<ShotRay>();
+        //_markScript = _bulletMarkParent.GetComponent<BulletMarkManager>();
 
         //プールをつくる
-        //値を入れる
+        //_pool = new ObjectPool();
+        //_pool.Pool(_poolParent, _bulletPrefab, _poolObjCount);
     }
 
     private void Update()
     {
-        //Debug.Log(transform.forward);
+        //銃から出すレイが敵にあたっているとき
         if (_rayScript.ReturnIsHit())
         {
-            //Debug.Log("レイがヒットしている");
             ShotBullet();
-        }
-        else
-        {
-            //Debug.Log("レイがヒットしていない");
         }
     }
 
@@ -46,12 +54,19 @@ public class GunShot : MonoBehaviour
     {
         if (_isCoolTime) { return; }
 
-        //プールから弾を取り出す
-        //弾の方向を変える
+        //ヒットした情報を取得
+        RaycastHit _hit = _rayScript.ReturnRayCastHit();
+        GameObject _hitObj = _hit.collider.gameObject.gameObject;
 
-        //プレハブ生成
-        GameObject _bullet=Instantiate(_bulletPrefab, _rayObj.transform.position, Quaternion.identity);
-        _bullet.GetComponent<Bullet>().ChangeMoveDirection(this.gameObject);
+        //<--ヒットしたオブジェクトにダメージ
+        //_hitObj.GetComponent<EnemyDestroy>().EnemyDes();
+        Debug.Log("当たってます");
+
+        //<--ヒットエフェクトを生成
+
+        //銃痕を生成
+        //GameObject _mark = _markScript.ReturnBulletMarkPrefab();
+        //_mark.transform.position = _hit.point;
 
         PlayFireAnim();
 
@@ -70,12 +85,15 @@ public class GunShot : MonoBehaviour
         _anim.Play("HundGun_Fire");
     }
 
+    /// <summary>
+    /// クールタイム処理
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ShotCoolTIme()
     {
         _isCoolTime = true;
         yield return new WaitForSeconds(_shotCoolTime);
         _isCoolTime = false;
-
         yield break;
     }
 }

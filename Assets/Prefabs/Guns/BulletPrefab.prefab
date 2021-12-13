@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4310527997404539097}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.113}
   m_LocalScale: {x: 40, y: 40, z: 40}
   m_Children: []
   m_Father: {fileID: 7282250542556056397}
@@ -90,9 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7282250542556056397}
-  - component: {fileID: 5301755340491282142}
   - component: {fileID: 8361081727990419984}
-  - component: {fileID: 5214339050178189449}
+  - component: {fileID: 5301755340491282142}
   m_Layer: 0
   m_Name: BulletPrefab
   m_TagString: Bullet
@@ -115,21 +114,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5301755340491282142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6170423514073345133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 515b83c7c02ac914782113edbfc47b1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 8361081727990419984}
-  _moveSpeed: 1000
-  _survivalTime: 1
 --- !u!54 &8361081727990419984
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -144,18 +128,21 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!135 &5214339050178189449
-SphereCollider:
+--- !u!114 &5301755340491282142
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6170423514073345133}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.175
-  m_Center: {x: 0, y: 0, z: 0.14}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515b83c7c02ac914782113edbfc47b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 2000
+  _survivalTime: 1
+  _rayRadius: 0.25
+  _bulletMarkPrefab: {fileID: 7767751186926295804, guid: c79a831befd7a4c4498d9b3966ad19fc, type: 3}
