@@ -59,7 +59,7 @@ public class GunShot : MonoBehaviour
         GameObject _hitObj = _hit.collider.gameObject.gameObject;
 
         //<--ヒットしたオブジェクトにダメージ
-        //_hitObj.GetComponent<EnemyDestroy>().EnemyDes();
+        _hitObj.GetComponent<EnemyDestroy>().EnemyDes();
         Debug.Log("当たってます");
 
         //<--ヒットエフェクトを生成

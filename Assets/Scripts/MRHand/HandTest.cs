@@ -36,8 +36,8 @@ public class HandTest : MonoBehaviour
             IMixedRealityHandJointService handtrackingservice = CoreServices.GetInputSystemDataProvider<IMixedRealityHandJointService>();
             if (handtrackingservice != null)
             {
-                TestObj.transform.position = handtrackingservice.RequestJointTransform(TrackedHandJoint.IndexTip, Handedness.Right).position;
-                
+                TestObj.transform.position = handtrackingservice.RequestJointTransform(TrackedHandJoint.MiddleKnuckle, Handedness.Right).position;
+                TestObj.transform.rotation= handtrackingservice.RequestJointTransform(TrackedHandJoint.MiddleKnuckle, Handedness.Right).rotation;
             }
         }
         else
