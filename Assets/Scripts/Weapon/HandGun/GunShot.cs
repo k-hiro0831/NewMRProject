@@ -1,46 +1,67 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using MRProject.Ray;
 
 public class GunShot : MonoBehaviour, WeaponAttack
 {
+    [SerializeField]
+    private Animator _anim;
+
     RayShot _rayShot = new RayShot();
+    [SerializeField]
+    private GameObject _muzzleFlash = null;
+    private ParticleSystem _particle;
 
     [SerializeField]
     private GameObject _rayObj = null;
+    private GameObject _hitObj = null;
     [SerializeField]
     private float _rayLength = 10f;
 
-    private GameObject _hitObj = null;
-
+    [SerializeField]
+    private int _bulletMax = 30;
+    [SerializeField]
+    private int _bulletCount = 0;
 
     [SerializeField]
     private float _shotCoolTime = 1f;
     private bool _isCoolTime = false;
     private bool _isAttack = false;
 
-    [SerializeField]
-    private Animator _anim;
-
     private GameObject _targetObj = null;
 
     private void Start()
     {
+        _bulletCount = _bulletMax;
+        _isAttack = false; 
+        _targetObj = null;
         _rayShot.Initialize(_rayObj, _rayLength);
+        _particle = _muzzleFlash.GetComponent<ParticleSystem>();
+    }
+
+    private void OnEnable()
+    {
+        _bulletCount = _bulletMax;
+        _isAttack = false; 
+        _targetObj = null;
+        _rayShot.Initialize(_rayObj, _rayLength);
+        _particle = _muzzleFlash.GetComponent<ParticleSystem>();
     }
 
     private void Update()
     {
-        _hitObj = _rayShot.ReturnHitObj("Enemy");
-        if (_hitObj != null)
+        if (_isAttack)
         {
-            //攻撃できるようになる
-            AttackPermission();
-        }
-        else
-        {
-
+            this.transform.LookAt(_targetObj.transform);
+            _hitObj = _rayShot.ReturnHitObj("Enemy");
+            if (_hitObj != null)
+            {
+                ShotBullet();
+            }
+            else
+            {
+                AttackEnd();
+            }
         }
     }
 
@@ -50,28 +71,23 @@ public class GunShot : MonoBehaviour, WeaponAttack
     }
 
     /// <summary>
-    /// 攻撃可能状態にする
+    /// 攻撃開始処理
     /// </summary>
-    private void AttackPermission()
-    {
-        //攻撃可能になる
-        _isAttack = true;
-    }
-
+    /// <param name="_target">攻撃対象オブジェクト</param>
     public void Attack(GameObject _target)
     {
-        //ShotBullet();
-
-
+        if (_target == null) { return; }
         _targetObj = _target;
-
-
-        Debug.Log("銃で攻撃");
+        _isAttack = true;
     }
+    /// <summary>
+    /// 攻撃終了処理
+    /// </summary>
     public void AttackEnd()
     {
+        if (_targetObj.activeSelf == true) { return; }
         _isAttack = false;
-        Debug.Log("銃で攻撃を終了");
+        _targetObj = null;
     }
 
     /// <summary>
@@ -79,19 +95,33 @@ public class GunShot : MonoBehaviour, WeaponAttack
     /// </summary>
     private void ShotBullet()
     {
-        //攻撃中でないとき処理終了
-        if (!_isAttack) { return; }
         //クールタイム中、処理終了
         if (_isCoolTime) { return; }
 
+        _bulletCount--;
+        if (_bulletCount <= 0)
+        {
+            _bulletCount = 0;
+            Debug.Log("弾切れ");
+            _isAttack = false;
+            _targetObj = null;
+
+            //銃を破壊する処理
+            this.gameObject.SetActive(false);
+
+            //処理終了
+            return;
+        }
+
         //ヒットしたオブジェクトにダメージ
         //_hitObj.GetComponent<EnemyDestroy>().EnemyDes();
-        Debug.Log("当たりました");
 
-        //<--ヒットエフェクトを生成
+        //<--発射エフェクト
+        _particle.Play();
+
+        //<--衝突エフェクト
 
         PlayFireAnim();
-
         //クールタイム
         StartCoroutine(ShotCoolTIme());
     }
