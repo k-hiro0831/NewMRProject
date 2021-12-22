@@ -47,6 +47,7 @@ public class ShotRay : MonoBehaviour
     {
         return _isHit;
     }
+
     /// <summary>
     /// ƒqƒbƒgî•ñ‚ğ•Ô‚·
     /// </summary>
