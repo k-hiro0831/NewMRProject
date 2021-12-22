@@ -28,6 +28,8 @@ public class SpecialSkill : MonoBehaviour
         _skillPoint = 0;
         _skillImage = _skillImageObj.GetComponent<Image>();
         _skillImage.fillAmount = 0;
+
+
     }
 
     private void Update()
@@ -43,6 +45,9 @@ public class SpecialSkill : MonoBehaviour
         //}
     }
 
+    /// <summary>
+    /// 必殺技を発動
+    /// </summary>
     public void SkillActivate()
     {
         //ポイントが足りないとき処理終了

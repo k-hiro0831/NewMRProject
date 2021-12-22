@@ -30,6 +30,9 @@ public class GunShot : MonoBehaviour, WeaponAttack
 
     private GameObject _targetObj = null;
 
+    [SerializeField]
+    private GameObject testTarget;
+
     private void Start()
     {
         _bulletCount = _bulletMax;
@@ -63,6 +66,11 @@ public class GunShot : MonoBehaviour, WeaponAttack
                 AttackEnd();
             }
         }
+
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    StartCoroutine(DirectionChange());
+        //}
     }
 
     private void OnDrawGizmos()
@@ -124,6 +132,24 @@ public class GunShot : MonoBehaviour, WeaponAttack
         PlayFireAnim();
         //クールタイム
         StartCoroutine(ShotCoolTIme());
+    }
+
+    private IEnumerator DirectionChange()
+    {
+
+        //Quaternion rotation = Quaternion.LookRotation(testTarget);
+
+
+        //while (this.transform.rotation != testTarget.transform.rotation)
+        //{
+        //    float step = 1 * Time.deltaTime;
+        //    Quaternion rotation = Quaternion.RotateTowards(this.transform.rotation, testTarget.transform.rotation, step);
+        //    this.transform.rotation = rotation;
+        //    Debug.Log("aaaaa");
+        //    yield return null;
+        //}
+
+        yield break;
     }
 
     /// <summary>
