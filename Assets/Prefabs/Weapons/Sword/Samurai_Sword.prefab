@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8130458833159421574}
   - component: {fileID: 8130458833152806168}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: collider1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8130458833159401450}
   - component: {fileID: 8130458833152986300}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: collider3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8130458833159420508}
   - component: {fileID: 8130458833152795382}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: collider2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8130458833159362936}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: _Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8130458833159341692}
   - component: {fileID: 8130458833152797856}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: collider4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
