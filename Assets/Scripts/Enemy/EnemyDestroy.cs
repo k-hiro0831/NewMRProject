@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDestroy : MonoBehaviour
-{
+public class EnemyDestroy : MonoBehaviour{
+
+    #region"variable"
     private Rigidbody _rb;
     private Animator _ani;
     private bool _enemyMove;
@@ -12,7 +13,8 @@ public class EnemyDestroy : MonoBehaviour
         get { return _enemyMove; }
     }
     private EnemControl _enem = new EnemControl();
-    // Start is called before the first frame update
+    #endregion
+
     void Start()
     {
         _ani = GetComponent<Animator>();
@@ -20,10 +22,12 @@ public class EnemyDestroy : MonoBehaviour
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EnemyDes();
+        }
     }
 
     public void EnemyDes()
