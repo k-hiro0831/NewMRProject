@@ -83,10 +83,12 @@ public class AttackManager : MonoBehaviour
         //rayが当たっていてエネミーリスト、ウェポンリストが空でないときイベントを実行
         if (_cameraRay.RayHit() && _cllickObjectList._weaponObjList.Count != 0 && _cllickObjectList._enemyObjList.Count != 0 && _coolTimeFlag)
         {
-
-            print("攻撃イベントが呼ばれたよ");
+            
             //TODO:ここに攻撃のイベントを入れる
-
+            for (int i = 0; i < _cllickObjectList._weaponObjList.Count; i++)
+            {
+                _cllickObjectList._weaponObjList[i].GetComponent<WeaponAttack>().Attack(_enemyObj);
+            }
             //ターゲットUIのアニメーションを呼び出す
             _targetUiAnimator.SetTrigger(UI_ANIMATOR_TRIGGER_ATTACK);
             _targetUiAnimator.SetBool(UI_ANIMATOR_BOOL_ATTCKHOLD, true);
