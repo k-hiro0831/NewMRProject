@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class ObjectPool
+public class ObjectPool : MonoBehaviour
 {
     private List<GameObject> _pool = new List<GameObject>();
     private int _currentCount;
@@ -28,9 +29,13 @@ public class ObjectPool
 
     public GameObject ReturnObj()
     {
-        foreach (GameObject obj in _pool) {
-            if (obj.activeSelf == false) {
+        foreach (GameObject obj in _pool)
+        {
+            if (obj.activeSelf == false)
+            {
+
                 obj.SetActive(true);
+                obj.GetComponent<NavMeshAgent>().enabled = true;
                 return obj;
             }
         }
@@ -43,15 +48,22 @@ public class ObjectPool
         return newObj;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public GameObject ReturnObjEnemy()
     {
-        
-    }
+        foreach (GameObject obj in _pool) {
+            if (obj.activeSelf == false) {
+                
+                obj.SetActive(true);
+                obj.GetComponent<NavMeshAgent>().enabled = true;
+                return obj;
+            }
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject newObj = GameObject.Instantiate(_prefab, _originPosition, Quaternion.identity) as GameObject;
+        newObj.transform.SetParent(_parent.transform, false);
+        newObj.SetActive(false);
+        _pool.Add(newObj);
+
+        return newObj;
     }
 }
