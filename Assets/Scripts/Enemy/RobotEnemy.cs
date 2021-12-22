@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class RobotEnemy : MonoBehaviour
-{
+public class RobotEnemy : MonoBehaviour{
+
+    #region"variable"
     [SerializeField]
     private GameObject _player;
     [SerializeField]
     private GameObject _enemybul;
+
+    private NavMeshAgent _myAgent;
 
     private Vector3 _bulletTrf = new Vector3(0.0f, 3.0f, 3.0f);
 
@@ -33,10 +37,11 @@ public class RobotEnemy : MonoBehaviour
     private float _rdm;
 
     private Animator _ani;
+#endregion
 
-    // Start is called before the first frame update
     void Start()
     {
+        _myAgent = GetComponent<NavMeshAgent>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = GetComponent<Animator>();
@@ -45,19 +50,26 @@ public class RobotEnemy : MonoBehaviour
         StartCoroutine("RobotAtk");
     }
 
-    // Update is called once per frame
     void Update()
     {
         _enemyMove = _enemyDes._enemyMovePB;
         this.transform.LookAt(_player.transform);
-        if (!_enemyMove && !_atk) {
-            Move();
+        if (_myAgent.pathStatus != NavMeshPathStatus.PathInvalid)
+        {
+            SetDestination();
         }
     }
 
-    private void Move()
+    public void SetDestination()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, speed);
+        if (!_enemyMove){
+            var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
+            _myAgent.destination = endPoint;
+        }
+
+        if (_enemyMove || _atk){
+            _myAgent.destination = this.gameObject.transform.position;
+        }
     }
 
     private IEnumerator RobotAtk()
@@ -78,6 +90,4 @@ public class RobotEnemy : MonoBehaviour
             _atk = false;
         }
     }
-
-
 }

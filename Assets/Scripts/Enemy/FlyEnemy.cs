@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class FlyEnemy : MonoBehaviour
-{
+public class FlyEnemy : MonoBehaviour{
+
+    #region"variable"
     [SerializeField]
     private GameObject _player;
+
+    private NavMeshAgent _myAgent;
 
     private EnemControl _enem = new EnemControl();
     [SerializeField]
@@ -14,6 +18,7 @@ public class FlyEnemy : MonoBehaviour
     private Animator _ani;
 
     private Rigidbody _rb;
+
     [SerializeField]
     private float speed;
     /// <summary>
@@ -28,11 +33,11 @@ public class FlyEnemy : MonoBehaviour
     /// ìGÇÃçUåÇä‘äu
     /// </summary>
     private float _rdm;
+#endregion
 
-
-    // Start is called before the first frame update
     void Start()
     {
+        _myAgent = GetComponent<NavMeshAgent>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = GetComponent<Animator>();
@@ -41,20 +46,28 @@ public class FlyEnemy : MonoBehaviour
         StartCoroutine("Atk");
     }
 
-    // Update is called once per frame
     void Update()
     {
         _enemyMove = _enemyDes._enemyMovePB;
         this.transform.LookAt(_player.transform);
-        if (!_enemyMove && !_atk)
+        if (_myAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
-            Move();
+            SetDestination();
         }
     }
 
-    private void Move()
+    public void SetDestination()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, speed);
+        if (!_enemyMove)
+        {
+            var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
+            _myAgent.destination = endPoint;
+        }
+
+        if (_enemyMove || _atk)
+        {
+            _myAgent.destination = this.gameObject.transform.position;
+        }
     }
 
     private IEnumerator Atk()

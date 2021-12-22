@@ -17,7 +17,7 @@ public class EnemyBullet : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         //生成された時点でのプレイヤーの位置を保存
         _playerTrans = _player.transform.position;
-        Destroy(this.gameObject, 10f);
+        Destroy(this.gameObject, 2f);
     }
 
     // Update is called once per frame
