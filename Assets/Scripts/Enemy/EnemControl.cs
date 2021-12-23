@@ -50,6 +50,7 @@ public class EnemControl : MonoBehaviour{
     private GameObject[] _position = default;
     [SerializeField, Header("敵のフェーズ別の数(14)")]
     private int[] _enemysNumber = default;
+    [SerializeField]
     private List<GameObject> _enemyList;
     [SerializeField, Header("親オブジェクトの大本になるやつ")]
     private GameObject _parentBase;
@@ -69,6 +70,8 @@ public class EnemControl : MonoBehaviour{
     private int _enemyPos2;
 
     private int _enemyPosPuls;
+
+    private EnemyDestroy _enemydes;
 
     #region"フェーズごとの敵"
     private ObjectPool _poolPhase1;
@@ -116,6 +119,21 @@ public class EnemControl : MonoBehaviour{
             case EnemyPhase.phase1:
                 _phaseTime[0] -= Time.deltaTime;
                 _TimeText.text = "残り"+ Mathf.Floor(_phaseTime[0]) +"秒";
+                if (_phaseTime[0] < 0.0f)
+                {
+                    for (int i = 0; i< _enemyList.Count;i++)
+                    {
+                        _enemydes = _enemyList[i].GetComponent<EnemyDestroy>();
+                        _enemydes.EnemyRemove();
+                    }
+                    _phaseTime[0] = 0.0f;
+                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[0]) + "秒";
+                    _enemyPosPuls = _enemysNumber[0] + _enemysNumber[1] + _enemysNumber[2];
+                    _PhaseText.text = "敵フェーズ:2";
+                    enemyPhase = EnemyPhase.phaseWait;
+                    _phaseJudge = false;
+                    PhaseReset();
+                }
                 if (_enemyList.Count == 0)
                 {
                     EnemyManagement();
@@ -124,14 +142,40 @@ public class EnemControl : MonoBehaviour{
             case EnemyPhase.phase2:
                 _phaseTime[1] -= Time.deltaTime;
                 _TimeText.text = "残り" + Mathf.Floor(_phaseTime[1]) + "秒";
+                if (_phaseTime[1] < 0.0f)
+                {
+                    for (int i = 0; i < _enemyList.Count; i++)
+                    {
+                        _enemydes = _enemyList[i].GetComponent<EnemyDestroy>();
+                        _enemydes.EnemyRemove();
+                    }
+                    _phaseTime[1] = 0.0f;
+                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[1]) + "秒";
+                    _enemyPosPuls = _enemysNumber[3] + _enemysNumber[4] + _enemysNumber[5] + _enemysNumber[6] + _enemysNumber[7];
+                    _PhaseText.text = "敵フェーズ:3";
+                    enemyPhase = EnemyPhase.phaseWait;
+                    _phaseJudge = false;
+                    PhaseReset();
+                }
                 if (_enemyList.Count == 0)
                 {
                     EnemyManagement();
                 }
                 break;
             case EnemyPhase.phase3:
+
                 _phaseTime[2] -= Time.deltaTime;
                 _TimeText.text = "残り" + Mathf.Floor(_phaseTime[2]) + "秒";
+                if (_phaseTime[2] < 0.0f)
+                {
+
+                    _phaseTime[2] = 0.0f;
+                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[2]) + "秒";
+                    _PhaseText.text = "終了";
+                    enemyPhase = EnemyPhase.phaseEnd;
+                    _phaseJudge = false;
+                    PhaseReset();
+                }
                 if (_enemyList.Count == 0)
                 {
                     EnemyManagement();
