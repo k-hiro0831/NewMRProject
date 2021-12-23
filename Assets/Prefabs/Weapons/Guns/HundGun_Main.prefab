@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6148660486754985493}
   - component: {fileID: 5750257398750995100}
   - component: {fileID: 3939670044225774470}
+  - component: {fileID: 1281937489996391767}
   m_Layer: 0
   m_Name: HundGun_Main
   m_TagString: Untagged
@@ -157,6 +158,21 @@ MonoBehaviour:
   OnPointerDragged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1281937489996391767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026175984046988786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0c71ea9c8965fb4286ca04c37135b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _floatSet: 0
+  _hoverSpeed: 1
+  _hoverWidth: 0.05
 --- !u!1 &2026175985476801884
 GameObject:
   m_ObjectHideFlags: 0

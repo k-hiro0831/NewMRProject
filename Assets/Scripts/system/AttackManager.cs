@@ -116,9 +116,13 @@ public class AttackManager : MonoBehaviour
     /// </summary>
     private void ObjListClear()
     {
-        
+        for (int i = 0; i < _cllickObjectList._weaponObjList.Count ; i++)
+        {
+            _cllickObjectList._weaponObjList[i].GetComponent<WeaponFloat>().HoverSet(false);
+        }
         _cllickObjectList.EnemyListClear();
         _cllickObjectList.WeaponListClear();
+
         _targetUiAnimator.SetBool(UI_ANIMATOR_BOOL_ATTCKHOLD, false);
     }
 

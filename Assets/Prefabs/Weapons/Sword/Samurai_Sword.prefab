@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 4665999387867171715}
   - component: {fileID: -3885602487083337124}
   - component: {fileID: 8667427935324132660}
+  - component: {fileID: 4213187806947544626}
   m_Layer: 0
   m_Name: Samurai_Sword
   m_TagString: Untagged
@@ -453,3 +454,18 @@ MonoBehaviour:
   OnPointerDragged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4213187806947544626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8130458833502188814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0c71ea9c8965fb4286ca04c37135b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _floatSet: 0
+  _hoverSpeed: 1
+  _hoverWidth: 0.05
