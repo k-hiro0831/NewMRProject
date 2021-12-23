@@ -6,12 +6,15 @@ public class WeaponObjectCllick : MonoBehaviour
 
     private CllickObjectList cllickObjectList = default;
 
+    private WeaponFloat weaponFloat = default;
+
     private const string LIST_OBJECT = "List";
 
     private void Awake()
     {
         //リストを管理しているオブジェクトを取得
         cllickObjectList = GameObject.FindGameObjectWithTag(LIST_OBJECT).GetComponent<CllickObjectList>();
+        
     }
 
     /// <summary>
@@ -22,6 +25,7 @@ public class WeaponObjectCllick : MonoBehaviour
     public void WeaponCllickEvent(MixedRealityPointerEventData eventData)
     {
         cllickObjectList.WeaponObjectSet(this.gameObject);
+        gameObject.GetComponent<WeaponFloat>().HoverSet(true);
     }
 
 }
