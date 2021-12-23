@@ -24,10 +24,10 @@ public class EnemyDestroy : MonoBehaviour{
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EnemyDes();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    EnemyDes();
+        //}
     }
 
     public void EnemyDes()
@@ -37,9 +37,23 @@ public class EnemyDestroy : MonoBehaviour{
         StartCoroutine("RobotDes");
     }
 
+    public void EnemyRemove()
+    {
+        _rb.isKinematic = true;
+        _enemyMove = true;
+        StartCoroutine("RobotDes");
+    }
+
     private IEnumerator RobotDes()
     {
         _ani.SetBool("death", true);
+        yield return new WaitForSeconds(2.5f);
+        _enem.Removed(this.gameObject);
+        this.gameObject.SetActive(false);
+    }
+
+    private IEnumerator RobotRemove()
+    {
         yield return new WaitForSeconds(2.5f);
         _enem.Removed(this.gameObject);
         this.gameObject.SetActive(false);
