@@ -6,10 +6,12 @@ public class TargetUIMove : MonoBehaviour
 {
     //----------------------------------------------------------------------------------------------------------------
     //GameObject
-    [SerializeField]
+    
     private GameObject _enemyObject = default;
     [SerializeField]
     private GameObject _cameraObject = default;
+
+    private CameraRay _cameraRay = default;
 
     private Vector3 _pos = default;
 
@@ -32,10 +34,13 @@ public class TargetUIMove : MonoBehaviour
 
     private const string ANIME_PARAMETER_STRING_START = "Start";
 
+    private const string TAG_NAME_CAMERA = "MainCamera";
+
     void Start()
     {
         _rectTransforms = gameObject.GetComponent<RectTransform>();
         _animator = gameObject.GetComponent<Animator>();
+        _cameraRay = GameObject.FindWithTag(TAG_NAME_CAMERA).GetComponent<CameraRay>();
     }
 
     
@@ -60,28 +65,9 @@ public class TargetUIMove : MonoBehaviour
     /// </summary>
     public void UiPosUpdate()
     {
-        //敵とカメラの距離を求める
-        //_posDiff = Vector3.Distance(_enemyObject.transform.position, _cameraObject.transform.position);
 
-        ////カメラとの距離が近い時の処理
-        //if (_posDiff <= _playerPosAccesMax)
-        //{
-        //    _pos = Vector3.Lerp(_enemyObject.transform.position, _cameraObject.transform.position, 0.2f);
+        _enemyObject = _cameraRay.GetHitEnemyObj();
 
-        //}
-        //カメラとの距離が遠い時の処理
-        //else
-        //{
-        //    //単位ベクトルにカメラから話す距離を掛けてカメラから一定距離話すベクトルと求める
-        //    _pos = (_enemyObject.transform.position - _cameraObject.transform.position).normalized * _posOfset;
-        //    //求めたベクトルに現在のカメラポジションを基準にする
-        //    _pos = _pos + _cameraObject.transform.position;
-
-
-        //}
-        ////位置更新、ルックアット
-        //_pos = (_enemyObject.transform.position - _cameraObject.transform.position).normalized * _posOfset;
-        //_pos = _pos + _cameraObject.transform.position;
         _pos = Vector3.Lerp(_enemyObject.transform.position, _cameraObject.transform.position, 0.2f);
         _rectTransforms.position = RectTransformUtility.WorldToScreenPoint(Camera.main, _pos);
         //gameObject.transform.position = _pos;
