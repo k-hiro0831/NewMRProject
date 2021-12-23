@@ -1056,9 +1056,9 @@ MonoBehaviour:
   - {fileID: 452651039009795867, guid: 3c3b49f8b7741674eb75a1dfb4add1e6, type: 3}
   - {fileID: 452651039009795867, guid: 3c3b49f8b7741674eb75a1dfb4add1e6, type: 3}
   _positionBase: {fileID: 8732643794217220299}
-  _position:
-  - {fileID: 0}
+  _position: []
   _enemysNumber: 0500000005000000050000000600000006000000060000000700000007000000080000000800000009000000090000000a00000001000000
+  _enemyList: []
   _parentBase: {fileID: 956821608}
   _PhaseText: {fileID: 1142758463}
   _TimeText: {fileID: 1114007034}
