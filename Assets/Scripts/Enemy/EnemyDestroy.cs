@@ -24,10 +24,10 @@ public class EnemyDestroy : MonoBehaviour{
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EnemyDes();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    EnemyDes();
+        //}
     }
 
     public void EnemyDes()

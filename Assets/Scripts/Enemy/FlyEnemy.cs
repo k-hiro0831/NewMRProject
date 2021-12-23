@@ -38,7 +38,7 @@ public class FlyEnemy : MonoBehaviour{
     void Start()
     {
         _myAgent = GetComponent<NavMeshAgent>();
-        _player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("MainCamera");
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
