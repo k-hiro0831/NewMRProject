@@ -30,8 +30,10 @@ public class GunShot : MonoBehaviour, WeaponAttack
 
     private GameObject _targetObj = null;
 
+    private float _step = 0;
     [SerializeField]
-    private GameObject testTarget;
+    private float _rotationSpeed = 0.5f;
+    private Transform _rotationStart;
 
     private void Start()
     {
@@ -55,7 +57,9 @@ public class GunShot : MonoBehaviour, WeaponAttack
     {
         if (_isAttack)
         {
-            this.transform.LookAt(_targetObj.transform);
+            //this.transform.LookAt(_targetObj.transform);
+
+            StartCoroutine(DirectionChange());
             _hitObj = _rayShot.ReturnHitObj("Enemy");
             if (_hitObj != null)
             {
@@ -67,7 +71,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
             }
         }
 
-        //if (Input.GetKeyDown(KeyCode.O))
+        //if (Input.GetKeyDown(KeyCode.A))
         //{
         //    StartCoroutine(DirectionChange());
         //}
@@ -122,7 +126,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
         }
 
         //ヒットしたオブジェクトにダメージ
-        _hitObj.GetComponent<EnemyDestroy>().EnemyDes();
+        //_hitObj.GetComponent<EnemyDestroy>().EnemyDes();
 
         //<--発射エフェクト
         _particle.Play();
@@ -134,20 +138,23 @@ public class GunShot : MonoBehaviour, WeaponAttack
         StartCoroutine(ShotCoolTIme());
     }
 
+    /// <summary>
+    /// 敵の方向にゆっくり向く
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DirectionChange()
     {
+        _step = 0f;
+        _rotationStart = this.transform;
 
-        //Quaternion rotation = Quaternion.LookRotation(testTarget);
+        while(_isAttack)
+        {
+            _step += _rotationSpeed * Time.deltaTime;
+            this.transform.rotation = Quaternion.Slerp(_rotationStart.rotation, Quaternion.LookRotation
+                ((_targetObj.transform.position - _rotationStart.position).normalized), _step);
+            yield return null;
+        }
 
-
-        //while (this.transform.rotation != testTarget.transform.rotation)
-        //{
-        //    float step = 1 * Time.deltaTime;
-        //    Quaternion rotation = Quaternion.RotateTowards(this.transform.rotation, testTarget.transform.rotation, step);
-        //    this.transform.rotation = rotation;
-        //    Debug.Log("aaaaa");
-        //    yield return null;
-        //}
 
         yield break;
     }
