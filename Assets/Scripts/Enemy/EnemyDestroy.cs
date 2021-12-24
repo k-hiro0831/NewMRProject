@@ -18,16 +18,20 @@ public class EnemyDestroy : MonoBehaviour{
     void Start()
     {
         _ani = GetComponent<Animator>();
+        if (_ani == null)
+        {
+            _ani = this.gameObject.transform.GetChild(0).GetComponent<Animator>();
+        }
         _rb = GetComponent<Rigidbody>();
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
     }
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    EnemyDes();
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EnemyDes();
+        }
     }
 
     public void EnemyDes()
@@ -47,14 +51,14 @@ public class EnemyDestroy : MonoBehaviour{
     private IEnumerator RobotDes()
     {
         _ani.SetBool("death", true);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(3.0f);
         _enem.Removed(this.gameObject);
         this.gameObject.SetActive(false);
     }
 
     private IEnumerator RobotRemove()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(3.0f);
         _enem.Removed(this.gameObject);
         this.gameObject.SetActive(false);
     }

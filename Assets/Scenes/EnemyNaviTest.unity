@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -987,12 +987,24 @@ MonoBehaviour:
   - 101
   - 101
   _enemys:
-  - {fileID: 452651039009795867, guid: 3c3b49f8b7741674eb75a1dfb4add1e6, type: 3}
-  - {fileID: 452651039009795867, guid: 3c3b49f8b7741674eb75a1dfb4add1e6, type: 3}
-  - {fileID: 452651039009795867, guid: 3c3b49f8b7741674eb75a1dfb4add1e6, type: 3}
+  - {fileID: 7007312169638074310, guid: bedac5dea22b7404eaf7f7a71355d229, type: 3}
+  - {fileID: 2290719388249209729, guid: 6c3f1d174b5a8a54ab4b439a59031466, type: 3}
+  - {fileID: 8695592100253697196, guid: 35facd83638edc5448a4aef1d327aeca, type: 3}
+  - {fileID: 1326070980426302008, guid: 29edba760acae4447b1d3de3ae52f82f, type: 3}
+  - {fileID: 8696545329060524483, guid: 0e1f56d2f7010f34e9f9d88ef60d503c, type: 3}
+  - {fileID: 8981623135976544805, guid: 89aae2466c400b041ad94c8e76130a1e, type: 3}
+  - {fileID: 2290719388249209729, guid: 6c3f1d174b5a8a54ab4b439a59031466, type: 3}
+  - {fileID: 3507857538752159967, guid: 725a92649e708b9418096cc25b544b0d, type: 3}
+  - {fileID: 1134161546823858288, guid: a4242fd4e1d8ae04e8267683c9526fcf, type: 3}
+  - {fileID: 6147264695361080044, guid: 748133dd80cb8db4c97753275d6d18cd, type: 3}
+  - {fileID: 2290719388249209729, guid: 6c3f1d174b5a8a54ab4b439a59031466, type: 3}
+  - {fileID: 4718747466554880080, guid: a0327daffd5e3b74ebcf33e1cc16c456, type: 3}
+  - {fileID: 8981623135976544805, guid: 89aae2466c400b041ad94c8e76130a1e, type: 3}
+  - {fileID: 7799441172181166583, guid: 8064233ecb5660a41943f27a863a13a8, type: 3}
   _positionBase: {fileID: 8732643794217220299}
-  _position: []
-  _enemysNumber: 0500000005000000050000000600000006000000060000000700000007000000080000000800000009000000090000000a00000001000000
+  _position:
+  - {fileID: 8732643792560207971}
+  _enemysNumber: 0300000002000000030000000400000002000000030000000300000003000000040000000400000003000000040000000500000001000000
   _enemyList: []
   _parentBase: {fileID: 956821608}
   _PhaseText: {fileID: 1142758463}
