@@ -27,7 +27,7 @@ public class HandTest : MonoBehaviour
     
     void Update()
     {
-        HandFind();
+        //HandFind();
         if (handgestureTest())
         {
             TestObj.SetActive(true);
