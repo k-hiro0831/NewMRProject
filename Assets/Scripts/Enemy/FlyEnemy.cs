@@ -15,6 +15,9 @@ public class FlyEnemy : MonoBehaviour{
     [SerializeField]
     private EnemyDestroy _enemyDes;
 
+    [SerializeField]
+    private GameObject _child;
+
     private Animator _ani;
 
     private Rigidbody _rb;
@@ -24,6 +27,7 @@ public class FlyEnemy : MonoBehaviour{
     /// <summary>
     /// ìGÇÃêiÇﬁîªíË
     /// </summary>
+    [SerializeField]
     private bool _enemyMove;
     /// <summary>
     /// ìGÇÃçUåÇîªíË
@@ -40,7 +44,7 @@ public class FlyEnemy : MonoBehaviour{
         _myAgent = GetComponent<NavMeshAgent>();
         _player = GameObject.FindGameObjectWithTag("MainCamera");
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
-        _ani = GetComponent<Animator>();
+        _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _rdm = Random.Range(3, 8);
         StartCoroutine("Atk");

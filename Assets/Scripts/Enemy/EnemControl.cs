@@ -42,11 +42,11 @@ public class EnemControl : MonoBehaviour{
     /// </summary>
     private int _enemyPhaseNumber;
 
-    [SerializeField,Header("各種類の敵")]
+    [SerializeField,Header("各種類の敵、順番に出てくる(14)")]
     private GameObject[] _enemys = default;
     [SerializeField, Header("敵の生成位置・親オブジェクト")]
     private GameObject _positionBase = default;
-    [SerializeField, Header("敵の生成位置(自動で入ります)")]
+    [SerializeField, Header("敵の生成位置(potision)")]
     private GameObject[] _position = default;
     [SerializeField, Header("敵のフェーズ別の数(14)")]
     private int[] _enemysNumber = default;
@@ -585,21 +585,21 @@ public class EnemControl : MonoBehaviour{
     private void PoolSet()
     {
         _poolPhase1.Pool(_parent[0], _enemys[0], _enemysNumber[0]);
-        _poolPhase2.Pool(_parent[1], _enemys[0], _enemysNumber[1]);
-        _poolPhase3.Pool(_parent[2], _enemys[0], _enemysNumber[2]);
+        _poolPhase2.Pool(_parent[1], _enemys[1], _enemysNumber[1]);
+        _poolPhase3.Pool(_parent[2], _enemys[2], _enemysNumber[2]);
 
-        _poolPhase4.Pool(_parent[3], _enemys[0], _enemysNumber[3]);
-        _poolPhase5.Pool(_parent[4], _enemys[0], _enemysNumber[4]);
-        _poolPhase6.Pool(_parent[5], _enemys[0], _enemysNumber[5]);
-        _poolPhase7.Pool(_parent[6], _enemys[0], _enemysNumber[6]);
-        _poolPhase8.Pool(_parent[7], _enemys[0], _enemysNumber[7]);
+        _poolPhase4.Pool(_parent[3], _enemys[3], _enemysNumber[3]);
+        _poolPhase5.Pool(_parent[4], _enemys[4], _enemysNumber[4]);
+        _poolPhase6.Pool(_parent[5], _enemys[5], _enemysNumber[5]);
+        _poolPhase7.Pool(_parent[6], _enemys[6], _enemysNumber[6]);
+        _poolPhase8.Pool(_parent[7], _enemys[7], _enemysNumber[7]);
 
-        _poolPhase9.Pool(_parent[8], _enemys[0], _enemysNumber[8]);
-        _poolPhase10.Pool(_parent[9], _enemys[0], _enemysNumber[9]);
-        _poolPhase11.Pool(_parent[10], _enemys[0], _enemysNumber[10]);
-        _poolPhase12.Pool(_parent[11], _enemys[0], _enemysNumber[11]);
-        _poolPhase13.Pool(_parent[12], _enemys[0], _enemysNumber[12]);
-        _poolPhase14.Pool(_parent[13], _enemys[0], _enemysNumber[13]);
+        _poolPhase9.Pool(_parent[8], _enemys[8], _enemysNumber[8]);
+        _poolPhase10.Pool(_parent[9], _enemys[9], _enemysNumber[9]);
+        _poolPhase11.Pool(_parent[10], _enemys[10], _enemysNumber[10]);
+        _poolPhase12.Pool(_parent[11], _enemys[11], _enemysNumber[11]);
+        _poolPhase13.Pool(_parent[12], _enemys[12], _enemysNumber[12]);
+        _poolPhase14.Pool(_parent[13], _enemys[13], _enemysNumber[13]);
     }
 
     private void Parent() {
