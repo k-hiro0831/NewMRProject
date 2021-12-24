@@ -35,7 +35,7 @@ public class ObjectPool : MonoBehaviour
             {
 
                 obj.SetActive(true);
-                obj.GetComponent<NavMeshAgent>().enabled = true;
+                //obj.GetComponent<NavMeshAgent>().enabled = true;
                 return obj;
             }
         }
