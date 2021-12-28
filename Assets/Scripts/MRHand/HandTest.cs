@@ -19,33 +19,17 @@ public class HandTest : MonoBehaviour
     [SerializeField]
     private float _gunRoteOfset = default;
 
-    void Start()
-    {
-        
-    }
-
     
     void Update()
     {
-        //HandFind();
-        if (handgestureTest())
-        {
-            TestObj.SetActive(true);
-        }
-        else
-        {
-            TestObj.SetActive(false);
-        }
+        HandFind();
+        
     }
 
-    //private HandStatus CheckCurrentHandStatus(InputEventData<IDictionary<TrackedHandJoint, MixedRealityPose>> eventData)
-    //{
-    //    IDictionary<TrackedHandJoint, MixedRealityPose> joint = eventData.InputData;
-    //    Vector3 none_0 = joint[TrackedHandJoint.None].Position;                  // 対応なし
-    //    Vector3 wrist_0 = joint[TrackedHandJoint.Wrist].Position;                // 手首
-    //    Vector3 palm_0 = joint[TrackedHandJoint.Palm].Position;
-    //}
-
+   
+    /// <summary>
+    /// 手、ハンドジェスチャーを認識する関数
+    /// </summary>
     private void HandFind()
     {
         //手を認識している状態
