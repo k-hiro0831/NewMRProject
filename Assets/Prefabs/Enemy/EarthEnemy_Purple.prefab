@@ -59,6 +59,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 682634211470730815}
+  - {fileID: 5617464929275170342}
   m_Father: {fileID: 682634211470730835}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1652,6 +1653,7 @@ MonoBehaviour:
   _enemyDes: {fileID: 5406694301819892895}
   _child: {fileID: 682634211470506533}
   speed: 0.03
+  _box: {fileID: 8485858639701759454}
 --- !u!114 &5406694301819892895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1686,3 +1688,47 @@ NavMeshAgent:
   m_BaseOffset: 2.63
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!1 &8485858639701759454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5617464929275170342}
+  - component: {fileID: 4943273099970056537}
+  m_Layer: 7
+  m_Name: box
+  m_TagString: EnemyAtk
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5617464929275170342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485858639701759454}
+  m_LocalRotation: {x: 0.25968638, y: 0.046449456, z: -0.018101085, w: 0.9644055}
+  m_LocalPosition: {x: 0.10084626, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 682634211470730755}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4943273099970056537
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485858639701759454}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.066233896, y: 0.07053048, z: 0.07159956}
+  m_Center: {x: 0.026327884, y: -0.003683404, z: 0.010656919}
