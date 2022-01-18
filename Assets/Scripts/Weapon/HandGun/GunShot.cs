@@ -6,6 +6,8 @@ public class GunShot : MonoBehaviour, WeaponAttack
 {
     [SerializeField]
     private Animator _anim;
+    [SerializeField]
+    private string _fireAnimName;
 
     RayShot _rayShot = new RayShot();
     [SerializeField]
@@ -22,8 +24,11 @@ public class GunShot : MonoBehaviour, WeaponAttack
     private int _bulletMax = 30;
     [SerializeField]
     private int _bulletCount = 0;
-
     [SerializeField]
+    private int _damage = 10;
+
+
+    [SerializeField,Header("射撃の間隔")]
     private float _shotCoolTime = 1f;
     private bool _isCoolTime = false;
     private bool _isAttack = false;
@@ -31,9 +36,10 @@ public class GunShot : MonoBehaviour, WeaponAttack
     private GameObject _targetObj = null;
 
     private float _step = 0;
-    [SerializeField]
+    [SerializeField,Header("敵の方向を向く速度")]
     private float _rotationSpeed = 0.5f;
     private Transform _rotationStart;
+
 
     private void Start()
     {
@@ -70,11 +76,6 @@ public class GunShot : MonoBehaviour, WeaponAttack
                 AttackEnd();
             }
         }
-
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    StartCoroutine(DirectionChange());
-        //}
     }
 
     private void OnDrawGizmos()
@@ -167,7 +168,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
         //Animatorを取得できていないとき、処理アニメーションを再生しない
         if (_anim == null) { return; }
         //発射アニメーション
-        _anim.Play("HundGun_Fire");
+        _anim.Play(_fireAnimName);
     }
 
     /// <summary>
