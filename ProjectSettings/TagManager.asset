@@ -10,6 +10,7 @@ TagManager:
   - EnemyCnt
   - Enemy
   - List
+  - EnemyAtk
   layers:
   - Default
   - TransparentFX

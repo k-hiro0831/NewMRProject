@@ -11,12 +11,15 @@ public class HpGauge : MonoBehaviour
 
     [SerializeField]
     private float _hp = 0f;
-    [SerializeField]
-    private float _hpMax = 100f;
+    private float _hpMax;
 
+    [SerializeField]
+    private Player _player;
 
     private void Start()
     {
+        
+        _hpMax = _player._playerHp;
         _hp = _hpMax;
         _hpImage = _hpImageObj.GetComponent<Image>();
         _hpImage.fillAmount = _hp / 100;
@@ -24,14 +27,14 @@ public class HpGauge : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            PlusHp(10);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            MinusHp(10);
-        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    PlusHp(10);
+        //}
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    MinusHp(10);
+        //}
     }
 
     /// <summary>
@@ -58,7 +61,7 @@ public class HpGauge : MonoBehaviour
         if (_hp <= 0)
         {
             _hp = 0;
-            Debug.Log("ゲームオーバーです");
+            //Debug.Log("ゲームオーバーです");
         }
         _hpImage.fillAmount = _hp / 100;
     }
