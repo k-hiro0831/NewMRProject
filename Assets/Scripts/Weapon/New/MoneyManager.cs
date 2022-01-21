@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MoneyManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class MoneyManager : MonoBehaviour
     private int _nowMoney = 0;
 
     [SerializeField]
-    private Text _moneyTextUI;
+    private TextMeshPro _moneyTextUI;
 
 
     private void Start()
