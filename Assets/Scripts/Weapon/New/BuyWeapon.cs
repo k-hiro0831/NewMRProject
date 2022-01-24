@@ -51,6 +51,10 @@ public class BuyWeapon : MonoBehaviour
         _selectPrice = _price;
         _selectIsLock = _lock;
         _selectPrefab = _weaponPrefabList[_selectNum];
+
+        //詳細UIを変更する
+        //番号を使って、プレハブから情報を抜き出しUIに反映
+        //アンロックされていたら値段は表示しない
     }
 
     /// <summary>

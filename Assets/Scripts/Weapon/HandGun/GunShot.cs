@@ -21,7 +21,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
     private float _rayLength = 10f;
 
     [SerializeField]
-    private int _bulletMax = 30;
+    private int _bulletMax = 5;
     [SerializeField]
     private int _bulletCount = 0;
     [SerializeField]
@@ -40,6 +40,8 @@ public class GunShot : MonoBehaviour, WeaponAttack
     private float _rotationSpeed = 0.5f;
     private Transform _rotationStart;
 
+    [SerializeField]
+    private GameObject _testTarget;
 
     private void Start()
     {
@@ -76,6 +78,11 @@ public class GunShot : MonoBehaviour, WeaponAttack
                 AttackEnd();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Attack(_testTarget);
+        }
     }
 
     private void OnDrawGizmos()
@@ -90,6 +97,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
     public void Attack(GameObject _target)
     {
         if (_target == null) { return; }
+        _bulletCount = _bulletMax;
         _targetObj = _target;
         _isAttack = true;
     }
@@ -111,16 +119,14 @@ public class GunShot : MonoBehaviour, WeaponAttack
         //クールタイム中、処理終了
         if (_isCoolTime) { return; }
 
+        //決められた弾数発射する
         _bulletCount--;
-        if (_bulletCount <= 0)
+        if (_bulletCount < 0)
         {
             _bulletCount = 0;
-            Debug.Log("弾切れ");
+            Debug.Log("射撃を終了");
             _isAttack = false;
             _targetObj = null;
-
-            //銃を破壊する処理
-            this.gameObject.SetActive(false);
 
             //処理終了
             return;
@@ -169,6 +175,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
         if (_anim == null) { return; }
         //発射アニメーション
         _anim.Play(_fireAnimName);
+        Debug.Log("animation");
     }
 
     /// <summary>
