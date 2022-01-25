@@ -1472,6 +1472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: M-16
   _anim: {fileID: 9152461157276108654}
   _fireAnimName: M16_Fire
   _muzzleFlash: {fileID: 7491835458941201268}
@@ -1479,7 +1480,8 @@ MonoBehaviour:
   _rayLength: 10
   _bulletMax: 3
   _bulletCount: 0
-  _damage: 2
+  _power: 2
+  _rate: 3
   _shotCoolTime: 0.1
   _rotationSpeed: 0.5
   _testTarget: {fileID: 0}

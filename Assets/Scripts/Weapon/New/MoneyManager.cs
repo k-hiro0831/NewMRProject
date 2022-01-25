@@ -28,7 +28,7 @@ public class MoneyManager : MonoBehaviour
     /// </summary>
     private void MoneyTextUpdate()
     {
-        _moneyTextUI.text = _nowMoney.ToString("D5");
+        _moneyTextUI.text = "$"+_nowMoney.ToString("D5");
     }
 
     public void MoneyPlus(int _value)
@@ -56,6 +56,10 @@ public class MoneyManager : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// 現在の所持金を返す
+    /// </summary>
+    /// <returns></returns>
     public int ReturnNowMoney()
     {
         return _nowMoney;

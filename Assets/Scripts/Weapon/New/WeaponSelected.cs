@@ -27,7 +27,7 @@ public class WeaponSelected : MonoBehaviour
             _filterObj.SetActive(false);
             _priceObj.SetActive(false);
         }
-        _priceObj.GetComponent<TextMeshPro>().text = _price.ToString("D4");
+        _priceObj.GetComponent<TextMeshPro>().text = "$"+_price.ToString("D4");
     }
 
     private void Update()

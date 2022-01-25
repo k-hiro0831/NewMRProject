@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: 44Magnum
   _anim: {fileID: 559607066689014123}
   _fireAnimName: Magnum_Fire
   _muzzleFlash: {fileID: 9072606348822094860}
@@ -106,7 +107,8 @@ MonoBehaviour:
   _rayLength: 10
   _bulletMax: 1
   _bulletCount: 0
-  _damage: 3
+  _power: 3
+  _rate: 1
   _shotCoolTime: 0.2
   _rotationSpeed: 0.5
   _testTarget: {fileID: 0}

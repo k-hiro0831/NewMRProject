@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: PM-40
   _anim: {fileID: 5196527720207488447}
   _fireAnimName: HundGun_Fire
   _muzzleFlash: {fileID: 5947574909150476452}
@@ -158,7 +159,8 @@ MonoBehaviour:
   _rayLength: 10
   _bulletMax: 1
   _bulletCount: 0
-  _damage: 1
+  _power: 2
+  _rate: 1
   _shotCoolTime: 0.2
   _rotationSpeed: 0.5
   _testTarget: {fileID: 0}

@@ -1357,6 +1357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: Glock 17
   _anim: {fileID: 6313237390293530504}
   _fireAnimName: HundGun_2_Fire
   _muzzleFlash: {fileID: 6749540290601755383}
@@ -1364,7 +1365,8 @@ MonoBehaviour:
   _rayLength: 10
   _bulletMax: 1
   _bulletCount: 0
-  _damage: 2
+  _power: 1
+  _rate: 1
   _shotCoolTime: 0.4
   _rotationSpeed: 0.5
   _testTarget: {fileID: 0}

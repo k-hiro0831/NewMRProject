@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: AK-74
   _anim: {fileID: 354596188684561515}
   _fireAnimName: Ak74_Fire
   _muzzleFlash: {fileID: 2963289145304077928}
@@ -217,7 +218,8 @@ MonoBehaviour:
   _rayLength: 10
   _bulletMax: 1
   _bulletCount: 0
-  _damage: 4
+  _power: 4
+  _rate: 3
   _shotCoolTime: 0.1
   _rotationSpeed: 0.5
   _testTarget: {fileID: 0}

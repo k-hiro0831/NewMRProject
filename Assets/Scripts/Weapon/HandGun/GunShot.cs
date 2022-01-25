@@ -5,6 +5,8 @@ using MRProject.Ray;
 public class GunShot : MonoBehaviour, WeaponAttack
 {
     [SerializeField]
+    private string _weaponName = null;
+    [SerializeField]
     private Animator _anim;
     [SerializeField]
     private string _fireAnimName;
@@ -25,8 +27,9 @@ public class GunShot : MonoBehaviour, WeaponAttack
     [SerializeField]
     private int _bulletCount = 0;
     [SerializeField]
-    private int _damage = 10;
-
+    private int _power = 10;
+    [SerializeField]
+    private int _rate = 10;
 
     [SerializeField,Header("ŽËŒ‚‚ÌŠÔŠu")]
     private float _shotCoolTime = 1f;
@@ -189,4 +192,14 @@ public class GunShot : MonoBehaviour, WeaponAttack
         _isCoolTime = false;
         yield break;
     }
+
+    public string ReturnWeaponName()
+    {
+        return _weaponName;
+    }
+    public (int,int) ReturnWeaponStatus()
+    {
+        return (_power,_rate);
+    }
+
 }

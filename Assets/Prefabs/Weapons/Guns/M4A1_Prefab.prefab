@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: M4A1
   _anim: {fileID: 3578258713870885867}
   _fireAnimName: M4A1_Fire
   _muzzleFlash: {fileID: 1650485354007764623}
@@ -106,7 +107,8 @@ MonoBehaviour:
   _rayLength: 10
   _bulletMax: 3
   _bulletCount: 0
-  _damage: 3
+  _power: 3
+  _rate: 4
   _shotCoolTime: 0.1
   _rotationSpeed: 0.5
   _testTarget: {fileID: 0}
