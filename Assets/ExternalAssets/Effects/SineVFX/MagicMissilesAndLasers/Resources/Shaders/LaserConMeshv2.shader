@@ -24,21 +24,23 @@ Shader "Sine VFX/LaserConMeshv2" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             Cull Off
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -55,6 +57,7 @@ Shader "Sine VFX/LaserConMeshv2" {
             uniform float _OpacityRemap2;
             uniform float _Progress;
             uniform float _FresnelExp;
+            float4x4 mMatrix : World;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -65,20 +68,20 @@ Shader "Sine VFX/LaserConMeshv2" {
                 float2 uv0 : TEXCOORD0;
                 float4 posWorld : TEXCOORD1;
                 float3 normalDir : TEXCOORD2;
-                UNITY_FOG_COORDS(3)
+                //UNITY_FOG_COORDS(3)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
-                o.normalDir = UnityObjectToWorldNormal(v.normal);
+                o.normalDir = normalize(mul(v.normal.xyz, (float3x3)mMatrix));
                 float4 node_8289 = _Time;
                 float2 node_4575 = (o.uv0+(node_8289.g*_ScrollSpeed)*float2(0,1));
                 float4 _Noise01_var = tex2Dlod(_Noise01,float4(TRANSFORM_TEX(node_4575, _Noise01),0.0,0));
                 float Result = _Noise01_var.r;
                 v.vertex.xyz += (Result*v.normal*_OffsetPower);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
+                //UNITY_TRANSFER_FOG(o,o.pos);
                 return o;
             }
             float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
@@ -101,11 +104,11 @@ Shader "Sine VFX/LaserConMeshv2" {
                 float node_245 = (1.0 - pow(1.0-max(0,dot(normalDirection, viewDirection)),_FresnelExp));
                 float3 emissive = (Result*_Mask_var.r*_Color.rgb*_FinalPower*node_245);
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,(Result*_OpacityBoost*_Mask_var.r*node_245));
-                UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
+                half4  finalRGBA = half4(finalColor,(Result*_OpacityBoost*_Mask_var.r*node_245));
+                //UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
                 return finalRGBA;
             }
-            ENDCG
+            ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

@@ -45,7 +45,7 @@ public class EnemyDestroy : MonoBehaviour{
     {
         _rb.isKinematic = true;
         _enemyMove = true;
-        StartCoroutine("RobotDes");
+        StartCoroutine("RobotRemove");
     }
 
     private IEnumerator RobotDes()

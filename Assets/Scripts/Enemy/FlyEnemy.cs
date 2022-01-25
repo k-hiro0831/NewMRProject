@@ -37,7 +37,12 @@ public class FlyEnemy : MonoBehaviour{
     /// “G‚ÌUŒ‚ŠÔŠu
     /// </summary>
     private float _rdm;
-#endregion
+    /// <summary>
+    /// UŒ‚‚Ì“–‚½‚è”»’è
+    /// </summary>
+    [SerializeField]
+    private GameObject _box;
+    #endregion
 
     void Start()
     {
@@ -48,6 +53,7 @@ public class FlyEnemy : MonoBehaviour{
         _rb = GetComponent<Rigidbody>();
         _rdm = Random.Range(3, 8);
         StartCoroutine("Atk");
+        _box.SetActive(false);
     }
 
     void Update()
@@ -62,7 +68,12 @@ public class FlyEnemy : MonoBehaviour{
 
     public void SetDestination()
     {
-        if (!_enemyMove)
+        float dis = Vector3.Distance(this.transform.position,_player.transform.position);
+        if (dis > 8.0f && !_enemyMove)
+        {
+            _myAgent.destination = this.gameObject.transform.position;
+        }
+        if (dis < 8.0f && !_enemyMove)
         {
             var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
             _myAgent.destination = endPoint;
@@ -83,11 +94,13 @@ public class FlyEnemy : MonoBehaviour{
         while (true)
         {
             yield return new WaitForSeconds(_rdm);
+            _box.SetActive(true);
             _ani.SetBool("atk", true);
             _atk = true;
             yield return new WaitForSeconds(1.5f);
             //Instantiate(_enemybul, transform.position, transform.rotation);
             _ani.SetBool("atk", false);
+            _box.SetActive(false);
             _atk = false;
         }
     }

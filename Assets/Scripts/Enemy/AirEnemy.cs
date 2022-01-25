@@ -36,6 +36,11 @@ public class AirEnemy : MonoBehaviour
     /// “G‚ÌUŒ‚ŠÔŠu
     /// </summary>
     private float _rdm;
+    /// <summary>
+    /// UŒ‚‚Ì“–‚½‚è”»’è
+    /// </summary>
+    [SerializeField]
+    private GameObject _box;
     #endregion
 
     void Start()
@@ -47,6 +52,7 @@ public class AirEnemy : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _rdm = Random.Range(3, 8);
         StartCoroutine("Atk");
+        _box.SetActive(false);
     }
 
     void Update()
@@ -82,10 +88,12 @@ public class AirEnemy : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(_rdm);
+            _box.SetActive(true);
             _ani.SetBool("atk", true);
             _atk = true;
             yield return new WaitForSeconds(1.2f);
             _ani.SetBool("atk", false);
+            _box.SetActive(false);
             _atk = false;
         }
     }

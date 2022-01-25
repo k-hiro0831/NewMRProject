@@ -475,8 +475,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.180067, z: 1}
-  m_Center: {x: 0, y: -0.3464428, z: 0}
+  m_Size: {x: 1, y: 2.180067, z: 2.00578}
+  m_Center: {x: 0, y: -0.3464428, z: 0.50289005}
 --- !u!114 &3301407634077285529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,6 +493,7 @@ MonoBehaviour:
   _enemyDes: {fileID: 3263400869977442329}
   _child: {fileID: 2392762614385051371}
   speed: 0.03
+  _box: {fileID: 2175118628106156240}
 --- !u!114 &3263400869977442329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,6 +742,50 @@ Transform:
   m_Father: {fileID: 489240085543397949}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2175118628106156240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1114542362967683704}
+  - component: {fileID: 6704732013463732727}
+  m_Layer: 7
+  m_Name: box
+  m_TagString: EnemyAtk
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1114542362967683704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175118628106156240}
+  m_LocalRotation: {x: -0.00000003581078, y: -0.000000010264848, z: -0.000000059604645, w: 1}
+  m_LocalPosition: {x: -0.9674459, y: 0, z: -0.21000051}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6257369786119742662}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6704732013463732727
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175118628106156240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2262384819837577985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,6 +1610,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3843392892618322763}
+  - {fileID: 1114542362967683704}
   m_Father: {fileID: 8862626408808500252}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
