@@ -62,7 +62,7 @@ public class SwordSlash : MonoBehaviour, WeaponAttack
     private void Slash()
     {
         //ヒットしたオブジェクトにダメージ
-        //_hitObj.GetComponent<EnemyDestroy>().EnemyDes();
+        _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(1);
 
         //<--衝突エフェクト
 

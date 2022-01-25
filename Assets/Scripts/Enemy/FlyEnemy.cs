@@ -13,7 +13,7 @@ public class FlyEnemy : MonoBehaviour{
 
     private EnemControl _enem = new EnemControl();
     [SerializeField]
-    private EnemyDestroy _enemyDes;
+    private EnemyManager _enemyDes;
 
     [SerializeField]
     private GameObject _child;
@@ -42,6 +42,7 @@ public class FlyEnemy : MonoBehaviour{
     /// </summary>
     [SerializeField]
     private GameObject _box;
+    private int _enemyhp;
     #endregion
 
     void Start()
@@ -54,6 +55,8 @@ public class FlyEnemy : MonoBehaviour{
         _rdm = Random.Range(3, 8);
         StartCoroutine("Atk");
         _box.SetActive(false);
+        _enemyhp = Random.Range(1, 2);
+        this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
     }
 
     void Update()

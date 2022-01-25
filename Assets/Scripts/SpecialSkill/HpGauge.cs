@@ -16,9 +16,10 @@ public class HpGauge : MonoBehaviour
     [SerializeField]
     private Player _player;
 
+    private const int _hpMinus = 1;
+
     private void Start()
     {
-        
         _hpMax = _player._playerHp;
         _hp = _hpMax;
         _hpImage = _hpImageObj.GetComponent<Image>();

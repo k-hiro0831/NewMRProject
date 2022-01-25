@@ -15732,6 +15732,7 @@ GameObject:
   - component: {fileID: 1660775802822270068}
   - component: {fileID: 5257953992601043577}
   - component: {fileID: 1385435651477510861}
+  - component: {fileID: 1684807570638076804}
   m_Layer: 7
   m_Name: WaterEnemy_Gold
   m_TagString: Enemy
@@ -15811,6 +15812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyHp: 0
 --- !u!195 &1385435651477510861
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15833,6 +15835,18 @@ NavMeshAgent:
   m_BaseOffset: 1.84
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1684807570638076804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147264695361080044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414d3e240831199479af1e1c105e7ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7735572954515035145
 GameObject:
   m_ObjectHideFlags: 0

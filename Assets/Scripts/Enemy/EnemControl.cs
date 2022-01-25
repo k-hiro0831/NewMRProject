@@ -71,7 +71,7 @@ public class EnemControl : MonoBehaviour{
 
     private int _enemyPosPuls;
 
-    private EnemyDestroy _enemydes;
+    private EnemyManager _enemydes;
 
     #region"フェーズごとの敵"
     private ObjectPool _poolPhase1;
@@ -123,7 +123,7 @@ public class EnemControl : MonoBehaviour{
                 {
                     for (int i = 0; i< _enemyList.Count;i++)
                     {
-                        _enemydes = _enemyList[i].GetComponent<EnemyDestroy>();
+                        _enemydes = _enemyList[i].GetComponent<EnemyManager>();
                         _enemydes.EnemyRemove();
                     }
                     _phaseTime[0] = 0.0f;
@@ -146,7 +146,7 @@ public class EnemControl : MonoBehaviour{
                 {
                     for (int i = 0; i < _enemyList.Count; i++)
                     {
-                        _enemydes = _enemyList[i].GetComponent<EnemyDestroy>();
+                        _enemydes = _enemyList[i].GetComponent<EnemyManager>();
                         _enemydes.EnemyRemove();
                     }
                     _phaseTime[1] = 0.0f;

@@ -136,7 +136,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
         }
 
         //ヒットしたオブジェクトにダメージ
-        //_hitObj.GetComponent<EnemyDestroy>().EnemyDes();
+        _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(1);
 
         //<--発射エフェクト
         _particle.Play();

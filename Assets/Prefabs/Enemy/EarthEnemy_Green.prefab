@@ -1630,6 +1630,7 @@ GameObject:
   - component: {fileID: 3009055113547555747}
   - component: {fileID: 1134788128830549191}
   - component: {fileID: 5279030334673211054}
+  - component: {fileID: -7967273105771504092}
   m_Layer: 7
   m_Name: EarthEnemy_Green
   m_TagString: Enemy
@@ -1710,6 +1711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyHp: 0
 --- !u!195 &5279030334673211054
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1732,3 +1734,15 @@ NavMeshAgent:
   m_BaseOffset: 2.63
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-7967273105771504092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132270991224976251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414d3e240831199479af1e1c105e7ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
