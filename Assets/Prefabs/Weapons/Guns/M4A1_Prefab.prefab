@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3578258713870885911}
   - component: {fileID: 3578258713870885867}
   - component: {fileID: 3578258713870885905}
+  - component: {fileID: -1541533484545824899}
+  - component: {fileID: -79761499123188985}
   m_Layer: 0
   m_Name: M4A1_Prefab
   m_TagString: Untagged
@@ -29,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 3578258713870885908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.040486336, y: -0.038900003, z: -5.809}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_Children:
   - {fileID: 3578258715545398390}
   - {fileID: 3578258715166240744}
@@ -49,7 +51,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -97,16 +99,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: M4A1
   _anim: {fileID: 3578258713870885867}
   _fireAnimName: M4A1_Fire
   _muzzleFlash: {fileID: 1650485354007764623}
   _rayObj: {fileID: 3578258715166240745}
   _rayLength: 10
-  _bulletMax: 30
+  _bulletMax: 3
   _bulletCount: 0
-  _damage: 10
-  _shotCoolTime: 0.06
+  _power: 3
+  _rate: 4
+  _shotCoolTime: 0.1
   _rotationSpeed: 0.5
+  _testTarget: {fileID: 0}
+--- !u!114 &-1541533484545824899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578258713870885908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98de877dee5fc341b4eb59dfdab266c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoConstraintSelection: 1
+  selectedConstraints: []
+--- !u!114 &-79761499123188985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578258713870885908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181cd563a8349c34ea8978b0bc8d9c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostTransform: {fileID: 0}
+  manipulationType: 3
+  twoHandedManipulationType: 7
+  allowFarManipulation: 1
+  useForcesForNearManipulation: 0
+  oneHandRotationModeNear: 1
+  oneHandRotationModeFar: 1
+  releaseBehavior: 3
+  transformSmoothingLogicType:
+    reference: Microsoft.MixedReality.Toolkit.Utilities.DefaultTransformSmoothingLogic,
+      Microsoft.MixedReality.Toolkit.SDK
+  smoothingFar: 1
+  smoothingNear: 1
+  moveLerpTime: 0.001
+  rotateLerpTime: 0.001
+  scaleLerpTime: 0.001
+  enableConstraints: 1
+  constraintsManager: {fileID: -3873346832935426346, guid: 1bb19ddf9b9d9b74e8d5c7a5923a1aa2, type: 3}
+  elasticsManager: {fileID: 0}
+  onManipulationStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onManipulationEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3578258715166240745
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,15 +2182,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4977485751071522, guid: dc0eddd682886c4409aa16d83b739632, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4977485751071522, guid: dc0eddd682886c4409aa16d83b739632, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4977485751071522, guid: dc0eddd682886c4409aa16d83b739632, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4977485751071522, guid: dc0eddd682886c4409aa16d83b739632, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2140,7 +2202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4977485751071522, guid: dc0eddd682886c4409aa16d83b739632, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.615
+      value: 0.586
       objectReference: {fileID: 0}
     - target: {fileID: 4977485751071522, guid: dc0eddd682886c4409aa16d83b739632, type: 3}
       propertyPath: m_LocalRotation.w

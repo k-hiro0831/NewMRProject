@@ -22,11 +22,6 @@ public class WeaponInfo : MonoBehaviour
         _priceText.text = _weaponPrice.ToString("D4");
     }
 
-    public void CreatePrefab()
-    {
-        _buyScript.CreateWeaponPrefab(_weaponPrefab,_weaponPrice,_createOffset);
-    }
-
     public  GameObject ReturnPrefab()
     {
         return _weaponPrefab;

@@ -94,6 +94,8 @@ GameObject:
   - component: {fileID: 5196527720207488445}
   - component: {fileID: 96761549678358107}
   - component: {fileID: 5196527720207488323}
+  - component: {fileID: -3873346832935426346}
+  - component: {fileID: -1902932776260741301}
   m_Layer: 0
   m_Name: HundGun_Prefab
   m_TagString: Untagged
@@ -110,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 5196527720207488444}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.546, z: 1.278}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.175, y: 0.175, z: 0.175}
   m_Children:
   - {fileID: 5196527720480422908}
   - {fileID: 5196527719384763703}
@@ -149,16 +151,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: PM-40
   _anim: {fileID: 5196527720207488447}
   _fireAnimName: HundGun_Fire
   _muzzleFlash: {fileID: 5947574909150476452}
   _rayObj: {fileID: 5196527719384763702}
   _rayLength: 10
-  _bulletMax: 15
+  _bulletMax: 1
   _bulletCount: 0
-  _damage: 10
-  _shotCoolTime: 0.08
+  _power: 2
+  _rate: 1
+  _shotCoolTime: 0.2
   _rotationSpeed: 0.5
+  _testTarget: {fileID: 0}
 --- !u!54 &96761549678358107
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -188,6 +193,63 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.6231221, z: 0.8300574}
   m_Center: {x: 0, y: -0.23842412, z: 0.22826946}
+--- !u!114 &-3873346832935426346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5196527720207488444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98de877dee5fc341b4eb59dfdab266c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoConstraintSelection: 1
+  selectedConstraints: []
+--- !u!114 &-1902932776260741301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5196527720207488444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181cd563a8349c34ea8978b0bc8d9c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostTransform: {fileID: 5196527720207488446}
+  manipulationType: 3
+  twoHandedManipulationType: 7
+  allowFarManipulation: 1
+  useForcesForNearManipulation: 0
+  oneHandRotationModeNear: 1
+  oneHandRotationModeFar: 1
+  releaseBehavior: 3
+  transformSmoothingLogicType:
+    reference: Microsoft.MixedReality.Toolkit.Utilities.DefaultTransformSmoothingLogic,
+      Microsoft.MixedReality.Toolkit.SDK
+  smoothingFar: 1
+  smoothingNear: 1
+  moveLerpTime: 0.001
+  rotateLerpTime: 0.001
+  scaleLerpTime: 0.001
+  enableConstraints: 1
+  constraintsManager: {fileID: -3873346832935426346}
+  elasticsManager: {fileID: 0}
+  onManipulationStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onManipulationEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5196527720480148346
 GameObject:
   m_ObjectHideFlags: 0

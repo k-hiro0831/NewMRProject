@@ -9,14 +9,42 @@ public class BuyWeapon : MonoBehaviour
     private MoneyManager _moneyScript;
 
     [SerializeField]
-    private GameObject _playerObj = null;
+    private GameObject _nowWeapon = null;
 
     [SerializeField]
+    private List<GameObject> _weaponButtonList = new List<GameObject>();
+    [SerializeField]
     private List<GameObject> _weaponPrefabList = new List<GameObject>();
+
+    [SerializeField]
+    private int _selectNum = 0;
+    [SerializeField]
+    private string _selectName = null;
+    [SerializeField]
+    private int _selectPrice = 0;
+    [SerializeField]
+    private int _selectPower = 0;
+    [SerializeField]
+    private int _selectRate = 0;
+    [SerializeField]
+    private GameObject _selectPrefab = null;
+    [SerializeField]
+    private bool _selectIsLock = false;
+
+    [SerializeField]
+    private GameObject _weaponDetailUI = null;
+    private WeaponDetailUI _uiScript;
 
     private void Start()
     {
         _moneyScript = _moneyManager.GetComponent<MoneyManager>();
+        _uiScript = _weaponDetailUI.GetComponent<WeaponDetailUI>();
+
+        SelectedWeapon(0, 0, false);
+        BuySelectedWeapon();
+        _nowWeapon = _weaponPrefabList[_selectNum];
+
+        _nowWeapon.SetActive(true);
     }
 
     private void Update()
@@ -25,21 +53,66 @@ public class BuyWeapon : MonoBehaviour
     }
 
     /// <summary>
-    /// お金を消費して、武器のプレハブを生成する
+    /// 武器のUIを選択する処理
     /// </summary>
-    /// <param name="_prefab">生成するプレハブ</param>
+    /// <param name="_num">指標</param>
     /// <param name="_price">値段</param>
-    /// <param name="_offset">生成位置</param>
-    public void CreateWeaponPrefab(GameObject _prefab,int _price,Vector3 _offset)
+    /// <param name="_lock">ロック状態かどうか</param>
+    public void SelectedWeapon(int _num, int _price, bool _lock)
     {
-        //お金を消費
-        //足りない場合は処理終了
-        if (!_moneyScript.MoneyMinus(_price)) { return; }
+        //選択中の情報を更新
+        _selectNum = _num;
+        _selectPrice = _price;
+        _selectIsLock = _lock;
+        _selectPrefab = _weaponPrefabList[_selectNum];
 
-        //生成位置を計算（ Offset+プレイヤー ）
-        Vector3 _createPos = _playerObj.transform.position + _offset;
-        //プレハブ生成
-        Instantiate(_prefab, _createPos, Quaternion.identity);
+        //詳細UIの情報を変更する
+        (_selectPower, _selectRate) = _selectPrefab.GetComponent<GunShot>().ReturnWeaponStatus();
+        _selectName = _selectPrefab.GetComponent<GunShot>().ReturnWeaponName();
+
+        //詳細UIを更新
+        _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
     }
 
+    /// <summary>
+    /// 選択中の武器を購入する
+    /// </summary>
+    public void BuySelectedWeapon()
+    {
+        //ロック中ではないとき
+        if (!_selectIsLock)
+        {
+            //お金消費なし
+            //武器入れ替え
+
+            //選択中の武器を非表示
+            _nowWeapon.SetActive(false);
+            //次の武器を表示し、位置を変更
+            _weaponPrefabList[_selectNum].SetActive(true);
+            _weaponPrefabList[_selectNum].transform.position = _nowWeapon.transform.position;
+            _nowWeapon = _weaponPrefabList[_selectNum];
+
+            Debug.Log("アンロック済み");
+        }
+
+        //お金を消費
+        //足りない場合は処理終了
+        if (!_moneyScript.MoneyMinus(_selectPrice)) { return; }
+
+        //アンロックする
+        Debug.Log("アンロック完了");
+        _weaponButtonList[_selectNum].GetComponent<WeaponSelected>().UnLock();
+        _selectIsLock = false;
+        //詳細UIを更新
+        _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
+
+        //武器入れ替え
+        //選択中の武器を非表示
+        _nowWeapon.SetActive(false);
+        //次の武器を表示し、位置を変更
+        _weaponPrefabList[_selectNum].SetActive(true);
+        _weaponPrefabList[_selectNum].transform.position = _nowWeapon.transform.position;
+        _nowWeapon = _weaponPrefabList[_selectNum];
+
+    }
 }

@@ -1386,6 +1386,8 @@ GameObject:
   - component: {fileID: 9152461157276108653}
   - component: {fileID: 9152461157276108654}
   - component: {fileID: 9152461157276108648}
+  - component: {fileID: 1271771094137340246}
+  - component: {fileID: 2439406773920862496}
   m_Layer: 0
   m_Name: M16_Prefab
   m_TagString: Untagged
@@ -1402,7 +1404,7 @@ Transform:
   m_GameObject: {fileID: 9152461157276108649}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.215, y: -0.056, z: -5.786}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 0.575, y: 0.575, z: 0.575}
   m_Children:
   - {fileID: 2748674485760652447}
   - {fileID: 9152461157905199958}
@@ -1422,7 +1424,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1470,16 +1472,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a99b91b3866e4f9463cd72cae8fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: M-16
   _anim: {fileID: 9152461157276108654}
   _fireAnimName: M16_Fire
   _muzzleFlash: {fileID: 7491835458941201268}
   _rayObj: {fileID: 9152461157905199959}
   _rayLength: 10
-  _bulletMax: 30
+  _bulletMax: 3
   _bulletCount: 0
-  _damage: 10
-  _shotCoolTime: 0.06
+  _power: 2
+  _rate: 3
+  _shotCoolTime: 0.1
   _rotationSpeed: 0.5
+  _testTarget: {fileID: 0}
+--- !u!114 &1271771094137340246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9152461157276108649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98de877dee5fc341b4eb59dfdab266c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoConstraintSelection: 1
+  selectedConstraints: []
+--- !u!114 &2439406773920862496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9152461157276108649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181cd563a8349c34ea8978b0bc8d9c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostTransform: {fileID: 0}
+  manipulationType: 3
+  twoHandedManipulationType: 7
+  allowFarManipulation: 1
+  useForcesForNearManipulation: 0
+  oneHandRotationModeNear: 1
+  oneHandRotationModeFar: 1
+  releaseBehavior: 3
+  transformSmoothingLogicType:
+    reference: Microsoft.MixedReality.Toolkit.Utilities.DefaultTransformSmoothingLogic,
+      Microsoft.MixedReality.Toolkit.SDK
+  smoothingFar: 1
+  smoothingNear: 1
+  moveLerpTime: 0.001
+  rotateLerpTime: 0.001
+  scaleLerpTime: 0.001
+  enableConstraints: 1
+  constraintsManager: {fileID: 1703946451218951615, guid: 54cf348ccf167d146a216d5b08656d4b, type: 3}
+  elasticsManager: {fileID: 0}
+  onManipulationStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onManipulationEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9152461157905199959
 GameObject:
   m_ObjectHideFlags: 0
