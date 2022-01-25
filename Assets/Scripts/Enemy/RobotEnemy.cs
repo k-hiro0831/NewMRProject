@@ -17,7 +17,7 @@ public class RobotEnemy : MonoBehaviour{
 
     private EnemControl _enem = new EnemControl();
     [SerializeField]
-    private EnemyDestroy _enemyDes;
+    private EnemyManager _enemyDes;
 
     private Rigidbody _rb;
 

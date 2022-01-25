@@ -987,8 +987,9 @@ MonoBehaviour:
   - 101
   - 101
   _enemys:
-  - {fileID: 7007312169638074310, guid: bedac5dea22b7404eaf7f7a71355d229, type: 3}
   - {fileID: 8695592100253697196, guid: 35facd83638edc5448a4aef1d327aeca, type: 3}
+  - {fileID: 7799441172181166583, guid: 8064233ecb5660a41943f27a863a13a8, type: 3}
+  - {fileID: 7007312169638074310, guid: bedac5dea22b7404eaf7f7a71355d229, type: 3}
   - {fileID: 2290719388249209729, guid: 6c3f1d174b5a8a54ab4b439a59031466, type: 3}
   - {fileID: 1326070980426302008, guid: 29edba760acae4447b1d3de3ae52f82f, type: 3}
   - {fileID: 8696545329060524483, guid: 0e1f56d2f7010f34e9f9d88ef60d503c, type: 3}
@@ -1000,7 +1001,6 @@ MonoBehaviour:
   - {fileID: 2290719388249209729, guid: 6c3f1d174b5a8a54ab4b439a59031466, type: 3}
   - {fileID: 4718747466554880080, guid: a0327daffd5e3b74ebcf33e1cc16c456, type: 3}
   - {fileID: 8981623135976544805, guid: 89aae2466c400b041ad94c8e76130a1e, type: 3}
-  - {fileID: 7799441172181166583, guid: 8064233ecb5660a41943f27a863a13a8, type: 3}
   _positionBase: {fileID: 8732643794217220299}
   _position:
   - {fileID: 8732643792560207971}
@@ -1083,9 +1083,9 @@ GameObject:
   - component: {fileID: 1477404619}
   - component: {fileID: 1477404621}
   - component: {fileID: 1477404622}
-  - component: {fileID: 1477404620}
   - component: {fileID: 1477404623}
   - component: {fileID: 1477404624}
+  - component: {fileID: 1477404620}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera

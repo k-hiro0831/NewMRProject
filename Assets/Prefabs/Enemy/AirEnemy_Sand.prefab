@@ -1991,6 +1991,7 @@ GameObject:
   - component: {fileID: 3159306281859190936}
   - component: {fileID: 604897038367443231}
   - component: {fileID: 2468657566783659642}
+  - component: {fileID: -8241610217226530966}
   m_Layer: 7
   m_Name: AirEnemy_Sand
   m_TagString: Enemy
@@ -2071,6 +2072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyHp: 0
 --- !u!195 &2468657566783659642
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2093,6 +2095,18 @@ NavMeshAgent:
   m_BaseOffset: 2.23
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-8241610217226530966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8695592100253697196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414d3e240831199479af1e1c105e7ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8703389038855869636
 GameObject:
   m_ObjectHideFlags: 0

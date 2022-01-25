@@ -992,6 +992,7 @@ GameObject:
   - component: {fileID: 2187581118030401627}
   - component: {fileID: 3896004308180152077}
   - component: {fileID: 11266475256447386}
+  - component: {fileID: -220242708711728983}
   m_Layer: 7
   m_Name: AirEnemy_Zephyr
   m_TagString: Enemy
@@ -1072,6 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyHp: 0
 --- !u!195 &11266475256447386
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1094,6 +1096,18 @@ NavMeshAgent:
   m_BaseOffset: 2.23
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-220242708711728983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718747466554880080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414d3e240831199479af1e1c105e7ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4755950089178515670
 GameObject:
   m_ObjectHideFlags: 0

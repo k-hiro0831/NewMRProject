@@ -13,7 +13,7 @@ public class LavaEnemy : MonoBehaviour
 
     private EnemControl _enem = new EnemControl();
     [SerializeField]
-    private EnemyDestroy _enemyDes;
+    private EnemyManager _enemyDes;
 
     [SerializeField]
     private GameObject _child;
@@ -36,6 +36,8 @@ public class LavaEnemy : MonoBehaviour
     /// ìGÇÃçUåÇä‘äu
     /// </summary>
     private float _rdm;
+
+    private int _enemyhp;
     #endregion
 
     void Start()
@@ -47,6 +49,8 @@ public class LavaEnemy : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _rdm = Random.Range(3, 8);
         StartCoroutine("Atk");
+        _enemyhp = Random.Range(10, 15);
+        this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
     }
 
     void Update()
