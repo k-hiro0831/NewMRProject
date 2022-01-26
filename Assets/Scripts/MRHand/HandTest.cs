@@ -8,19 +8,42 @@ using Microsoft.MixedReality.Toolkit;
 public class HandTest : MonoBehaviour
 {
     [SerializeField]
-    private GameObject TestObj = default;
+    private GameObject _testObj = default;
 
     private Vector3 _gunRoteVector = default;
 
-    [SerializeField, Range(0.0f, 90.0f)] private float flatHandThreshold = 45.0f;
-    [SerializeField, Range(0.0f, 90.0f)] private float facingThreshold = 80.0f;
+    [SerializeField, Range(0.0f, 90.0f)] 
+    private float flatHandThreshold = 45.0f;
+    [SerializeField, Range(0.0f, 90.0f)] 
+    private float facingThreshold = 80.0f;
 
     //TODO:数値が決まったら後でシリアライズフィールド消す
-    [SerializeField]
-    private float _gunRoteOfset = default;
+    [SerializeField,Range(0.0f,0.1f)]
+    private float _objectPositionOfsetX = default;
+    [SerializeField, Range(-0.1f, 0.1f)]
+    private float _objectPositionOfsetY = default;
+    [SerializeField, Range(0.0f, 0.1f)]
+    private float _objectPositionOfsetZ = default;
 
-    
-    void Update()
+    private Vector3 _objectPositionOfset = default;
+
+    [SerializeField,Range(0.0f,90.0f)]
+    private float _objectRotateOfsetX = default;
+
+    private Vector3 _objectRotateOfset = default;
+
+    private void Start()
+    {
+        //positionofsetを保存
+        _objectPositionOfset.x = _objectPositionOfsetX;
+        _objectPositionOfset.y = _objectPositionOfsetY;
+        _objectPositionOfset.z = _objectPositionOfsetZ;
+
+        _objectRotateOfset.x = _objectRotateOfsetX;
+
+    }
+
+    private void Update()
     {
         HandFind();
         
@@ -32,22 +55,40 @@ public class HandTest : MonoBehaviour
     /// </summary>
     private void HandFind()
     {
+        // 右手のみ判定したいので右手を取得
+        var jointedHand = HandJointUtils.FindHand(Handedness.Right);
         //手を認識している状態
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, Handedness.Right, out MixedRealityPose pose))
         {
             IMixedRealityHandJointService handtrackingservice = CoreServices.GetInputSystemDataProvider<IMixedRealityHandJointService>();
             if (handtrackingservice != null)
             {
-                //オブジェクトのトランスフォームとローテーションをハンドに追従させる
-                //トランスフォーム変更
-                TestObj.transform.position = handtrackingservice.RequestJointTransform(TrackedHandJoint.MiddleKnuckle, Handedness.Right).position;
-                //ローテート取得、変更
-                _gunRoteVector.x = handtrackingservice.RequestJointTransform(TrackedHandJoint.Wrist, Handedness.Right).rotation.x;
-                _gunRoteVector.y = handtrackingservice.RequestJointTransform(TrackedHandJoint.Wrist, Handedness.Right).rotation.y;
-                _gunRoteVector.z = handtrackingservice.RequestJointTransform(TrackedHandJoint.Wrist, Handedness.Right).rotation.z + _gunRoteOfset;
-                TestObj.transform.rotation = Quaternion.Euler(_gunRoteVector);
-                print("X:" + _gunRoteVector.x + "Y:" + _gunRoteVector.y + "Z:" + _gunRoteVector.z);
+                if(Vector3.Angle(pose.Up, CameraCache.Main.transform.forward) > facingThreshold)
+                {
+                    
+
+                    MixedRealityPose wristPose, indextipPose;
+                    if (jointedHand.TryGetJoint(TrackedHandJoint.Wrist, out wristPose)&&jointedHand.TryGetJoint(TrackedHandJoint.IndexTip,out indextipPose))
+                    {
+                        transform.RotateAround(wristPose.Position, indextipPose.Position - wristPose.Position, 360 / 0.2f * Time.deltaTime);
+                        //print(wristPose.Up);
+                        //_testObj.transform.position = wristPose.Position + _objectPositionOfset;
+                    }
+
+                    //オブジェクトのトランスフォームとローテーションをハンドに追従させる
+                    //トランスフォーム変更
+                    //_testObj.transform.position = handtrackingservice.RequestJointTransform(TrackedHandJoint.Wrist, Handedness.Right).position + _objectPositionOfset;
+
+
+                    //ローテート取得、変更
+                    //_testObj.transform.rotation = handtrackingservice.RequestJointTransform(TrackedHandJoint.Wrist, Handedness.Right).rotation;
+                    //_testObj.transform.LookAt(handtrackingservice.RequestJointTransform(TrackedHandJoint.Wrist, Handedness.Right),Vector3.down);
+                    //handtrackingservice.RequestJointTransform(TrackedHandJoint.Wrist, Handedness.Right).parent = _testObj.transform;
+                }
                 
+
+                //// 手のひらを向けているか確認
+                //return Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward) < facingThreshold;
             }
         }
         //手を認識していない
@@ -56,6 +97,7 @@ public class HandTest : MonoBehaviour
             Debug.Log("deleta");
         }
     }
+
 
 
     private bool handgestureTest()
@@ -90,8 +132,8 @@ public class HandTest : MonoBehaviour
             }
         }
         //// 手のひらを向けているか確認
-        //return Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward) < facingThreshold;
-        return true;
+        return Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward) < facingThreshold;
+        
     }
     
 }
