@@ -93,6 +93,7 @@ public class BuyWeapon : MonoBehaviour
             _nowWeapon = _weaponPrefabList[_selectNum];
 
             Debug.Log("アンロック済み");
+            return;
         }
 
         //お金を消費
