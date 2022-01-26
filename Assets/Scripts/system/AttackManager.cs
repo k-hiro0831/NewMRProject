@@ -38,16 +38,11 @@ public class AttackManager : MonoBehaviour
     }
 
     
-    private void Update()
-    {
-        AttackEvent();
-
-    }
-
+    
     /// <summary>
     /// 攻撃イベントを呼び出す関数
     /// </summary>
-    public void AttackEvent()
+    public void AttackEvent(GameObject _enemyObj)
     {
         //TODO:ここに攻撃のイベントを入れる
         for (int i = 0; i < _cllickObjectList._weaponObjList.Count; i++)
