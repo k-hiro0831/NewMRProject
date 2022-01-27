@@ -54,7 +54,7 @@ public class AttackManager : MonoBehaviour
         ////ターゲットUIのアニメーションを呼び出す
         //_targetUiAnimator.SetTrigger(UI_ANIMATOR_TRIGGER_ATTACK);
         //_targetUiAnimator.SetBool(UI_ANIMATOR_BOOL_ATTCKHOLD, true);
-        ObjListClear();
+        //ObjListClear();
         
 
     }
