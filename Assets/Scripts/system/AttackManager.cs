@@ -38,77 +38,25 @@ public class AttackManager : MonoBehaviour
     }
 
     
-    private void Update()
-    {
-        AttackEvent();
-
-    }
-
+    
     /// <summary>
     /// 攻撃イベントを呼び出す関数
     /// </summary>
-    private void AttackEvent()
+    public void AttackEvent(GameObject _enemyObj)
     {
-        //rayが当たっているか判定
-        if (_cameraRay.RayHit())
+        //TODO:ここに攻撃のイベントを入れる
+        for (int i = 0; i < _cllickObjectList._weaponObjList.Count; i++)
         {
-            //敵オブジェクト取得
-            _enemyObj = _cameraRay.GetHitEnemyObj();
-            //敵オブジェクトをリストに追加
-            _cllickObjectList.EnemyObjSet(_enemyObj);
-            if (!_uiFlag)
-            {
-                _targetUIMove.UiMoveStart();
-                _uiFlag = true;
-            }
-            _targetUIMove.UiPosUpdate();
-
-            _coolTime += Time.deltaTime;
-            
-            //クールタイムがマックスより大きければflagをtrueにする
-            if (_coolTime > COOL_TIME_MAX)
-            {
-                _coolTimeFlag = true;
-            }
-
+            //TODO:_enemyObjをthis.gameobjectに変更
+            _cllickObjectList._weaponObjList[i].GetComponent<WeaponAttack>().Attack(_enemyObj);
         }
-        else
-        {
-            //ロックが外れた時の初期化
-            _uiFlag = false;
-            _targetUIMove.UiMoveStop();
-            _coolTimeFlag = false;
-            _coolTime = 0.0f;
-        }
-        //rayが当たっていてエネミーリスト、ウェポンリストが空でないときイベントを実行
-        if (_cameraRay.RayHit() && _cllickObjectList._weaponObjList.Count != 0 && _cllickObjectList._enemyObjList.Count != 0 && _coolTimeFlag)
-        {
-            
-            //TODO:ここに攻撃のイベントを入れる
-            for (int i = 0; i < _cllickObjectList._weaponObjList.Count; i++)
-            {
-                _cllickObjectList._weaponObjList[i].GetComponent<WeaponAttack>().Attack(_enemyObj);
-            }
-            //ターゲットUIのアニメーションを呼び出す
-            _targetUiAnimator.SetTrigger(UI_ANIMATOR_TRIGGER_ATTACK);
-            _targetUiAnimator.SetBool(UI_ANIMATOR_BOOL_ATTCKHOLD, true);
+        //TODO:ターゲットアニメーション関係
+        ////ターゲットUIのアニメーションを呼び出す
+        //_targetUiAnimator.SetTrigger(UI_ANIMATOR_TRIGGER_ATTACK);
+        //_targetUiAnimator.SetBool(UI_ANIMATOR_BOOL_ATTCKHOLD, true);
+        //ObjListClear();
+        
 
-            _coolTimeFlag = true;
-            ObjListClear();
-        }
-
-        //if (_coolTimeFlag) 
-        //{
-        //    _coolTime += Time.deltaTime;
-        //}
-
-        if (_coolTime > COOL_TIME_MAX)
-        {
-
-            _coolTime = 0;
-            _coolTimeFlag = false;
-            
-        }
     }
 
     /// <summary>
