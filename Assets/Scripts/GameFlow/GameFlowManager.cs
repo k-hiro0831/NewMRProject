@@ -17,6 +17,8 @@ public class GameFlowManager : MonoBehaviour
     private int _gameState;
     [SerializeField]
     private int _score;
+    [SerializeField]
+    private string _nextSceneName = null;
 
     // Start is called before the first frame update
     void Start()
@@ -68,7 +70,7 @@ public class GameFlowManager : MonoBehaviour
     private void SceneMove()
     {
         flow = Flow.main;
-        SceneManager.LoadScene("EnemyNaviTest");
+        SceneManager.LoadScene(_nextSceneName);
     }
 
     private void ScoreSearch()

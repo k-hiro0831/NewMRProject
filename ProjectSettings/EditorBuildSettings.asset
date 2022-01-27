@@ -6,14 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: 9e6512a1be189ad4b8636560c1bb8b7a
   - enabled: 1
-    path: Assets/Scenes/EnemyNaviTest.unity
-    guid: ff6f1ab61e95d33448028a9141598bcb
+    path: Assets/Scenes/MainScene.unity
+    guid: c6216bf128669f14a91d88d4eec96888
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 9172b7607bb8bbb4eb35006d3c45106b, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 4fbc19f1a5c230e4d956bc5e036dfa84, type: 2}
