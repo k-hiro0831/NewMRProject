@@ -43,9 +43,6 @@ public class GunShot : MonoBehaviour, WeaponAttack
     private float _rotationSpeed = 0.5f;
     private Transform _rotationStart;
 
-    [SerializeField]
-    private GameObject _testTarget;
-
     private void Start()
     {
         _bulletCount = _bulletMax;
@@ -80,11 +77,6 @@ public class GunShot : MonoBehaviour, WeaponAttack
             {
                 AttackEnd();
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Attack(_testTarget);
         }
     }
 
@@ -136,7 +128,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
         }
 
         //ヒットしたオブジェクトにダメージ
-        _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(1);
+        _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(_power);
 
         //<--発射エフェクト
         _particle.Play();
@@ -178,7 +170,6 @@ public class GunShot : MonoBehaviour, WeaponAttack
         if (_anim == null) { return; }
         //発射アニメーション
         _anim.Play(_fireAnimName);
-        Debug.Log("animation");
     }
 
     /// <summary>
