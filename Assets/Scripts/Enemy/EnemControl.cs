@@ -16,6 +16,11 @@ public class EnemControl : MonoBehaviour{
     private float _phaseTimeTotal;
 
     /// <summary>
+    /// 合計スコア
+    /// </summary>
+    private float _scoreTotal;
+
+    /// <summary>
     /// 1フェーズの時間(1フェーズ100秒、合計300秒想定)
     /// カウントダウン
     /// </summary>
@@ -41,6 +46,12 @@ public class EnemControl : MonoBehaviour{
     /// 各フェーズのウェーブ数格納
     /// </summary>
     private int _enemyPhaseNumber;
+
+    /// <summary>
+    /// 現在の状態
+    /// </summary>
+    [SerializeField]
+    private int _gameState;
 
     [SerializeField,Header("各種類の敵、順番に出てくる(14)")]
     private GameObject[] _enemys = default;
@@ -73,6 +84,10 @@ public class EnemControl : MonoBehaviour{
 
     private EnemyManager _enemydes;
 
+    private ScoreManager _enem;
+
+    private GameFlowManager _gameFlow;
+
     #region"フェーズごとの敵"
     private ObjectPool _poolPhase1;
     private ObjectPool _poolPhase2;
@@ -90,13 +105,15 @@ public class EnemControl : MonoBehaviour{
     private ObjectPool _poolPhase12;
     private ObjectPool _poolPhase13;
     private ObjectPool _poolPhase14;
+
+    private ObjectPool _poolPhaseEND;
     #endregion
 
     /// <summary>
     /// 敵のフェーズ状態管理
     /// </summary>
     private enum EnemyPhase {
-        phase1,phase2,phase3,phaseEnd,phaseWait
+        phase1,phase2,phase3, phase4,phaseEnd, phaseWait
     }
     #endregion
 
@@ -105,6 +122,10 @@ public class EnemControl : MonoBehaviour{
     }
 
     private void Update(){
+        if (_gameState == 2)
+        {
+            enemyPhase = EnemyPhase.phaseEnd;
+        }
     }
 
     private void FixedUpdate(){
@@ -119,7 +140,7 @@ public class EnemControl : MonoBehaviour{
             case EnemyPhase.phase1:
                 _phaseTime[0] -= Time.deltaTime;
                 _TimeText.text = "残り"+ Mathf.Floor(_phaseTime[0]) +"秒";
-                if (_phaseTime[0] < 0.0f)
+                if (_phaseTime[0] == 0.0f || _phaseTime[0] <= 0.0f)
                 {
                     for (int i = 0; i< _enemyList.Count;i++)
                     {
@@ -142,7 +163,7 @@ public class EnemControl : MonoBehaviour{
             case EnemyPhase.phase2:
                 _phaseTime[1] -= Time.deltaTime;
                 _TimeText.text = "残り" + Mathf.Floor(_phaseTime[1]) + "秒";
-                if (_phaseTime[1] < 0.0f)
+                if (_phaseTime[1] == 0.0f || _phaseTime[1] <= 0.0f)
                 {
                     for (int i = 0; i < _enemyList.Count; i++)
                     {
@@ -166,15 +187,41 @@ public class EnemControl : MonoBehaviour{
 
                 _phaseTime[2] -= Time.deltaTime;
                 _TimeText.text = "残り" + Mathf.Floor(_phaseTime[2]) + "秒";
-                if (_phaseTime[2] < 0.0f)
+                if (_phaseTime[2] == 0.0f || _phaseTime[2] <= 0.0f)
                 {
-
+                    for (int i = 0; i < _enemyList.Count; i++)
+                    {
+                        _enemydes = _enemyList[i].GetComponent<EnemyManager>();
+                        _enemydes.EnemyRemove();
+                    }
                     _phaseTime[2] = 0.0f;
                     _TimeText.text = "残り" + Mathf.Floor(_phaseTime[2]) + "秒";
-                    _PhaseText.text = "終了";
-                    enemyPhase = EnemyPhase.phaseEnd;
+                    _PhaseText.text = "敵フェーズ:Boss";
+                    enemyPhase = EnemyPhase.phaseWait;
                     _phaseJudge = false;
                     PhaseReset();
+                }
+                if (_enemyList.Count == 0)
+                {
+                    EnemyManagement();
+                }
+                break;
+            case EnemyPhase.phase4:
+                _phaseTime[3] -= Time.deltaTime;
+                _TimeText.text = "残り" + Mathf.Floor(_phaseTime[3]) + "秒";
+                if (_phaseTime[3] == 0.0f || _phaseTime[3] <= 0.0f)
+                {
+                    for (int i = 0; i < _enemyList.Count; i++)
+                    {
+                        _enemydes = _enemyList[i].GetComponent<EnemyManager>();
+                        _enemydes.EnemyRemove();
+                    }
+                    _phaseTime[3] = 0.0f;
+                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[3]) + "秒";
+                    _PhaseText.text = "終了";
+                    enemyPhase = EnemyPhase.phaseEnd;
+                    //_phaseJudge = false;
+                    //PhaseReset();
                 }
                 if (_enemyList.Count == 0)
                 {
@@ -184,6 +231,7 @@ public class EnemControl : MonoBehaviour{
             case EnemyPhase.phaseEnd:
                 _PhaseText.text = "ゲーム終了";
                 _TimeText.text = "";
+                _gameFlow.End(_gameState);
                 break;
             case EnemyPhase.phaseWait:
                 _waitTime -= Time.deltaTime;
@@ -223,6 +271,18 @@ public class EnemControl : MonoBehaviour{
                         PhaseReset();
                     }
                 }
+                if (_PhaseText.text == "敵フェーズ:Boss")
+                {
+                    _waitText.text = "Bossフェーズまで" + Mathf.Floor(_waitTime) + "秒";
+                    if (_waitTime < 0.0f)
+                    {
+                        _waitText.text = "";
+                        _waitTime = 11.0f;
+                        enemyPhase = EnemyPhase.phase4;
+                        //リセット
+                        PhaseReset();
+                    }
+                }
                 break;
         }
     }
@@ -246,6 +306,8 @@ public class EnemControl : MonoBehaviour{
         _poolPhase13 = gameObject.AddComponent<ObjectPool>();
         _poolPhase14 = gameObject.AddComponent<ObjectPool>();
 
+        _poolPhaseEND = gameObject.AddComponent<ObjectPool>();
+
         for (int x = 0;x < _position.Length;x++){
             _position[x] = _positionBase.transform.GetChild(x).gameObject;   
         }
@@ -258,16 +320,36 @@ public class EnemControl : MonoBehaviour{
         _enemyPos2 = _enemyPosPuls;
         //テキストを変更
         _PhaseText.text = "敵フェーズ:1";
+        enemyPhase = EnemyPhase.phaseWait;
+        _enem = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _gameFlow = GameObject.FindGameObjectWithTag("GameFlow").GetComponent<GameFlowManager>();
     }
 
     private void EnemyManagement()
     {
+        if (enemyPhase == EnemyPhase.phase4 && _enemyPhaseNumber == 0)
+        {
+            _phaseTimeTotal += _phaseTime[3];
+            _enem.ScoreAdd((int)_phaseTimeTotal);
+            _gameState = 1;
+            enemyPhase = EnemyPhase.phaseEnd;
+            _phaseJudge = false;
+            PhaseReset();
+        }
+        if (enemyPhase == EnemyPhase.phase4 && _enemyPhaseNumber == 1)
+        {
+            _enemyPos2 = _enemyPosPuls;
+            EnemyPhaseEND();
+            _enemyPhaseNumber = _enemyPhaseNumber - 1;
+        }
+
         #region"フェーズ３"
         if (enemyPhase == EnemyPhase.phase3 && _enemyPhaseNumber == 1)
         {
-            _phaseTimeTotal = _phaseTime[0] + _phaseTime[1] + _phaseTime[2];
-            _PhaseText.text = "終了";
-            enemyPhase = EnemyPhase.phaseEnd;
+            _phaseTimeTotal += _phaseTime[2];
+            _enem.ScoreAdd((int)_phaseTimeTotal);
+            _PhaseText.text = "敵フェーズ:Boss";
+            enemyPhase = EnemyPhase.phaseWait;
             _phaseJudge = false;
             PhaseReset();
         }
@@ -306,6 +388,8 @@ public class EnemControl : MonoBehaviour{
         #region"フェーズ２"
         if (enemyPhase == EnemyPhase.phase2 && _enemyPhaseNumber == 1)
         {
+            _phaseTimeTotal += _phaseTime[1];
+            _enem.ScoreAdd((int)_phaseTimeTotal);
             _PhaseText.text = "敵フェーズ:3";
             enemyPhase = EnemyPhase.phaseWait;
             _phaseJudge = false;
@@ -340,6 +424,8 @@ public class EnemControl : MonoBehaviour{
         #region"フェーズ１"
         if (enemyPhase == EnemyPhase.phase1 && _enemyPhaseNumber == 1)
         {
+            _phaseTimeTotal += _phaseTime[0];
+            _enem.ScoreAdd((int)_phaseTimeTotal);
             _PhaseText.text = "敵フェーズ:2";
             enemyPhase = EnemyPhase.phaseWait;
             _phaseJudge = false;
@@ -358,6 +444,8 @@ public class EnemControl : MonoBehaviour{
             _enemyPhaseNumber = _enemyPhaseNumber - 1;
         }
         #endregion
+
+        //_enem.ScoreAdd((int)_phaseTimeTotal);
     }
 
     private void PhaseReset()
@@ -381,6 +469,12 @@ public class EnemControl : MonoBehaviour{
             {
                 EnemyPhase9();
                 _enemyPhaseNumber = 6;
+                _phaseJudge = true;
+            }
+            if (enemyPhase == EnemyPhase.phase4)
+            {
+                EnemyPhaseEND();
+                _enemyPhaseNumber = 1;
                 _phaseJudge = true;
             }
         }
@@ -576,6 +670,21 @@ public class EnemControl : MonoBehaviour{
         }
     }
     #endregion
+
+    private void EnemyPhaseEND()
+    {
+        for (_enemyPos = _enemyPos2; _enemyPos < _enemysNumber[14] + _enemyPos2; _enemyPos++)
+        {
+            float x = Random.Range(_position[0].transform.GetChild(0).transform.position.x, _position[0].transform.GetChild(1).transform.position.x);
+            float z = Random.Range(_position[0].transform.GetChild(1).transform.position.z, _position[0].transform.GetChild(2).transform.position.z);
+            GameObject _enemyPrefab = _poolPhaseEND.ReturnObjEnemy();
+            _enemyPrefab.transform.position = new Vector3(x, _position[0].transform.position.y, z);
+            _enemyPrefab.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            _enemyList.Add(_enemyPrefab);
+            _enemyPosPuls = _enemyPosPuls + 1;
+        }
+    }
+
     #endregion
 
     public void Removed(GameObject obj){
@@ -600,15 +709,22 @@ public class EnemControl : MonoBehaviour{
         _poolPhase12.Pool(_parent[11], _enemys[11], _enemysNumber[11]);
         _poolPhase13.Pool(_parent[12], _enemys[12], _enemysNumber[12]);
         _poolPhase14.Pool(_parent[13], _enemys[13], _enemysNumber[13]);
+
+        _poolPhaseEND.Pool(_parent[14], _enemys[14], _enemysNumber[14]);
     }
 
     private void Parent() {
 
-        _parent = new GameObject[14];
+        _parent = new GameObject[15];
 
-        for (int x = 0; x < 14;x++)
+        for (int x = 0; x < 15;x++)
         {
             _parent[x] = _parentBase.transform.GetChild(x).gameObject;
         }
+    }
+
+    public void GameState(int _value)
+    {
+        _gameState = _value;
     }
 }

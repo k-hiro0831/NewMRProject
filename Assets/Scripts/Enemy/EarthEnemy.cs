@@ -42,6 +42,8 @@ public class EarthEnemy : MonoBehaviour
     [SerializeField]
     private GameObject _box;
     private int _enemyhp;
+    private ScoreManager _scoreManage;
+    private int _enemyScore;
     #endregion
 
     void Start()
@@ -51,11 +53,14 @@ public class EarthEnemy : MonoBehaviour
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _rdm = Random.Range(3, 8);
+        _rdm = 6;
         StartCoroutine("Atk");
         _box.SetActive(false);
         _enemyhp = Random.Range(4, 7);
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _enemyScore = _scoreManage.Earth(_enemyScore);
+        this.GetComponent<EnemyManager>().EnemyScore(_enemyScore);
     }
 
     void Update()

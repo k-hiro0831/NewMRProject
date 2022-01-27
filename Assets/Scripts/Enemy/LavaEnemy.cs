@@ -38,6 +38,8 @@ public class LavaEnemy : MonoBehaviour
     private float _rdm;
 
     private int _enemyhp;
+    private ScoreManager _scoreManage;
+    private int _enemyScore;
     #endregion
 
     void Start()
@@ -47,10 +49,13 @@ public class LavaEnemy : MonoBehaviour
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _rdm = Random.Range(3, 8);
+        _rdm = 100;
         StartCoroutine("Atk");
         _enemyhp = Random.Range(10, 15);
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _enemyScore = _scoreManage.Lava(_enemyScore);
+        this.GetComponent<EnemyManager>().EnemyScore(_enemyScore);
     }
 
     void Update()

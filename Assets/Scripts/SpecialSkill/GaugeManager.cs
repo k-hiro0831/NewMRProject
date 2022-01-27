@@ -16,8 +16,8 @@ public class GaugeManager : MonoBehaviour
 
     private void Start()
     {
-        this.transform.parent = _parentHand.transform;
-        this.transform.position = _parentHand.transform.position + _offsetPos;
+        //this.transform.parent = _parentHand.transform;
+        //this.transform.position = _parentHand.transform.position + _offsetPos;
     }
 
     private void Update()

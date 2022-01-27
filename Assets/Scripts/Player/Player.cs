@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public float _playerHp{
         get { return _playerHitPoint; }
     }
-
+    [SerializeField]
     private HpGauge _hpGauge;
 
     private void OnTriggerEnter(Collider other){
