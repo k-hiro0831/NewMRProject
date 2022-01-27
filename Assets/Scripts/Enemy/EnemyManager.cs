@@ -15,6 +15,8 @@ public class EnemyManager : MonoBehaviour{
     private EnemControl _enem = new EnemControl();
     [SerializeField]
     private int _enemyHp;
+    private ScoreManager _scoreManage;
+    private int _enemyScore;
     #endregion
 
     void Start()
@@ -26,13 +28,14 @@ public class EnemyManager : MonoBehaviour{
         }
         _rb = GetComponent<Rigidbody>();
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            EnemyDes();
+            _enemyHp = 0;
         }
 
         if (_enemyHp == 0 || _enemyHp < 0)
@@ -44,6 +47,11 @@ public class EnemyManager : MonoBehaviour{
     public void EnemyHp(int _value)
     {
         _enemyHp = _value;
+    }
+
+    public void EnemyScore(int _value)
+    {
+        _enemyScore = _value;
     }
 
     public void EnemyHpMinus(int _playerAtk)
@@ -69,6 +77,7 @@ public class EnemyManager : MonoBehaviour{
     {
         _ani.SetBool("death", true);
         yield return new WaitForSeconds(3.0f);
+        _scoreManage.ScoreAdd(_enemyScore);
         _enem.Removed(this.gameObject);
         this.gameObject.SetActive(false);
     }

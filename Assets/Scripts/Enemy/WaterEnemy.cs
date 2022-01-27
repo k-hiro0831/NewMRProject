@@ -37,6 +37,8 @@ public class WaterEnemy : MonoBehaviour
     /// </summary>
     private float _rdm;
     private int _enemyhp;
+    private ScoreManager _scoreManage;
+    private int _enemyScore;
     #endregion
 
     void Start()
@@ -46,10 +48,13 @@ public class WaterEnemy : MonoBehaviour
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _rdm = Random.Range(3, 8);
+        _rdm = 5;
         StartCoroutine("Atk");
         _enemyhp = Random.Range(4, 7);
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _enemyScore = _scoreManage.Water(_enemyScore);
+        this.GetComponent<EnemyManager>().EnemyScore(_enemyScore);
     }
 
     void Update()

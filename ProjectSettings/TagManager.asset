@@ -11,6 +11,9 @@ TagManager:
   - Enemy
   - List
   - EnemyAtk
+  - EnemyScore
+  - GameFlow
+  - ScoreManager
   layers:
   - Default
   - TransparentFX
