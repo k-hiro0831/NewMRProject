@@ -22,20 +22,22 @@ Shader "Sine VFX/StartWaveAlphaBlended" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -59,14 +61,12 @@ Shader "Sine VFX/StartWaveAlphaBlended" {
                 float4 pos : SV_POSITION;
                 float4 uv0 : TEXCOORD0;
                 float4 vertexColor : COLOR;
-                UNITY_FOG_COORDS(1)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 o.vertexColor = v.vertexColor;
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -88,11 +88,10 @@ Shader "Sine VFX/StartWaveAlphaBlended" {
                 float4 _Ramp_var = tex2D(_Ramp,TRANSFORM_TEX(node_7407, _Ramp));
                 float3 emissive = (_Ramp_var.rgb*i.vertexColor.rgb*_TintColor.rgb*_FinalPower);
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,saturate((node_6642*_OpacityBoost)));
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
+                half4 finalRGBA = half4(finalColor,saturate((node_6642*_OpacityBoost)));
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

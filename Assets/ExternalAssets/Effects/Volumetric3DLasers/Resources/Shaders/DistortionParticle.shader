@@ -16,21 +16,23 @@ Shader "Sine VFX/V3DLasers/DistortionParticle" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         GrabPass{ }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
             #pragma target 3.0
@@ -54,9 +56,8 @@ Shader "Sine VFX/V3DLasers/DistortionParticle" {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 o.vertexColor = v.vertexColor;
-                o.pos = UnityObjectToClipPos( v.vertex );
+                o.pos = TransformObjectToHClip( v.vertex );
                 o.projPos = ComputeScreenPos (o.pos);
-                COMPUTE_EYEDEPTH(o.projPos.z);
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -69,9 +70,9 @@ Shader "Sine VFX/V3DLasers/DistortionParticle" {
                 float node_3344 = saturate((_Mask_var.r*_FinalPower*i.vertexColor.a));
                 float3 emissive = lerp(tex2D( _GrabTexture, sceneUVs.rg).rgb,tex2D( _GrabTexture, lerp(sceneUVs.rg,float2((sceneUVs.r+_Distortion_var.r),(sceneUVs.g+_Distortion_var.g)),_DistortionAmount)).rgb,node_3344);
                 float3 finalColor = emissive;
-                return fixed4(finalColor,node_3344);
+                return half4(finalColor,node_3344);
             }
-            ENDCG
+            ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"
