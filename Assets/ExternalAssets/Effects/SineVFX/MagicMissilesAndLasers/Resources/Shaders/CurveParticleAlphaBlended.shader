@@ -18,21 +18,23 @@ Shader "Sine VFX/CurveParticleAlphaBlended" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode"="UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             Cull Off
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -43,6 +45,7 @@ Shader "Sine VFX/CurveParticleAlphaBlended" {
             uniform float _FinalPower;
             uniform sampler2D _FireTexture; uniform float4 _FireTexture_ST;
             uniform float _PrePower;
+            float4x4 mMatrix : World;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -55,16 +58,14 @@ Shader "Sine VFX/CurveParticleAlphaBlended" {
                 float4 posWorld : TEXCOORD1;
                 float3 normalDir : TEXCOORD2;
                 float4 vertexColor : COLOR;
-                UNITY_FOG_COORDS(3)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 o.vertexColor = v.vertexColor;
-                o.normalDir = UnityObjectToWorldNormal(v.normal);
+                o.normalDir = normalize(mul(v.normal.xyz, (float3x3)mMatrix));
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
@@ -88,11 +89,10 @@ Shader "Sine VFX/CurveParticleAlphaBlended" {
                 float3 emissive = (_Ramp_var.rgb*_FinalPower);
                 float3 finalColor = emissive;
                 float Opacity = saturate(node_9384);
-                fixed4 finalRGBA = fixed4(finalColor,Opacity);
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
+                half4 finalRGBA = half4(finalColor,Opacity);
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"
