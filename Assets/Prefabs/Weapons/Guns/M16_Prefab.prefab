@@ -1476,6 +1476,7 @@ MonoBehaviour:
   _anim: {fileID: 9152461157276108654}
   _fireAnimName: M16_Fire
   _muzzleFlash: {fileID: 7491835458941201268}
+  _explosionEffect: {fileID: 7375017071851253136, guid: 8b76539b1033ae44eb4154fb12d922f1, type: 3}
   _rayObj: {fileID: 9152461157905199959}
   _rayLength: 10
   _bulletMax: 3
@@ -1484,7 +1485,6 @@ MonoBehaviour:
   _rate: 3
   _shotCoolTime: 0.1
   _rotationSpeed: 0.5
-  _testTarget: {fileID: 0}
 --- !u!114 &1271771094137340246
 MonoBehaviour:
   m_ObjectHideFlags: 0
