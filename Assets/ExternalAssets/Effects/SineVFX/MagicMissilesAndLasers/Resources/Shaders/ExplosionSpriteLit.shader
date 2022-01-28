@@ -19,20 +19,21 @@ Shader "Sine VFX/ExplosionSpriteLit"
 
 	SubShader
 	{
-		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  }
+		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true" "RenderPipeline" = "UniversalPipeline" }
 		Cull Back
-		CGINCLUDE
+		HLSLINCLUDE
 		#include "UnityPBSLighting.cginc"
 		#include "Lighting.cginc"
 		#pragma target 3.0
 		#undef TRANSFORM_TEX
 		#define TRANSFORM_TEX(tex,name) float4(tex.xy * name##_ST.xy + name##_ST.zw, tex.z, tex.w)
+		
 		struct Input
-		{
-			float2 uv_texcoord;
-			float4 uv_tex4coord;
-			float4 vertexColor : COLOR;
-		};
+			{
+				float2 uv_texcoord;
+				float4 uv_tex4coord;
+				float4 vertexColor : COLOR;
+			};
 
 		uniform sampler2D _NormalMap;
 		uniform sampler2D _MainTex;
@@ -64,17 +65,17 @@ Shader "Sine VFX/ExplosionSpriteLit"
 			o.Alpha = clampResult43;
 		}
 
-		ENDCG
-		CGPROGRAM
+		ENDHLSL
+			HLSLPROGRAM
 		#pragma surface surf Standard alpha:fade keepalpha fullforwardshadows 
 
-		ENDCG
+			ENDHLSL
 		Pass
 		{
 			Name "ShadowCaster"
-			Tags{ "LightMode" = "ShadowCaster" }
+			Tags{ "LightMode" = "UniversalForward" }
 			ZWrite On
-			CGPROGRAM
+			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma target 3.0
@@ -85,10 +86,15 @@ Shader "Sine VFX/ExplosionSpriteLit"
 			#if ( SHADER_API_D3D11 || SHADER_API_GLCORE || SHADER_API_GLES3 || SHADER_API_METAL || SHADER_API_VULKAN )
 				#define CAN_SKIP_VPOS
 			#endif
+			#pragma enable_cbuffer
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
 			#include "UnityPBSLighting.cginc"
 			sampler3D _DitherMaskLOD;
+			float4x4 mMatrix : World;
+
+			
+
 			struct v2f
 			{
 				V2F_SHADOW_CASTER;
@@ -109,7 +115,7 @@ Shader "Sine VFX/ExplosionSpriteLit"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				Input customInputData;
 				float3 worldPos = mul( unity_ObjectToWorld, v.vertex ).xyz;
-				half3 worldNormal = UnityObjectToWorldNormal( v.normal );
+				half3 worldNormal = mul(unity_ObjectToWorld, v.vertex);
 				half3 worldTangent = UnityObjectToWorldDir( v.tangent.xyz );
 				half tangentSign = v.tangent.w * unity_WorldTransformParams.w;
 				half3 worldBinormal = cross( worldNormal, worldTangent ) * tangentSign;
@@ -125,11 +131,11 @@ Shader "Sine VFX/ExplosionSpriteLit"
 				o.color = v.color;
 				return o;
 			}
-			half4 frag( v2f IN
-			#if !defined( CAN_SKIP_VPOS )
-			, UNITY_VPOS_TYPE vpos : VPOS
-			#endif
-			) : SV_Target
+				half4 frag( v2f IN
+				#if !defined( CAN_SKIP_VPOS )
+				, UNITY_VPOS_TYPE vpos : VPOS
+				#endif
+				) : SV_Target
 			{
 				UNITY_SETUP_INSTANCE_ID( IN );
 				Input surfIN;
@@ -149,7 +155,7 @@ Shader "Sine VFX/ExplosionSpriteLit"
 				clip( alphaRef - 0.01 );
 				SHADOW_CASTER_FRAGMENT( IN )
 			}
-			ENDCG
+				ENDHLSL
 		}
 	}
 	Fallback "Diffuse"
