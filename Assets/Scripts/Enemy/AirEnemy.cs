@@ -43,8 +43,9 @@ public class AirEnemy : MonoBehaviour
     private GameObject _box;
 
     private int _enemyhp;
-    private ScoreManager _scoreManage;
+    private EnemyValueManager _scoreManage;
     private int _enemyScore;
+    private int _enemyMoney;
     #endregion
 
     void Start()
@@ -59,9 +60,11 @@ public class AirEnemy : MonoBehaviour
         _box.SetActive(false);
         _enemyhp= 10;
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
-        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
         _enemyScore = _scoreManage.Air(_enemyScore);
         this.GetComponent<EnemyManager>().EnemyScore(_enemyScore);
+        _enemyMoney = _scoreManage.AirMoney(_enemyMoney);
+        this.GetComponent<EnemyManager>().EnemyMoney(_enemyMoney);
     }
 
     void Update()

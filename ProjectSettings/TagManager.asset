@@ -14,6 +14,7 @@ TagManager:
   - EnemyScore
   - GameFlow
   - ScoreManager
+  - MoneyManager
   layers:
   - Default
   - TransparentFX
