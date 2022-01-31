@@ -103,6 +103,7 @@ MonoBehaviour:
   _anim: {fileID: 6747415058990759951}
   _fireAnimName: Mg61_Fire
   _muzzleFlash: {fileID: 4198177859038327141}
+  _explosionEffect: {fileID: 7375017071851253136, guid: 8b76539b1033ae44eb4154fb12d922f1, type: 3}
   _rayObj: {fileID: 6747415060272681939}
   _rayLength: 10
   _bulletMax: 5
@@ -111,7 +112,6 @@ MonoBehaviour:
   _rate: 1
   _shotCoolTime: 0.1
   _rotationSpeed: 0.5
-  _testTarget: {fileID: 0}
 --- !u!114 &8504918197248467006
 MonoBehaviour:
   m_ObjectHideFlags: 0

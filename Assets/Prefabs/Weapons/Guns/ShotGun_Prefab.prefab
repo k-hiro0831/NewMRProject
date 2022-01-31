@@ -198,6 +198,7 @@ MonoBehaviour:
   _anim: {fileID: 8128756032255385505}
   _fireAnimName: ShotGun_Fire
   _muzzleFlash: {fileID: 8593898464657856940}
+  _explosionEffect: {fileID: 7375017071851253136, guid: 8b76539b1033ae44eb4154fb12d922f1, type: 3}
   _rayObj: {fileID: 8128756032674361456}
   _rayLength: 10
   _bulletMax: 1
@@ -206,7 +207,6 @@ MonoBehaviour:
   _rate: 1
   _shotCoolTime: 0.5
   _rotationSpeed: 0.5
-  _testTarget: {fileID: 0}
 --- !u!114 &6060960262460895929
 MonoBehaviour:
   m_ObjectHideFlags: 0
