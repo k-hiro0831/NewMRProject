@@ -13,10 +13,12 @@ public class EnemyManager : MonoBehaviour{
         get { return _enemyMove; }
     }
     private EnemControl _enem = new EnemControl();
-    [SerializeField]
     private int _enemyHp;
-    private ScoreManager _scoreManage;
+    private EnemyValueManager _scoreManage;
     private int _enemyScore;
+    private MoneyManager _money;
+    private int _enemyMoney;
+    private bool x = false;
     #endregion
 
     void Start()
@@ -28,19 +30,24 @@ public class EnemyManager : MonoBehaviour{
         }
         _rb = GetComponent<Rigidbody>();
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
-        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
+        _money = GameObject.FindGameObjectWithTag("MoneyManager").GetComponent<MoneyManager>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             _enemyHp = 0;
         }
 
         if (_enemyHp == 0 || _enemyHp < 0)
         {
-            EnemyDes();
+            if (!x)
+            {
+                EnemyDes();
+                bool x = true;
+            }  
         }
     }
 
@@ -57,6 +64,11 @@ public class EnemyManager : MonoBehaviour{
     public void EnemyHpMinus(int _playerAtk)
     {
         _enemyHp = this.GetComponent<EnemyHpGauge>().MinusEnemyHp(_enemyHp, _playerAtk);
+    }
+
+    public void EnemyMoney(int _value)
+    {
+        _enemyMoney = _value;
     }
 
     public void EnemyDes()
@@ -78,8 +90,10 @@ public class EnemyManager : MonoBehaviour{
         _ani.SetBool("death", true);
         yield return new WaitForSeconds(3.0f);
         _scoreManage.ScoreAdd(_enemyScore);
+        _money.MoneyPlus(_enemyMoney);
         _enem.Removed(this.gameObject);
         this.gameObject.SetActive(false);
+        yield break;
     }
 
     private IEnumerator RobotRemove()

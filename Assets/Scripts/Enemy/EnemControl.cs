@@ -84,7 +84,7 @@ public class EnemControl : MonoBehaviour{
 
     private EnemyManager _enemydes;
 
-    private ScoreManager _enem;
+    private EnemyValueManager _enem;
 
     private GameFlowManager _gameFlow;
 
@@ -321,7 +321,7 @@ public class EnemControl : MonoBehaviour{
         //テキストを変更
         _PhaseText.text = "敵フェーズ:1";
         enemyPhase = EnemyPhase.phaseWait;
-        _enem = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _enem = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
         _gameFlow = GameObject.FindGameObjectWithTag("GameFlow").GetComponent<GameFlowManager>();
     }
 
@@ -333,13 +333,12 @@ public class EnemControl : MonoBehaviour{
             _enem.ScoreAdd((int)_phaseTimeTotal);
             _gameState = 1;
             enemyPhase = EnemyPhase.phaseEnd;
-            _phaseJudge = false;
-            PhaseReset();
+            //_phaseJudge = false;
+            //PhaseReset();
         }
         if (enemyPhase == EnemyPhase.phase4 && _enemyPhaseNumber == 1)
         {
             _enemyPos2 = _enemyPosPuls;
-            EnemyPhaseEND();
             _enemyPhaseNumber = _enemyPhaseNumber - 1;
         }
 

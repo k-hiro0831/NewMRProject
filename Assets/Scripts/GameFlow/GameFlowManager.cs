@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameFlowManager : MonoBehaviour
 {
+
     private enum Flow
     {
         start,main,clear,gameover
@@ -12,13 +13,15 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField]
     Flow flow = Flow.start;
 
-    private ScoreManager _scoreManage;
-
+    private EnemyValueManager _scoreManage;
+    [SerializeField]
     private int _gameState;
     [SerializeField]
     private int _score;
     [SerializeField]
-    private string _nextSceneName = null;
+    private string[] _nextSceneName = null;
+    [SerializeField]
+    private GameObject _button;
 
     // Start is called before the first frame update
     void Start()
@@ -41,25 +44,30 @@ public class GameFlowManager : MonoBehaviour
                 break;
         }
 
-        if (flow == Flow.main && _gameState == 1)
-        {
-            _scoreManage.ScoreAdd(_score);
+        if (flow == Flow.main && _gameState == 1){
+            _gameState = 0;
+            _score = _scoreManage.ScoreTotal(_score);
+            Invoke("GameFinish", 1.0f);
             flow = Flow.clear;
         }
-        if (flow == Flow.main && _gameState == 2)
-        {
-            _scoreManage.ScoreAdd(_score);
+
+        if (flow == Flow.main && _gameState == 2){
+            _gameState = 0;
+            _score = _scoreManage.ScoreTotal(_score);
+            Invoke("GameFinish", 1.0f);
             flow = Flow.gameover;
         }
     }
 
     public void Click()
     {
-        if (flow == Flow.start)
+        if (flow == Flow.clear || flow == Flow.gameover)
         {
-            Invoke("SceneMove", 1.0f);
-            Invoke("ScoreSearch", 3.0f);
+            _score = 0;
+            flow = Flow.main;
         }
+
+        Invoke("SceneMove", 1.0f);
     }
 
     public void End(int _value)
@@ -69,12 +77,30 @@ public class GameFlowManager : MonoBehaviour
 
     private void SceneMove()
     {
+        Invoke("ScoreSearch", 2.0f);
         flow = Flow.main;
-        SceneManager.LoadScene(_nextSceneName);
+        _button.SetActive(false);
+        SceneManager.LoadScene(_nextSceneName[0]);
+
+    }
+
+    private void GameFinish()
+    {
+        if (flow == Flow.clear)
+        {
+            _button.SetActive(true);
+            SceneManager.LoadScene(_nextSceneName[1]);
+        }
+
+        if (flow == Flow.gameover)
+        {
+            _button.SetActive(true);
+            SceneManager.LoadScene(_nextSceneName[2]);
+        }
     }
 
     private void ScoreSearch()
     {
-        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
     }
 }

@@ -42,8 +42,9 @@ public class EarthEnemy : MonoBehaviour
     [SerializeField]
     private GameObject _box;
     private int _enemyhp;
-    private ScoreManager _scoreManage;
+    private EnemyValueManager _scoreManage;
     private int _enemyScore;
+    private int _enemyMoney;
     #endregion
 
     void Start()
@@ -58,9 +59,11 @@ public class EarthEnemy : MonoBehaviour
         _box.SetActive(false);
         _enemyhp = Random.Range(4, 7);
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
-        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
         _enemyScore = _scoreManage.Earth(_enemyScore);
         this.GetComponent<EnemyManager>().EnemyScore(_enemyScore);
+        _enemyMoney = _scoreManage.EarthMoney(_enemyMoney);
+        this.GetComponent<EnemyManager>().EnemyMoney(_enemyMoney);
     }
 
     void Update()
