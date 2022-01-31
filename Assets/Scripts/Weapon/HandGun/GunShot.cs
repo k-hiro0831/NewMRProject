@@ -14,7 +14,9 @@ public class GunShot : MonoBehaviour, WeaponAttack
     RayShot _rayShot = new RayShot();
     [SerializeField]
     private GameObject _muzzleFlash = null;
-    private ParticleSystem _particle;
+    private ParticleSystem _flash;
+    [SerializeField]
+    private GameObject _explosionEffect = null;
 
     [SerializeField]
     private GameObject _rayObj = null;
@@ -49,7 +51,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
         _isAttack = false; 
         _targetObj = null;
         _rayShot.Initialize(_rayObj, _rayLength);
-        _particle = _muzzleFlash.GetComponent<ParticleSystem>();
+        _flash = _muzzleFlash.GetComponent<ParticleSystem>();
     }
 
     private void OnEnable()
@@ -58,7 +60,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
         _isAttack = false; 
         _targetObj = null;
         _rayShot.Initialize(_rayObj, _rayLength);
-        _particle = _muzzleFlash.GetComponent<ParticleSystem>();
+        _flash = _muzzleFlash.GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -130,10 +132,12 @@ public class GunShot : MonoBehaviour, WeaponAttack
         //ヒットしたオブジェクトにダメージ
         _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(_power);
 
-        //<--発射エフェクト
-        _particle.Play();
+        //発射エフェクト
+        _flash.Play();
 
-        //<--衝突エフェクト
+        //衝突エフェクト
+        Vector3 createPos = _rayShot.ReturnHitPos();
+        Instantiate(_explosionEffect, createPos, Quaternion.identity);
 
         PlayFireAnim();
         //クールタイム

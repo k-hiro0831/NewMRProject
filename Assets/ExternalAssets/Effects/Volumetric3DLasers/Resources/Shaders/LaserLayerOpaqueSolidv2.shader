@@ -37,20 +37,22 @@ Shader "Sine VFX/V3DLasers/LaserLayerOpaqueSolidv2" {
         Tags {
             "Queue"="AlphaTest"
             "RenderType"="TransparentCutout"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Cull Off
             
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase_fullshadows
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -86,6 +88,7 @@ Shader "Sine VFX/V3DLasers/LaserLayerOpaqueSolidv2" {
             uniform float _Noise02ScrollSpeed;
             uniform float _Noise01Power;
             uniform float _GammaLinear;
+            float4x4 mMatrix : World;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -96,12 +99,11 @@ Shader "Sine VFX/V3DLasers/LaserLayerOpaqueSolidv2" {
                 float2 uv0 : TEXCOORD0;
                 float4 posWorld : TEXCOORD1;
                 float3 normalDir : TEXCOORD2;
-                UNITY_FOG_COORDS(3)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
-                o.normalDir = UnityObjectToWorldNormal(v.normal);
+                o.normalDir = normalize(mul(v.normal.xyz, (float3x3)mMatrix));
                 float node_3971 = distance(mul(unity_ObjectToWorld, v.vertex).rgb,_StartPosition.rgb);
                 float node_7098 = 0.0;
                 float node_8045 = (1.0-(0.25*_FinalSize));
@@ -126,8 +128,7 @@ Shader "Sine VFX/V3DLasers/LaserLayerOpaqueSolidv2" {
                 float MaxDistMask = (1.0 - (node_6590 + ( (distance(mul(unity_ObjectToWorld, v.vertex).rgb,StartPos) - node_3582) * (1.0 - node_6590) ) / (_MaxDist - node_3582)));
                 v.vertex.xyz += ((OffsetMask+((1.0 - OffsetMask)*(node_1854+((1.0 - node_1854)*node_616)+((1.0 - MaxDistMask)*_ShapeConeForm))))*v.normal*_VertexOffsetPower*_FinalSize);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
@@ -163,11 +164,10 @@ Shader "Sine VFX/V3DLasers/LaserLayerOpaqueSolidv2" {
                 float NoiseFull = saturate(((_Noise01_var.r*_Noise01Power)+_Noise01Add+(_Noise01_var.r*_Noise02_var.r*_Noise02Power)));
                 float3 emissive = (_FinalColor.rgb*_FinalPower*NoiseFull*_GammaLinear);
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,1);
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
+                half4 finalRGBA = half4(finalColor,1);
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

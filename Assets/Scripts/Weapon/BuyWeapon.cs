@@ -18,8 +18,6 @@ public class BuyWeapon : MonoBehaviour
 
     [SerializeField]
     private GameObject _playerObj = null;
-    [SerializeField]
-    private Vector3 _prefabOffset = Vector3.zero;
 
     [SerializeField]
     private int _selectNum = 0;
@@ -43,6 +41,9 @@ public class BuyWeapon : MonoBehaviour
     [SerializeField]
     private GameObject _listObj = null;
     private CllickObjectList _clickObjScript;
+
+    [SerializeField]
+    private GameObject _createPosObj = null;
 
     private void Start()
     {
@@ -105,25 +106,9 @@ public class BuyWeapon : MonoBehaviour
         //次の武器を表示し、位置を変更
         _weaponPrefabList[_selectNum].SetActive(true);
         //位置と角度を変更
-        _weaponPrefabList[_selectNum].transform.position = _playerObj.transform.position + _prefabOffset;
+        _weaponPrefabList[_selectNum].transform.position = _createPosObj.transform.position;
         _weaponPrefabList[_selectNum].transform.rotation =
             Quaternion.Euler(new Vector3(0, _playerObj.transform.localEulerAngles.y, _playerObj.transform.localEulerAngles.z));
-
-        //_weaponPrefabList[_selectNum].transform.rotation = _playerObj.transform.rotation;
-
-        float _x = _weaponPrefabList[_selectNum].transform.position.x - _playerObj.transform.position.x;
-        float _z = _weaponPrefabList[_selectNum].transform.position.y - _playerObj.transform.position.z;
-
-        float _theta = _playerObj.transform.localEulerAngles.x;
-        float _upLeft = _x * Mathf.Cos(_theta * Mathf.Deg2Rad);
-        float _upRight = -_z * Mathf.Sin(_theta * Mathf.Deg2Rad);
-        float _downLeft = _x * Mathf.Sin(_theta * Mathf.Deg2Rad);
-        float _downRight = _z * Mathf.Cos(_theta * Mathf.Deg2Rad);
-
-        Vector3 _newPos = new Vector3(_upLeft + _upRight + _playerObj.transform.position.x, _playerObj.transform.position.y,
-                                          _downLeft + _downRight + _playerObj.transform.position.z);
-
-        _weaponPrefabList[_selectNum].transform.position = _newPos;
 
         Debug.Log("プレイヤーの角度_1："+_playerObj.transform.localEulerAngles);
         Debug.Log("プレイヤーの角度_2："+_playerObj.transform.rotation);

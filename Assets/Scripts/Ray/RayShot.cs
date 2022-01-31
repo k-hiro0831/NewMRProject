@@ -51,6 +51,11 @@ namespace MRProject.Ray
             return _hitObj;
         }
 
+        public Vector3 ReturnHitPos()
+        {
+            return _hit.point;
+        }
+
         /// <summary>
         /// ƒMƒYƒ‚‚ÅƒŒƒC‚ğ•\¦‚·‚é
         /// </summary>

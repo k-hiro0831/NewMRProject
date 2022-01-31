@@ -16,20 +16,22 @@ Shader "Sine VFX/V3DLasers/FlareCustom" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend One One
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+           #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -48,15 +50,13 @@ Shader "Sine VFX/V3DLasers/FlareCustom" {
                 float4 pos : SV_POSITION;
                 float4 uv0 : TEXCOORD0;
                 float4 uv1 : TEXCOORD1;
-                UNITY_FOG_COORDS(2)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 o.uv1 = v.texcoord1;
                 v.vertex.xyz += (float3(o.uv0.b,o.uv0.a,o.uv1.r)*_VelocityOffset);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -65,11 +65,10 @@ Shader "Sine VFX/V3DLasers/FlareCustom" {
                 float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(i.uv0, _MainTex));
                 float3 emissive = (_MainTex_var.rgb*_FinalColor.rgb*_FinalPower*_GammaLinear);
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,1);
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
+                half4 finalRGBA = half4(finalColor,1);
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

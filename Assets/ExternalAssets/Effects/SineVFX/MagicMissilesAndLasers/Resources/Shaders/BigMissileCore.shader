@@ -20,21 +20,23 @@ Shader "Sine VFX/BigMissileCore" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             Cull Off
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+           #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -47,6 +49,7 @@ Shader "Sine VFX/BigMissileCore" {
             uniform float _DistortionAmount;
             uniform float _FresnelExp;
             uniform sampler2D _Mask; uniform float4 _Mask_ST;
+            float4x4 mMatrix : World;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -57,15 +60,13 @@ Shader "Sine VFX/BigMissileCore" {
                 float2 uv0 : TEXCOORD0;
                 float4 posWorld : TEXCOORD1;
                 float3 normalDir : TEXCOORD2;
-                UNITY_FOG_COORDS(3)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
-                o.normalDir = UnityObjectToWorldNormal(v.normal);
+                o.normalDir = normalize(mul(v.normal.xyz, (float3x3)mMatrix));
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
@@ -92,11 +93,10 @@ Shader "Sine VFX/BigMissileCore" {
                 float node_5564 = (1.0 - pow(1.0-max(0,dot(normalDirection, viewDirection)),_FresnelExp));
                 float3 emissive = (_Ramp_var.rgb*_TintColor.rgb*_FinalPower*node_2567.g*node_5564);
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,(node_2567.g*node_5564));
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
+                half4 finalRGBA = half4(finalColor,(node_2567.g*node_5564));
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

@@ -21,20 +21,22 @@ Shader "Sine VFX/MeshEnchant" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend One One
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -49,6 +51,7 @@ Shader "Sine VFX/MeshEnchant" {
             uniform float _WaveLenght;
             uniform sampler2D _Ramp; uniform float4 _Ramp_ST;
             uniform float _DistanceOffsetScale;
+            float4x4 mMatrix : World;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -57,11 +60,10 @@ Shader "Sine VFX/MeshEnchant" {
                 float4 pos : SV_POSITION;
                 float4 posWorld : TEXCOORD0;
                 float3 normalDir : TEXCOORD1;
-                UNITY_FOG_COORDS(2)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
-                o.normalDir = UnityObjectToWorldNormal(v.normal);
+                o.normalDir = normalize(mul(v.normal.xyz, (float3x3)mMatrix));
                 float node_6242 = distance(_EnchantPoint.rgb,mul(unity_ObjectToWorld, v.vertex).rgb);
                 float4 node_7545 = _Time;
                 float2 node_8170 = float2((node_6242-node_7545.g),mul( unity_WorldToObject, float4(mul(unity_ObjectToWorld, v.vertex).rgb,0) ).xyz.rgb.rgb.r);
@@ -71,8 +73,7 @@ Shader "Sine VFX/MeshEnchant" {
                 float Waves = (sin(((node_7545.a+DistanceMask)*_WaveLenght))*0.5+0.5);
                 v.vertex.xyz += (((NoiseMask*_OffsetPower*2.0)+_OffsetPower+(_OffsetPower*Waves))*v.normal);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -95,11 +96,10 @@ Shader "Sine VFX/MeshEnchant" {
                 float4 _Ramp_var = tex2D(_Ramp,TRANSFORM_TEX(node_3682, _Ramp));
                 float3 emissive = (_TintColor.rgb*_FinalPower*node_7309*_Ramp_var.rgb);
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,1);
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
+                half4 finalRGBA = half4(finalColor,1);
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

@@ -1361,6 +1361,7 @@ MonoBehaviour:
   _anim: {fileID: 6313237390293530504}
   _fireAnimName: HundGun_2_Fire
   _muzzleFlash: {fileID: 6749540290601755383}
+  _explosionEffect: {fileID: 7375017071851253136, guid: 8b76539b1033ae44eb4154fb12d922f1, type: 3}
   _rayObj: {fileID: 6313237391217124267}
   _rayLength: 10
   _bulletMax: 1
@@ -1369,7 +1370,6 @@ MonoBehaviour:
   _rate: 1
   _shotCoolTime: 0.4
   _rotationSpeed: 0.5
-  _testTarget: {fileID: 0}
 --- !u!114 &4045253725007777389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1396,7 +1396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181cd563a8349c34ea8978b0bc8d9c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostTransform: {fileID: 0}
+  hostTransform: {fileID: 6313237390293530518}
   manipulationType: 3
   twoHandedManipulationType: 7
   allowFarManipulation: 1
@@ -1413,7 +1413,7 @@ MonoBehaviour:
   rotateLerpTime: 0.001
   scaleLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: -6019602475839835686, guid: 17661258f7b8fe641a33f8802d1bcf6e, type: 3}
+  constraintsManager: {fileID: 4045253725007777389}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:

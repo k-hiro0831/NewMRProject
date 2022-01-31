@@ -103,6 +103,7 @@ MonoBehaviour:
   _anim: {fileID: 3578258713870885867}
   _fireAnimName: M4A1_Fire
   _muzzleFlash: {fileID: 1650485354007764623}
+  _explosionEffect: {fileID: 7375017071851253136, guid: 8b76539b1033ae44eb4154fb12d922f1, type: 3}
   _rayObj: {fileID: 3578258715166240745}
   _rayLength: 10
   _bulletMax: 3
@@ -111,7 +112,6 @@ MonoBehaviour:
   _rate: 4
   _shotCoolTime: 0.1
   _rotationSpeed: 0.5
-  _testTarget: {fileID: 0}
 --- !u!114 &-1541533484545824899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
   rotateLerpTime: 0.001
   scaleLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: -3873346832935426346, guid: 1bb19ddf9b9d9b74e8d5c7a5923a1aa2, type: 3}
+  constraintsManager: {fileID: 4045253725007777389, guid: 938a4b1db6ca73a43801b65e952ef5a3, type: 3}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:

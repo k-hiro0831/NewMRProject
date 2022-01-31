@@ -28,20 +28,22 @@ Shader "Sine VFX/FireDartsOriginalFinal" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu
@@ -55,8 +57,8 @@ Shader "Sine VFX/FireDartsOriginalFinal" {
             uniform sampler2D _WorldOffsetNoise; uniform float4 _WorldOffsetNoise_ST;
             uniform float _Tiling;
             uniform float4 _Color;
-            uniform fixed _RandomOffsetV;
-            uniform fixed _RandomOffsetU;
+            uniform half4 _RandomOffsetV;
+            uniform half4 _RandomOffsetU;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float2 texcoord0 : TEXCOORD0;
@@ -67,7 +69,6 @@ Shader "Sine VFX/FireDartsOriginalFinal" {
                 float2 uv0 : TEXCOORD0;
                 float4 posWorld : TEXCOORD1;
                 float4 vertexColor : COLOR;
-                UNITY_FOG_COORDS(2)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
@@ -83,8 +84,7 @@ Shader "Sine VFX/FireDartsOriginalFinal" {
                 float4 node_7954 = tex2Dlod(_WorldOffsetNoise,float4(TRANSFORM_TEX(node_7532, _WorldOffsetNoise),0.0,0));
                 v.vertex.xyz += (float3(node_6397.r,node_2119.g,node_7954.b)*(1.0 - o.vertexColor.r)*_OffsetPower);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -96,14 +96,14 @@ Shader "Sine VFX/FireDartsOriginalFinal" {
                 float3 emissive = (_Ramp_var.rgb*_FinalPower*_Color.rgb);
                 float3 finalColor = emissive;
                 float4 node_7717 = _Time;
-                float2 node_4218 = float2(((i.uv0.r*_Tiling)+(node_7717.g*_ScrollSpeed)+lerp( 0.0, i.vertexColor.b, _RandomOffsetU )),lerp( i.uv0.g, (i.uv0.g+i.vertexColor.g), _RandomOffsetV ));
+                float2 node_4218 = float2(0,0);
                 float4 node_9218 = tex2D(_ComTex,TRANSFORM_TEX(node_4218, _ComTex));
                 float4 node_2081 = tex2D(_ComTex,TRANSFORM_TEX(i.uv0, _ComTex));
-                fixed4 finalRGBA = fixed4(finalColor,saturate((node_9218.g*i.vertexColor.a*_OpacityBoost*node_2081.b)));
-                UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
+                half4 finalRGBA = half4(finalColor,saturate((node_9218.g*i.vertexColor.a*_OpacityBoost*node_2081.b)));
+                //((i.uv0.r*_Tiling)+(node_7717.g*_ScrollSpeed)+lerp( 0.0, i.vertexColor.b, _RandomOffsetU )),lerp( i.uv0.g, (i.uv0.g+i.vertexColor.g), _RandomOffsetV )
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
 
 
@@ -113,102 +113,101 @@ Shader "Sine VFX/FireDartsOriginalFinal" {
 
 		GrabPass{ }
 		Pass
-		{
-			//Blend One One
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu
-			#pragma target 3.0
-			uniform sampler2D _GrabTexture;
-			uniform sampler2D _OffsetTex; uniform float4 _OffsetTex_ST;
-            uniform float _OffsetPower;
-            uniform float _ScrollSpeed;
-			uniform sampler2D _WorldOffsetNoise; uniform float4 _WorldOffsetNoise_ST;
+        {
+                //Blend One One
+                HLSLPROGRAM
+                #pragma vertex vert
+                #pragma fragment frag
+                #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu
+                #pragma target 3.0
+                uniform sampler2D _GrabTexture;
+                uniform sampler2D _OffsetTex; uniform float4 _OffsetTex_ST;
+                uniform float _OffsetPower;
+                uniform float _ScrollSpeed;
+                uniform sampler2D _WorldOffsetNoise; uniform float4 _WorldOffsetNoise_ST;
 
-			#include "UnityCG.cginc"
+    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-				float4 vertexColor : COLOR;
-			};
+                struct appdata
+                {
+                    float4 vertex : POSITION;
+                    float2 uv : TEXCOORD0;
+                    float4 vertexColor : COLOR;
+                };
 
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-				float3 screen_uv : TEXCOORD1;
-				float4 vertexColor : COLOR;
-				UNITY_FOG_COORDS(1)
-			};
-			
-			float distorttwo (float2 vsposition, float dx, float dy, float et)
-			{
-				float2 correctuv = (vsposition.xy + float2(dx * et, dy * et)) / _ScreenParams.xy;
-				float4 imagef = tex2D(_GrabTexture, correctuv.xy);
-				// desaturation
-				imagef = 0.2126*imagef.r + 0.7152*imagef.g + 0.0722*imagef.b;
-				return imagef;
-			}
+                struct v2f
+                {
+                    float2 uv : TEXCOORD0;
+                    float4 vertex : SV_POSITION;
+                    float3 screen_uv : TEXCOORD1;
+                    float4 vertexColor : COLOR;
+                };
 
-			v2f vert (appdata v)
-			{
+                float distorttwo(float2 vsposition, float dx, float dy, float et)
+                {
+                    float2 correctuv = (vsposition.xy + float2(dx * et, dy * et)) / _ScreenParams.xy;
+                    float4 imagef = tex2D(_GrabTexture, correctuv.xy);
+                    // desaturation
+                    imagef = 0.2126 * imagef.r + 0.7152 * imagef.g + 0.0722 * imagef.b;
+                    return imagef;
+                }
 
-				v2f o = (v2f)0;
-                o.uv = v.uv;
-                o.vertexColor = v.vertexColor;
-                float4 objPos = mul ( unity_ObjectToWorld, float4(0,0,0,1) );
-                float3 node_3841 = (mul(unity_ObjectToWorld, v.vertex).rgb-objPos.rgb).rgb;
-                float2 node_8458 = float2(node_3841.g,node_3841.b);
-                float4 node_6397 = tex2Dlod(_WorldOffsetNoise,float4(TRANSFORM_TEX(node_8458, _WorldOffsetNoise),0.0,0));
-                float2 node_5192 = float2(node_3841.b,node_3841.r);
-                float4 node_2119 = tex2Dlod(_WorldOffsetNoise,float4(TRANSFORM_TEX(node_5192, _WorldOffsetNoise),0.0,0));
-                float2 node_7532 = float2(node_3841.r,node_3841.g);
-                float4 node_7954 = tex2Dlod(_WorldOffsetNoise,float4(TRANSFORM_TEX(node_7532, _WorldOffsetNoise),0.0,0));
-                v.vertex.xyz += (float3(node_6397.r,node_2119.g,node_7954.b)*(1.0 - o.vertexColor.r)*_OffsetPower);
-				o.vertex = UnityObjectToClipPos( v.vertex );
-                o.screen_uv = float3(o.vertex.xy, o.vertex.w);                
-                UNITY_TRANSFER_FOG(o,o.pos);
-                return o;
+                v2f vert(appdata v)
+                {
 
-			}
-			
-			sampler2D _MainTex;
-			float _Intensity;
-			half4 _EdgeColor;
-			float _EdgeThickness;
-			float _EdgePower;			
+                    v2f o = (v2f)0;
+                    o.uv = v.uv;
+                    o.vertexColor = v.vertexColor;
+                    float4 objPos = mul(unity_ObjectToWorld, float4(0,0,0,1));
+                    float3 node_3841 = (mul(unity_ObjectToWorld, v.vertex).rgb - objPos.rgb).rgb;
+                    float2 node_8458 = float2(node_3841.g,node_3841.b);
+                    float4 node_6397 = tex2Dlod(_WorldOffsetNoise,float4(TRANSFORM_TEX(node_8458, _WorldOffsetNoise),0.0,0));
+                    float2 node_5192 = float2(node_3841.b,node_3841.r);
+                    float4 node_2119 = tex2Dlod(_WorldOffsetNoise,float4(TRANSFORM_TEX(node_5192, _WorldOffsetNoise),0.0,0));
+                    float2 node_7532 = float2(node_3841.r,node_3841.g);
+                    float4 node_7954 = tex2Dlod(_WorldOffsetNoise,float4(TRANSFORM_TEX(node_7532, _WorldOffsetNoise),0.0,0));
+                    v.vertex.xyz += (float3(node_6397.r,node_2119.g,node_7954.b) * (1.0 - o.vertexColor.r) * _OffsetPower);
+                    o.vertex = TransformObjectToHClip(v.vertex);
+                    o.screen_uv = float3(o.vertex.xy, o.vertex.w);
+                    return o;
 
-			fixed4 frag (v2f i) : SV_Target
-			{
-				float changex;
-				changex = 0.0;
-				float changey;
-				changey = 0.0;
-				float2 correcterScreenUV = (i.screen_uv.xy / i.screen_uv.z + 1) * 0.5;
-				correcterScreenUV.y = 1 - correcterScreenUV.y;
-				// Need to decrease the number of itterations
-				changex -= distorttwo(i.vertex.xy, -1.0, -1.0, _EdgeThickness * 1.375);
-				changex -= distorttwo(i.vertex.xy, -1.0,  0.0, _EdgeThickness * 1.375);
-				changex -= distorttwo(i.vertex.xy, -1.0,  1.0, _EdgeThickness * 1.375);
-				changex += distorttwo(i.vertex.xy,  1.0, -1.0, _EdgeThickness * 1.375);
-				changex += distorttwo(i.vertex.xy,  1.0,  0.0, _EdgeThickness * 1.375);
-				changex += distorttwo(i.vertex.xy,  1.0,  1.0, _EdgeThickness * 1.375);
-				changey -= distorttwo(i.vertex.xy, -1.0, -1.0, _EdgeThickness * 1.375);
-				changey -= distorttwo(i.vertex.xy,  0.0, -1.0, _EdgeThickness * 1.375);
-				changey -= distorttwo(i.vertex.xy,  1.0, -1.0, _EdgeThickness * 1.375);
-				changey += distorttwo(i.vertex.xy, -1.0,  1.0, _EdgeThickness * 1.375);
-				changey += distorttwo(i.vertex.xy,  0.0,  1.0, _EdgeThickness * 1.375);
-				changey += distorttwo(i.vertex.xy,  1.0,  1.0, _EdgeThickness * 1.375);
-				float output = abs(saturate((changex*changex + changey*changey)));
-				float4 ccol = tex2D(_GrabTexture, correcterScreenUV);
-				ccol += float4(output, output, output, 1.0) * _EdgeColor * _EdgePower * i.vertexColor.a;
-				return ccol;
-			}
-			ENDCG
-		}
+                }
+
+                sampler2D _MainTex;
+                float _Intensity;
+                half4 _EdgeColor;
+                float _EdgeThickness;
+                float _EdgePower;
+
+                half4 frag(v2f i) : SV_Target
+                {
+                    float changex;
+                    changex = 0.0;
+                    float changey;
+                    changey = 0.0;
+                    float2 correcterScreenUV = (i.screen_uv.xy / i.screen_uv.z + 1) * 0.5;
+                    correcterScreenUV.y = 1 - correcterScreenUV.y;
+                    // Need to decrease the number of itterations
+                    changex -= distorttwo(i.vertex.xy, -1.0, -1.0, _EdgeThickness * 1.375);
+                    changex -= distorttwo(i.vertex.xy, -1.0,  0.0, _EdgeThickness * 1.375);
+                    changex -= distorttwo(i.vertex.xy, -1.0,  1.0, _EdgeThickness * 1.375);
+                    changex += distorttwo(i.vertex.xy,  1.0, -1.0, _EdgeThickness * 1.375);
+                    changex += distorttwo(i.vertex.xy,  1.0,  0.0, _EdgeThickness * 1.375);
+                    changex += distorttwo(i.vertex.xy,  1.0,  1.0, _EdgeThickness * 1.375);
+                    changey -= distorttwo(i.vertex.xy, -1.0, -1.0, _EdgeThickness * 1.375);
+                    changey -= distorttwo(i.vertex.xy,  0.0, -1.0, _EdgeThickness * 1.375);
+                    changey -= distorttwo(i.vertex.xy,  1.0, -1.0, _EdgeThickness * 1.375);
+                    changey += distorttwo(i.vertex.xy, -1.0,  1.0, _EdgeThickness * 1.375);
+                    changey += distorttwo(i.vertex.xy,  0.0,  1.0, _EdgeThickness * 1.375);
+                    changey += distorttwo(i.vertex.xy,  1.0,  1.0, _EdgeThickness * 1.375);
+                    float output = abs(saturate((changex * changex + changey * changey)));
+                    float4 ccol = tex2D(_GrabTexture, correcterScreenUV);
+                    ccol += float4(output, output, output, 1.0) * _EdgeColor * _EdgePower * i.vertexColor.a;
+                    return ccol;
+                }
+                    ENDHLSL
+            }
 
 		// MY END
     }

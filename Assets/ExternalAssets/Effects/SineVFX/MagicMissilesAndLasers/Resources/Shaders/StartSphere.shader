@@ -18,19 +18,21 @@ Shader "Sine VFX/StartSphere" {
     SubShader {
         Tags {
             "RenderType"="Opaque"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode"="UniversalForward"
             }
             
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase_fullshadows
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -42,6 +44,7 @@ Shader "Sine VFX/StartSphere" {
             uniform sampler2D _NoiseTest; uniform float4 _NoiseTest_ST;
             uniform float _DistortionPower;
             uniform float _DistortionFresnelExp;
+            float4x4 mMatrix : World;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -51,11 +54,10 @@ Shader "Sine VFX/StartSphere" {
                 float4 posWorld : TEXCOORD0;
                 float3 normalDir : TEXCOORD1;
                 float4 projPos : TEXCOORD2;
-                UNITY_FOG_COORDS(3)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
-                o.normalDir = UnityObjectToWorldNormal(v.normal);
+                o.normalDir = normalize(mul(v.normal.xyz, (float3x3)mMatrix));
                 float4 objPos = mul ( unity_ObjectToWorld, float4(0,0,0,1) );
                 float3 node_3143 = abs(v.normal);
                 float3 node_9309 = (node_3143*node_3143);
@@ -69,10 +71,9 @@ Shader "Sine VFX/StartSphere" {
                 float4 node_7954 = tex2Dlod(_OffsetNoise,float4(TRANSFORM_TEX(node_4511, _OffsetNoise),0.0,0));
                 v.vertex.xyz += ((node_9309.r*node_6397.r + node_9309.g*node_2119.r + node_9309.b*node_7954.r)*v.normal*_OffsetPower);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 o.projPos = ComputeScreenPos (o.pos);
-                COMPUTE_EYEDEPTH(o.projPos.z);
+                //COMPUTE_EYEDEPTH(o.projPos.z);
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -91,11 +92,10 @@ Shader "Sine VFX/StartSphere" {
                 float4 _Ramp_var = tex2D(_Ramp,TRANSFORM_TEX(node_4927, _Ramp));
                 float3 emissive = (_Ramp_var.rgb*_FinalPower);
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,1);
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
+                half4 finalRGBA = half4(finalColor,1);
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"
