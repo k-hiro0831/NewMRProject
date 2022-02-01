@@ -20,7 +20,7 @@ public class WeaponSelectUI : MonoBehaviour
         {
             OpenSelectUI();
         }
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             CloseSelectUI();
         }
