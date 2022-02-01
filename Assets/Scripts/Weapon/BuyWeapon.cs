@@ -45,6 +45,11 @@ public class BuyWeapon : MonoBehaviour
     [SerializeField]
     private GameObject _createPosObj = null;
 
+    [SerializeField]
+    private AudioSource _changeSound = null;
+    [SerializeField]
+    private AudioSource _buySound = null;
+
     private void Start()
     {
         _moneyScript = _moneyManager.GetComponent<MoneyManager>();
@@ -93,11 +98,31 @@ public class BuyWeapon : MonoBehaviour
             if (!_moneyScript.MoneyMinus(_selectPrice)) { return; }
 
             //アンロックする
-            Debug.Log("アンロック完了");
             _weaponButtonList[_selectNum].GetComponent<WeaponSelected>().UnLock();
             _selectIsLock = false;
             //詳細UIを更新
             _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
+
+            //武器入れ替え
+            //選択中の武器を非表示
+            _nowWeapon.SetActive(false);
+            //次の武器を表示し、位置を変更
+            _weaponPrefabList[_selectNum].SetActive(true);
+            //位置と角度を変更
+            _weaponPrefabList[_selectNum].transform.position = _createPosObj.transform.position;
+            _weaponPrefabList[_selectNum].transform.rotation =
+                Quaternion.Euler(new Vector3(0, _playerObj.transform.localEulerAngles.y, _playerObj.transform.localEulerAngles.z));
+
+            _nowWeapon = _weaponPrefabList[_selectNum];
+
+            //所持武器の入れ替え
+            _clickObjScript.WeaponListClear();
+            _clickObjScript.WeaponObjectSet(_nowWeapon);
+
+            //武器購入の音
+            _buySound.Play();
+
+            return;
         }
 
         //武器入れ替え
@@ -116,5 +141,7 @@ public class BuyWeapon : MonoBehaviour
         _clickObjScript.WeaponListClear();
         _clickObjScript.WeaponObjectSet(_nowWeapon);
 
+        //武器入れ替え音
+        _changeSound.Play();
     }
 }
