@@ -85,6 +85,7 @@ public class BuyWeapon : MonoBehaviour
     /// </summary>
     public void BuySelectedWeapon()
     {
+        //ロックされている場合に処理
         if (_selectIsLock)
         {
             //お金を消費
@@ -97,7 +98,6 @@ public class BuyWeapon : MonoBehaviour
             _selectIsLock = false;
             //詳細UIを更新
             _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
-
         }
 
         //武器入れ替え
@@ -110,11 +110,9 @@ public class BuyWeapon : MonoBehaviour
         _weaponPrefabList[_selectNum].transform.rotation =
             Quaternion.Euler(new Vector3(0, _playerObj.transform.localEulerAngles.y, _playerObj.transform.localEulerAngles.z));
 
-        Debug.Log("プレイヤーの角度_1："+_playerObj.transform.localEulerAngles);
-        Debug.Log("プレイヤーの角度_2："+_playerObj.transform.rotation);
-
         _nowWeapon = _weaponPrefabList[_selectNum];
 
+        //所持武器の入れ替え
         _clickObjScript.WeaponListClear();
         _clickObjScript.WeaponObjectSet(_nowWeapon);
 
