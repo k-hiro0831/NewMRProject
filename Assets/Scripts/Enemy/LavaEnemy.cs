@@ -41,6 +41,9 @@ public class LavaEnemy : MonoBehaviour
     private EnemyValueManager _scoreManage;
     private int _enemyScore;
     private int _enemyMoney;
+    private int _enemyAtk;
+    [SerializeField]
+    private MouseTarget _mouse;
     #endregion
 
     void Start()
@@ -50,7 +53,7 @@ public class LavaEnemy : MonoBehaviour
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _rdm = 100;
+        _rdm = Random.Range(7, 10);
         StartCoroutine("Atk");
         _enemyhp = Random.Range(10, 15);
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
@@ -95,6 +98,7 @@ public class LavaEnemy : MonoBehaviour
         {
             yield return new WaitForSeconds(_rdm);
             _ani.SetBool("atk", true);
+            _mouse.EnemyAtk();
             _atk = true;
             yield return new WaitForSeconds(5.0f);
             _ani.SetBool("atk", false);

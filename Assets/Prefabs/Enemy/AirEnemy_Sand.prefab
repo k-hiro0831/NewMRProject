@@ -1502,6 +1502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 290606817355396245}
   - component: {fileID: 650343679499766346}
+  - component: {fileID: 8605307758474370811}
   m_Layer: 0
   m_Name: box
   m_TagString: EnemyAtk
@@ -1536,6 +1537,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8605307758474370811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771730760477009582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3ce2dfcd65438a4a9e6d9ddc7093496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hidoi: {fileID: 8695592100253697196}
 --- !u!1 &6943814981113332926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,7 +2088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyHp: 0
 --- !u!195 &2468657566783659642
 NavMeshAgent:
   m_ObjectHideFlags: 0

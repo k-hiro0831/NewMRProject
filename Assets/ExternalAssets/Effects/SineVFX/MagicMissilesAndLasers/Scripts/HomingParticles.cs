@@ -4,17 +4,20 @@
 public class HomingParticles : MonoBehaviour
 {
     public Transform target;
-    public float force = 10.0f;
+    public float force = 3.0f;
 
     new ParticleSystem particleSystem;
     ParticleSystem.Particle[] particles;
 
     ParticleSystem.MainModule particleSystemMainModule;
 
+    private GameObject _player;
+
     void Start()
     {
         particleSystem = GetComponent<ParticleSystem>();
         particleSystemMainModule = particleSystem.main;
+        _player = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     void LateUpdate()
@@ -35,17 +38,17 @@ public class HomingParticles : MonoBehaviour
         {
             case ParticleSystemSimulationSpace.Local:
                 {
-                    targetTransformedPosition = transform.InverseTransformPoint(target.position);
+                    targetTransformedPosition = transform.InverseTransformPoint(_player.transform.position);
                     break;
                 }
             case ParticleSystemSimulationSpace.Custom:
                 {
-                    targetTransformedPosition = particleSystemMainModule.customSimulationSpace.InverseTransformPoint(target.position);
+                    targetTransformedPosition = particleSystemMainModule.customSimulationSpace.InverseTransformPoint(_player.transform.position);
                     break;
                 }
             case ParticleSystemSimulationSpace.World:
                 {
-                    targetTransformedPosition = target.position;
+                    targetTransformedPosition = _player.transform.position;
                     break;
                 }
             default:

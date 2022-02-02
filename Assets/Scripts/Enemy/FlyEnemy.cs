@@ -45,8 +45,8 @@ public class FlyEnemy : MonoBehaviour{
     private int _enemyhp;
     private EnemyValueManager _scoreManage;
     private int _enemyScore;
-    [SerializeField]
     private int _enemyMoney;
+    private int _enemyAtk;
     #endregion
 
     void Start()
@@ -67,6 +67,9 @@ public class FlyEnemy : MonoBehaviour{
 
         _enemyMoney = _scoreManage.FlyMoney(_enemyMoney);
         this.GetComponent<EnemyManager>().EnemyMoney(_enemyMoney);
+
+        _enemyAtk = _scoreManage.FlyAtk(_enemyAtk);
+        //this.GetComponent<EnemyManager>().EnemyFlyAtk(_enemyAtk);
     }
 
     void Update()

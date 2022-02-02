@@ -17,6 +17,7 @@ public class MouseTarget : MonoBehaviour {
 
     private Vector3 mouseWorldPosition;
     private Animator anim;
+
     
     void Start () {
         anim = GetComponent<Animator>();
@@ -49,35 +50,51 @@ public class MouseTarget : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(1))
         {
-            anim.SetBool("Fire", true);
-            bigMissileOne.Emit(1);
-            if (bigMissileTwo)
-            {
-                bigMissileTwo.Emit(1);
-            }                
-            if (bigMissileThree)
-            {
-                bigMissileThree.Emit(bigMissileThreeCount);
-            }            
-            startWavePS.Emit(1);
-            startParticles.Emit(smallMissilesCount);
+            //anim.SetBool("Fire", true);
+            //bigMissileOne.Emit(1);
+            //if (bigMissileTwo)
+            //{
+            //    bigMissileTwo.Emit(1);
+            //}                
+            //if (bigMissileThree)
+            //{
+            //    bigMissileThree.Emit(bigMissileThreeCount);
+            //}            
+            //startWavePS.Emit(1);
+            //startParticles.Emit(smallMissilesCount);
         }
+    }
+
+    public void EnemyAtk()
+    {
+        anim.SetBool("Fire", true);
+        bigMissileOne.Emit(1);
+        if (bigMissileTwo)
+        {
+            bigMissileTwo.Emit(1);
+        }
+        if (bigMissileThree)
+        {
+            bigMissileThree.Emit(bigMissileThreeCount);
+        }
+        startWavePS.Emit(1);
+        startParticles.Emit(smallMissilesCount);
     }
 
     // Raycasting and positioning Cursor GameObject at Collision point
     void FixedUpdate () {  
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
-        {
-            mouseWorldPosition = hit.point;
-        }
+        //if (Physics.Raycast(ray, out hit))
+        //{
+        //    mouseWorldPosition = hit.point;
+        //}
 
-        Quaternion toRotation = Quaternion.LookRotation(mouseWorldPosition - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);
-        ms.position = mouseWorldPosition;
+        //Quaternion toRotation = Quaternion.LookRotation(mouseWorldPosition - transform.position);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);
+        //ms.position = mouseWorldPosition;
 
     }
 }
