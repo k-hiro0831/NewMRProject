@@ -21,12 +21,14 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField]
     private string[] _nextSceneName = null;
     [SerializeField]
-    private GameObject _button;
+    private GameObject[] _button;
 
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        _button[0].SetActive(false);
+        _button[2].SetActive(false);
     }
 
     // Update is called once per frame
@@ -59,15 +61,35 @@ public class GameFlowManager : MonoBehaviour
         }
     }
 
-    public void Click()
+    public void StartClick()
     {
         if (flow == Flow.clear || flow == Flow.gameover)
         {
             _score = 0;
             flow = Flow.main;
         }
-
+        _button[0].SetActive(false);
+        _button[1].SetActive(false);
+        _button[2].SetActive(false);
         Invoke("SceneMove", 1.0f);
+    }
+
+    public void RestartClick()
+    {
+        if (flow == Flow.clear || flow == Flow.gameover)
+        {
+            _score = 0;
+            flow = Flow.main;
+        }
+        _button[0].SetActive(false);
+        _button[1].SetActive(false);
+        _button[2].SetActive(false);
+        Invoke("SceneMove", 1.0f);
+    }
+
+    public void ExitClick()
+    {
+
     }
 
     public void End(int _value)
@@ -79,7 +101,6 @@ public class GameFlowManager : MonoBehaviour
     {
         Invoke("ScoreSearch", 2.0f);
         flow = Flow.main;
-        _button.SetActive(false);
         SceneManager.LoadScene(_nextSceneName[0]);
 
     }
@@ -88,13 +109,13 @@ public class GameFlowManager : MonoBehaviour
     {
         if (flow == Flow.clear)
         {
-            _button.SetActive(true);
+            _button[1].SetActive(true);
             SceneManager.LoadScene(_nextSceneName[1]);
         }
 
         if (flow == Flow.gameover)
         {
-            _button.SetActive(true);
+            _button[1].SetActive(true);
             SceneManager.LoadScene(_nextSceneName[2]);
         }
     }
@@ -103,4 +124,6 @@ public class GameFlowManager : MonoBehaviour
     {
         _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
     }
+
+
 }
