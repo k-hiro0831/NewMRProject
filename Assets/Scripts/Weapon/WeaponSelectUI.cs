@@ -8,7 +8,7 @@ public class WeaponSelectUI : MonoBehaviour
     private GameObject _selectUI = null;
     private GameObject _selectParent = null;
 
-    private bool _isOpen = true;
+    private bool _isOpen = false;
 
     [SerializeField]
     private AudioSource _openSound = null;
@@ -18,20 +18,20 @@ public class WeaponSelectUI : MonoBehaviour
     private void Start()
     {
         _selectParent = this.gameObject;
-        _isOpen = true;
-        OpenSelectUI();
+        _isOpen = false;
+        CloseSelectUI();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            OpenSelectUI();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            CloseSelectUI();
-        }
+        //if (Input.GetKeyDown(KeyCode.Z))
+        //{
+        //    OpenSelectUI();
+        //}
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    CloseSelectUI();
+        //}
     }
 
     /// <summary>

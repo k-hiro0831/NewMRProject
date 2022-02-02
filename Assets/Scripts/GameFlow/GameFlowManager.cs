@@ -59,10 +59,10 @@ public class GameFlowManager : MonoBehaviour
         }
 
         //テスト用
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Click();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Click();
+        //}
     }
 
     public void Click()
