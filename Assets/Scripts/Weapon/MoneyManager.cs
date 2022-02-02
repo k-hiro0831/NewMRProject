@@ -18,11 +18,6 @@ public class MoneyManager : MonoBehaviour
         MoneyTextUpdate();
     }
 
-    private void Update()
-    {
-        
-    }
-
     /// <summary>
     /// 所持金のUIを更新
     /// </summary>
@@ -46,11 +41,9 @@ public class MoneyManager : MonoBehaviour
     {
         if (_nowMoney < _value)
         {
-            Debug.Log("金が足りない");
             return false;
         }
 
-        Debug.Log("金は問題なし");
         _nowMoney -= _value;
         MoneyTextUpdate();
         return true;

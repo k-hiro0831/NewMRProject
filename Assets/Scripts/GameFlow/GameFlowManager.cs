@@ -59,6 +59,12 @@ public class GameFlowManager : MonoBehaviour
             Invoke("GameFinish", 1.0f);
             flow = Flow.gameover;
         }
+
+        //テスト用
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Click();
+        //}
     }
 
     public void StartClick()

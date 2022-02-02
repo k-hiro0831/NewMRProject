@@ -6,24 +6,32 @@ public class WeaponSelectUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject _selectUI = null;
-
     private GameObject _selectParent = null;
+
+    private bool _isOpen = false;
+
+    [SerializeField]
+    private AudioSource _openSound = null;
+    [SerializeField]
+    private AudioSource _closeSound = null;
 
     private void Start()
     {
         _selectParent = this.gameObject;
+        _isOpen = false;
+        CloseSelectUI();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            OpenSelectUI();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            CloseSelectUI();
-        }
+        //if (Input.GetKeyDown(KeyCode.Z))
+        //{
+        //    OpenSelectUI();
+        //}
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    CloseSelectUI();
+        //}
     }
 
     /// <summary>
@@ -31,14 +39,21 @@ public class WeaponSelectUI : MonoBehaviour
     /// </summary>
     public void OpenSelectUI()
     {
+        if (_isOpen) { return; }
+
+        _isOpen = true;
         _selectUI.SetActive(true);
+        _openSound.Play();
     }
     /// <summary>
     /// ïêäÌçwì¸âÊñ Çï¬Ç∂ÇÈ
     /// </summary>
     public void CloseSelectUI()
     {
-        _selectUI.SetActive(false);
-    }
+        if (!_isOpen) { return; }
 
+        _isOpen = false;
+        _selectUI.SetActive(false);
+        _closeSound.Play();
+    }
 }

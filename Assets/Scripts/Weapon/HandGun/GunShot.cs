@@ -12,6 +12,9 @@ public class GunShot : MonoBehaviour, WeaponAttack
     private string _fireAnimName;
 
     RayShot _rayShot = new RayShot();
+
+    [SerializeField]
+    private AudioSource _shotAudio = null;
     [SerializeField]
     private GameObject _muzzleFlash = null;
     private ParticleSystem _flash;
@@ -121,7 +124,6 @@ public class GunShot : MonoBehaviour, WeaponAttack
         if (_bulletCount < 0)
         {
             _bulletCount = 0;
-            Debug.Log("射撃を終了");
             _isAttack = false;
             _targetObj = null;
 
@@ -132,13 +134,14 @@ public class GunShot : MonoBehaviour, WeaponAttack
         //ヒットしたオブジェクトにダメージ
         _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(_power);
 
+        //発射音
+        _shotAudio.Play();
         //発射エフェクト
         _flash.Play();
-
         //衝突エフェクト
         Vector3 createPos = _rayShot.ReturnHitPos();
         Instantiate(_explosionEffect, createPos, Quaternion.identity);
-
+        //アニメーション再生
         PlayFireAnim();
         //クールタイム
         StartCoroutine(ShotCoolTIme());
@@ -152,7 +155,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
     {
         _step = 0f;
         _rotationStart = this.transform;
-
+        //攻撃中の場合
         while(_isAttack)
         {
             _step += _rotationSpeed * Time.deltaTime;
@@ -160,7 +163,6 @@ public class GunShot : MonoBehaviour, WeaponAttack
                 ((_targetObj.transform.position - _rotationStart.position).normalized), _step);
             yield return null;
         }
-
 
         yield break;
     }
