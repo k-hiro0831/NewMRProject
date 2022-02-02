@@ -29,6 +29,17 @@ public class EnemyValueManager : MonoBehaviour
     [SerializeField]
     private int _lavaMoney;
 
+    [SerializeField]
+    private int _flyAtk;
+    [SerializeField]
+    private int _airAtk;
+    [SerializeField]
+    private int _earthAtk;
+    [SerializeField]
+    private int _waterAtk;
+    [SerializeField]
+    private int _lavaAtk;
+
     /// <summary>
     /// ƒXƒRƒA‰ÁZ
     /// </summary>
@@ -148,6 +159,58 @@ public class EnemyValueManager : MonoBehaviour
     public int WaterMoney(int _value)
     {
         _value = _waterMoney;
+        return _value;
+    }
+    #endregion
+
+    #region"“G‚ÌUŒ‚—Íİ’è"
+    /// <summary>
+    /// “G‚ÌUŒ‚—Íİ’è
+    /// </summary>
+    /// <param name="_value">Še“G‚ÌUŒ‚—Í</param>
+    public int FlyAtk(int _value)
+    {
+        _value = _flyAtk;
+        return _value;
+    }
+
+    /// <summary>
+    /// “G‚ÌUŒ‚—Íİ’è
+    /// </summary>
+    /// <param name="_value">Še“G‚ÌUŒ‚—Í</param>
+    public int AirAtk(int _value)
+    {
+        _value = _airAtk;
+        return _value;
+    }
+
+    /// <summary>
+    /// “G‚ÌUŒ‚—Íİ’è
+    /// </summary>
+    /// <param name="_value">Še“G‚ÌUŒ‚—Í</param>
+    public int EarthAtk(int _value)
+    {
+        _value = _earthAtk;
+        return _value;
+    }
+
+    /// <summary>
+    /// “G‚ÌUŒ‚—Íİ’è
+    /// </summary>
+    /// <param name="_value">Še“G‚ÌUŒ‚—Í</param>
+    public int LavaAtk(int _value)
+    {
+        _value = _lavaAtk;
+        return _value;
+    }
+
+    /// <summary>
+    /// “G‚ÌUŒ‚—Íİ’è
+    /// </summary>
+    /// <param name="_value">Še“G‚ÌUŒ‚—Í</param>
+    public int WaterAtk(int _value)
+    {
+        _value = _waterAtk;
         return _value;
     }
     #endregion

@@ -46,6 +46,7 @@ public class AirEnemy : MonoBehaviour
     private EnemyValueManager _scoreManage;
     private int _enemyScore;
     private int _enemyMoney;
+    private int _enemyAtk;
     #endregion
 
     void Start()
