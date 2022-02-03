@@ -13,15 +13,47 @@ public class HomingParticles : MonoBehaviour
 
     private GameObject _player;
 
+    private Vector3 _pos; 
+
+    bool _atk;
+
+    bool _check;
+
+    bool _atkBool;
+
+    private Player _playerSc;
+
     void Start()
     {
         particleSystem = GetComponent<ParticleSystem>();
         particleSystemMainModule = particleSystem.main;
         _player = GameObject.FindGameObjectWithTag("MainCamera");
+        _playerSc = _player.GetComponent<Player>();
+    }
+
+    public void Atk(bool atk)
+    {
+        _atk = atk;
+    }
+
+    private void Post()
+    {
+        
     }
 
     void LateUpdate()
     {
+        if (_atk && !_check)
+        {
+            _pos = _player.transform.position;
+            _check = true;
+        }
+
+        if (!_atk)
+        {
+            _check = false;
+        }
+
         int maxParticles = particleSystemMainModule.maxParticles;
 
         if (particles == null || particles.Length < maxParticles)
@@ -38,17 +70,17 @@ public class HomingParticles : MonoBehaviour
         {
             case ParticleSystemSimulationSpace.Local:
                 {
-                    targetTransformedPosition = transform.InverseTransformPoint(_player.transform.position);
+                    targetTransformedPosition = transform.InverseTransformPoint(_pos);
                     break;
                 }
             case ParticleSystemSimulationSpace.Custom:
                 {
-                    targetTransformedPosition = particleSystemMainModule.customSimulationSpace.InverseTransformPoint(_player.transform.position);
+                    targetTransformedPosition = particleSystemMainModule.customSimulationSpace.InverseTransformPoint(_pos);
                     break;
                 }
             case ParticleSystemSimulationSpace.World:
                 {
-                    targetTransformedPosition = _player.transform.position;
+                    targetTransformedPosition = _pos;
                     break;
                 }
             default:
@@ -68,8 +100,24 @@ public class HomingParticles : MonoBehaviour
             Vector3 seekForce = directionToTarget * forceDeltaTime;
             //if (particles[i].remainingLifetime > (particles[i].startLifetime - 0.5f))
             particles[i].velocity += seekForce;
+
+            float disA = Vector3.Distance(_pos, particles[i].position);
+            float disB = Vector3.Distance(_player.transform.position, _pos);
+
+            if (disA < 0.9f && disB < 0.9f && !_atkBool)
+            {
+                _atkBool = true;
+                _playerSc.Atk();
+                Invoke("AtkBoolReset", 2.0f);
+            }
         }
 
         particleSystem.SetParticles(particles, particleCount);
+
+    }
+
+    private void AtkBoolReset()
+    {
+        _atkBool = false;
     }
 }

@@ -20,7 +20,15 @@ public class Player : MonoBehaviour
     private HpGauge _hpGauge;
 
     private void OnTriggerEnter(Collider other){
-        if (other.gameObject.tag == "EnemyAtk" && !_hit)
+        if (other.gameObject.tag == "EnemyAtk")
+        {
+            Atk();
+        }
+    }
+
+    public void Atk()
+    {
+        if (!_hit)
         {
             _hit = true;
             _hpGauge.MinusHp(1);
