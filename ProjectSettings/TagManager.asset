@@ -11,6 +11,10 @@ TagManager:
   - Enemy
   - List
   - EnemyAtk
+  - EnemyScore
+  - GameFlow
+  - ScoreManager
+  - MoneyManager
   layers:
   - Default
   - TransparentFX

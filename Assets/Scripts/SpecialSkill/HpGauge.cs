@@ -15,6 +15,8 @@ public class HpGauge : MonoBehaviour
 
     [SerializeField]
     private Player _player;
+    [SerializeField]
+    private EnemControl _enem;
 
     private const int _hpMinus = 1;
 
@@ -62,7 +64,7 @@ public class HpGauge : MonoBehaviour
         if (_hp <= 0)
         {
             _hp = 0;
-            //Debug.Log("ゲームオーバーです");
+            _enem.GameState(2);
         }
         _hpImage.fillAmount = _hp / 100;
     }

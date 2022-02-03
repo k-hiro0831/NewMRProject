@@ -18,21 +18,23 @@ Shader "Sine VFX/V3DLasers/DistortionSphere" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         GrabPass{ }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -44,7 +46,8 @@ Shader "Sine VFX/V3DLasers/DistortionSphere" {
             uniform float _Noise01Add;
             uniform float _DistortionAmount;
             uniform float _DepthBlend;
-            uniform fixed _DepthBlendOn;
+            uniform half _DepthBlendOn;
+            float4x4 mMatrix : World;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -58,18 +61,15 @@ Shader "Sine VFX/V3DLasers/DistortionSphere" {
                 float3 normalDir : TEXCOORD2;
                 float4 vertexColor : COLOR;
                 float4 projPos : TEXCOORD3;
-                UNITY_FOG_COORDS(4)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 o.vertexColor = v.vertexColor;
-                o.normalDir = UnityObjectToWorldNormal(v.normal);
+                o.normalDir = normalize(mul(v.normal.xyz, (float3x3)mMatrix));
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 o.projPos = ComputeScreenPos (o.pos);
-                COMPUTE_EYEDEPTH(o.projPos.z);
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -86,11 +86,10 @@ Shader "Sine VFX/V3DLasers/DistortionSphere" {
                 float node_8963 = pow(1.0-max(0,dot(normalDirection, viewDirection)),_FresnelExp1);
                 float3 emissive = tex2D( _GrabTexture, (sceneUVs.rg+(saturate((_Noise01Add+_Noise01_var.r))*((1.0 - node_8963)*node_8963*lerp( 1.0, saturate((sceneZ-partZ)/_DepthBlend), _DepthBlendOn ))*_DistortionAmount*i.vertexColor.a*normalize((mul( UNITY_MATRIX_V, float4(i.normalDir,0) ).xyz.rgb-mul( UNITY_MATRIX_V, float4(viewDirection,0) ).xyz.rgb).rg)))).rgb;
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,1.0);
-                UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
+                half4 finalRGBA = half4(finalColor,1.0);
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

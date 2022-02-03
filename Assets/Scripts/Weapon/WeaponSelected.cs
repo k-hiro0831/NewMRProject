@@ -38,7 +38,6 @@ public class WeaponSelected : MonoBehaviour
     public void SelectWeapon()
     {
         _buyScript.SelectedWeapon(_number, _price, _isLock);
-        Debug.Log("‘I‘ð");
     }
 
     public void UnLock()

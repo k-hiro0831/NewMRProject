@@ -25,20 +25,22 @@ Shader "Sine VFX/V3DLasers/FlipBookMotionVectorABv02" {
             "IgnoreProjector"="True"
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "RenderPipeline" = "UniversalPipeline"
         }
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
+                "LightMode" = "UniversalForward"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define UNITY_PASS_FORWARDBASE
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal d3d11_9x xboxone ps4 psp2 n3ds wiiu 
@@ -65,14 +67,12 @@ Shader "Sine VFX/V3DLasers/FlipBookMotionVectorABv02" {
                 float4 pos : SV_POSITION;
                 float4 uv0 : TEXCOORD0;
                 float2 uv1 : TEXCOORD1;
-                UNITY_FOG_COORDS(2)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 o.uv1 = v.texcoord1;
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
+                o.pos = TransformObjectToHClip( v.vertex );
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
@@ -112,11 +112,10 @@ Shader "Sine VFX/V3DLasers/FlipBookMotionVectorABv02" {
                 float node_1962 = 0.0;
                 float3 emissive = (_Ramp_var.rgb*_FinalPower*_FinalColor.rgb*(lerp((node_4440_if_leA*0.15)+(node_4440_if_leB*node_1962),node_1962,node_4440_if_leA*node_4440_if_leB)+_GammaLinear));
                 float3 finalColor = emissive;
-                fixed4 finalRGBA = fixed4(finalColor,saturate((saturate((lerp(node_3629.a,node_3460.a,node_2352)-i.uv0.a))*_OpacityBoost)));
-                UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
+                half4 finalRGBA = half4(finalColor,saturate((saturate((lerp(node_3629.a,node_3460.a,node_2352)-i.uv0.a))*_OpacityBoost)));
                 return finalRGBA;
             }
-            ENDCG
+                ENDHLSL
         }
     }
     CustomEditor "ShaderForgeMaterialInspector"

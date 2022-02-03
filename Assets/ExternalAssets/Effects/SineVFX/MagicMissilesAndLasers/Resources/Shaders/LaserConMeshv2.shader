@@ -68,7 +68,6 @@ Shader "Sine VFX/LaserConMeshv2" {
                 float2 uv0 : TEXCOORD0;
                 float4 posWorld : TEXCOORD1;
                 float3 normalDir : TEXCOORD2;
-                //UNITY_FOG_COORDS(3)
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
@@ -81,7 +80,6 @@ Shader "Sine VFX/LaserConMeshv2" {
                 v.vertex.xyz += (Result*v.normal*_OffsetPower);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
                 o.pos = TransformObjectToHClip( v.vertex );
-                //UNITY_TRANSFER_FOG(o,o.pos);
                 return o;
             }
             float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
@@ -105,7 +103,6 @@ Shader "Sine VFX/LaserConMeshv2" {
                 float3 emissive = (Result*_Mask_var.r*_Color.rgb*_FinalPower*node_245);
                 float3 finalColor = emissive;
                 half4  finalRGBA = half4(finalColor,(Result*_OpacityBoost*_Mask_var.r*node_245));
-                //UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
                 return finalRGBA;
             }
             ENDHLSL

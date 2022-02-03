@@ -17,6 +17,9 @@ public class BuyWeapon : MonoBehaviour
     private List<GameObject> _weaponPrefabList = new List<GameObject>();
 
     [SerializeField]
+    private GameObject _playerObj = null;
+
+    [SerializeField]
     private int _selectNum = 0;
     [SerializeField]
     private string _selectName = null;
@@ -35,21 +38,29 @@ public class BuyWeapon : MonoBehaviour
     private GameObject _weaponDetailUI = null;
     private WeaponDetailUI _uiScript;
 
+    [SerializeField]
+    private GameObject _listObj = null;
+    private CllickObjectList _clickObjScript;
+
+    [SerializeField]
+    private GameObject _createPosObj = null;
+
+    [SerializeField]
+    private AudioSource _changeSound = null;
+    [SerializeField]
+    private AudioSource _buySound = null;
+
     private void Start()
     {
         _moneyScript = _moneyManager.GetComponent<MoneyManager>();
         _uiScript = _weaponDetailUI.GetComponent<WeaponDetailUI>();
+        _clickObjScript = _listObj.GetComponent<CllickObjectList>();
 
         SelectedWeapon(0, 0, false);
         BuySelectedWeapon();
         _nowWeapon = _weaponPrefabList[_selectNum];
 
         _nowWeapon.SetActive(true);
-    }
-
-    private void Update()
-    {
-        
     }
 
     /// <summary>
@@ -79,41 +90,58 @@ public class BuyWeapon : MonoBehaviour
     /// </summary>
     public void BuySelectedWeapon()
     {
-        //ロック中ではないとき
-        if (!_selectIsLock)
+        //ロックされている場合に処理
+        if (_selectIsLock)
         {
-            //お金消費なし
-            //武器入れ替え
+            //お金を消費
+            //足りない場合は処理終了
+            if (!_moneyScript.MoneyMinus(_selectPrice)) { return; }
 
+            //アンロックする
+            _weaponButtonList[_selectNum].GetComponent<WeaponSelected>().UnLock();
+            _selectIsLock = false;
+            //詳細UIを更新
+            _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
+
+            //武器入れ替え
             //選択中の武器を非表示
             _nowWeapon.SetActive(false);
             //次の武器を表示し、位置を変更
             _weaponPrefabList[_selectNum].SetActive(true);
-            _weaponPrefabList[_selectNum].transform.position = _nowWeapon.transform.position;
+            //位置と角度を変更
+            _weaponPrefabList[_selectNum].transform.position = _createPosObj.transform.position;
+            _weaponPrefabList[_selectNum].transform.rotation =
+                Quaternion.Euler(new Vector3(0, _playerObj.transform.localEulerAngles.y, _playerObj.transform.localEulerAngles.z));
+
             _nowWeapon = _weaponPrefabList[_selectNum];
 
-            Debug.Log("アンロック済み");
+            //所持武器の入れ替え
+            _clickObjScript.WeaponListClear();
+            _clickObjScript.WeaponObjectSet(_nowWeapon);
+
+            //武器購入の音
+            _buySound.Play();
+
             return;
         }
-
-        //お金を消費
-        //足りない場合は処理終了
-        if (!_moneyScript.MoneyMinus(_selectPrice)) { return; }
-
-        //アンロックする
-        Debug.Log("アンロック完了");
-        _weaponButtonList[_selectNum].GetComponent<WeaponSelected>().UnLock();
-        _selectIsLock = false;
-        //詳細UIを更新
-        _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
 
         //武器入れ替え
         //選択中の武器を非表示
         _nowWeapon.SetActive(false);
         //次の武器を表示し、位置を変更
         _weaponPrefabList[_selectNum].SetActive(true);
-        _weaponPrefabList[_selectNum].transform.position = _nowWeapon.transform.position;
+        //位置と角度を変更
+        _weaponPrefabList[_selectNum].transform.position = _createPosObj.transform.position;
+        _weaponPrefabList[_selectNum].transform.rotation =
+            Quaternion.Euler(new Vector3(0, _playerObj.transform.localEulerAngles.y, _playerObj.transform.localEulerAngles.z));
+
         _nowWeapon = _weaponPrefabList[_selectNum];
 
+        //所持武器の入れ替え
+        _clickObjScript.WeaponListClear();
+        _clickObjScript.WeaponObjectSet(_nowWeapon);
+
+        //武器入れ替え音
+        _changeSound.Play();
     }
 }
