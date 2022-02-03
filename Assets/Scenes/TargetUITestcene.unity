@@ -176,7 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50297a3ea6c2734b95754564dbe665a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyObject: {fileID: 1531753103}
   _cameraObject: {fileID: 912635854}
   _posOfset: 5
   _playerPosAccesMax: 6
