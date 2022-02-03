@@ -44,6 +44,8 @@ public class LavaEnemy : MonoBehaviour
     private int _enemyAtk;
     [SerializeField]
     private MouseTarget _mouse;
+    [SerializeField]
+    private HomingParticles _homing;
     #endregion
 
     void Start()
@@ -100,9 +102,11 @@ public class LavaEnemy : MonoBehaviour
             _ani.SetBool("atk", true);
             _mouse.EnemyAtk();
             _atk = true;
+            _homing.Atk(_atk);
             yield return new WaitForSeconds(5.0f);
             _ani.SetBool("atk", false);
             _atk = false;
+            _homing.Atk(_atk);
         }
     }
 }
