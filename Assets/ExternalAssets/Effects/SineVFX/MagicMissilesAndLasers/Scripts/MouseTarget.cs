@@ -27,25 +27,25 @@ public class MouseTarget : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            startWavePS.Emit(1);
-            startParticles.Emit(smallMissilesCount);
+            //startWavePS.Emit(1);
+            //startParticles.Emit(smallMissilesCount);
         }       
 
         if (Input.GetMouseButton(0))
         {
-            var em = smallMissiles.emission;
-            em.enabled = true;
+            //var em = smallMissiles.emission;
+            //em.enabled = true;
             //smallMissiles.enableEmission = true;
 
-            anim.SetBool("Fire", true);
+            //anim.SetBool("Fire", true);
         }
         else
         {
-            var em = smallMissiles.emission;
-            em.enabled = false;
+            //var em = smallMissiles.emission;
+            //em.enabled = false;
             //smallMissiles.enableEmission = false;
 
-            anim.SetBool("Fire", false);
+            //anim.SetBool("Fire", false);
         }
 
         if (Input.GetMouseButtonDown(1))
