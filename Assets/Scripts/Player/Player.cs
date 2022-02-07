@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// プレイヤーHP外部参照元
     /// </summary>
-    private float _playerHitPoint = 20;
+    private float _playerHitPoint = 100;
     /// <summary>
     /// プレイヤーHP外部参照用
     /// </summary>
@@ -22,16 +22,16 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other){
         if (other.gameObject.tag == "EnemyAtk")
         {
-            Atk();
+            //Atk();
         }
     }
 
-    public void Atk()
+    public void Atk(int _value)
     {
         if (!_hit)
         {
             _hit = true;
-            _hpGauge.MinusHp(1);
+            _hpGauge.MinusHp(_value);
             Invoke("Hit", 2.0f);
         }
     }

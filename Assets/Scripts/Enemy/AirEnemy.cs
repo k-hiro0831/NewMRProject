@@ -47,6 +47,8 @@ public class AirEnemy : MonoBehaviour
     private int _enemyScore;
     private int _enemyMoney;
     private int _enemyAtk;
+    private bool _interval;
+    private EnemyAtkMethod _enemyAtkM;
     #endregion
 
     void Start()
@@ -66,6 +68,9 @@ public class AirEnemy : MonoBehaviour
         this.GetComponent<EnemyManager>().EnemyScore(_enemyScore);
         _enemyMoney = _scoreManage.AirMoney(_enemyMoney);
         this.GetComponent<EnemyManager>().EnemyMoney(_enemyMoney);
+        _enemyAtk = _scoreManage.AirAtk(_enemyAtk);
+        _enemyAtkM = _box.GetComponent<EnemyAtkMethod>();
+        _enemyAtkM.EnemyAtk(_enemyAtk);
     }
 
     void Update()
@@ -80,13 +85,24 @@ public class AirEnemy : MonoBehaviour
 
     public void SetDestination()
     {
-        if (!_enemyMove)
+        float dis = Vector3.Distance(_player.transform.position, this.transform.position);
+
+        if (dis < 3.0f)
+        {
+            _interval = true;
+        }
+        else
+        {
+            _interval = false;
+        }
+
+        if (!_enemyMove && !_interval)
         {
             var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
             _myAgent.destination = endPoint;
         }
 
-        if (_enemyMove || _atk)
+        if (_enemyMove || _atk || _interval)
         {
             _myAgent.destination = this.gameObject.transform.position;
         }
