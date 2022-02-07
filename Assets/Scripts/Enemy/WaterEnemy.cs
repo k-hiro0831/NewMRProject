@@ -41,6 +41,9 @@ public class WaterEnemy : MonoBehaviour
     private int _enemyScore;
     private int _enemyMoney;
     private int _enemyAtk;
+    private bool _interval;
+    [SerializeField]
+    private GameObject[] _WarpArea;
     #endregion
 
     void Start()
@@ -59,6 +62,12 @@ public class WaterEnemy : MonoBehaviour
         this.GetComponent<EnemyManager>().EnemyScore(_enemyScore);
         _enemyMoney = _scoreManage.WaterMoney(_enemyMoney);
         this.GetComponent<EnemyManager>().EnemyMoney(_enemyMoney);
+        GameObject Area = GameObject.FindGameObjectWithTag("WarpArea");
+
+        for(int i = 0; i < 3; i++)
+        {
+            _WarpArea[i] = Area.transform.GetChild(i).gameObject;
+        }
     }
 
     void Update()
@@ -73,13 +82,30 @@ public class WaterEnemy : MonoBehaviour
 
     public void SetDestination()
     {
-        if (!_enemyMove)
+        float dis = Vector3.Distance(_player.transform.position, this.transform.position);
+
+        if (dis < 5.0f)
+        {
+            _interval = true;
+        }
+        if (dis > 5.0f)
+        {
+            _interval = false;
+        }
+
+        if (dis > 10.0f)
+        {
+            int rum = Random.Range(0, 2);
+            this.transform.position = _WarpArea[rum].transform.position;
+        }
+
+        if (!_enemyMove && !_interval)
         {
             var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
             _myAgent.destination = endPoint;
         }
 
-        if (_enemyMove || _atk)
+        if (_enemyMove || _atk || _interval)
         {
             _myAgent.destination = this.gameObject.transform.position;
         }

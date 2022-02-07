@@ -254,6 +254,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6052588072668795915}
   - component: {fileID: 7397215221080548289}
+  - component: {fileID: 3249995934721678963}
+  - component: {fileID: 3702908704009391733}
   m_Layer: 7
   m_Name: box
   m_TagString: EnemyAtk
@@ -288,6 +290,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067602396, y: 0.054923803, z: 0.029551033}
   m_Center: {x: -0.071954675, y: -0.008988773, z: 0.005193539}
+--- !u!114 &3249995934721678963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500107694965003381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ccf49fda413eb47b60b58e13a41796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+--- !u!54 &3702908704009391733
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500107694965003381}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1601933494033090524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,7 +1460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyHp: 0
 --- !u!195 &3367134746626276848
 NavMeshAgent:
   m_ObjectHideFlags: 0
