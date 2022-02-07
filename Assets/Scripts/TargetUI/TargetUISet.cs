@@ -50,11 +50,10 @@ public class TargetUISet : MonoBehaviour
 
         if (!_uiSetFlag)
         {
-            _targetUiObject.transform.position = _cameraObject.transform.position;
-            _targetUiObject.SetActive(true);
-            print("�Ă΂ꂽ");
-            //_targetUiObject.transform.localScale = _UiSetVector3;
-            _targetUIAnimation.SetFlag(true);
+            _cameraObject.SetActive(true);
+            
+            
+            _targetUIAnimation.UiSetAnimetionStart();
             _uiSetFlag = true;
         }
     }
@@ -64,8 +63,8 @@ public class TargetUISet : MonoBehaviour
     /// </summary>
     private void UiOff()
     {
-        _targetUIAnimation.SetFlag(false);
-        _targetUiObject.SetActive(false);
+        _cameraObject.SetActive(false);
+
         _uiSetFlag = false;
     }
 

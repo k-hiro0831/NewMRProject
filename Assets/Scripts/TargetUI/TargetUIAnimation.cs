@@ -25,42 +25,10 @@ public class TargetUIAnimation : MonoBehaviour
 
     void Start()
     {
-        _cameraObject = GameObject.FindGameObjectWithTag(TAG_NAME_CAMERA);
+        
         _targetUiAnimator = gameObject.GetComponent<Animator>();
     }
-
-    private void Update()
-    {
-        if (_setFlag)
-        {
-            SetUiMove();
-        }
-    }
-
-    /// <summary>
-    /// カメラに入った時に一つ上のオブジェクトのルックアットから呼ばれる
-    /// </summary>
-    public void SetFlag(bool i)
-    {
-        if (i)
-        {
-            _setFlag = true;
-        }
-        else
-        {
-            _setFlag = false;
-        }
-        
-    }
-
-    /// <summary>
-    /// セットするときの動き
-    /// </summary>
-    private void SetUiMove()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, _uiPosition, Time.deltaTime);
-        
-    }
+    
 
     /// <summary>
     /// ターゲットUIのセットアニメーションを呼び出す
