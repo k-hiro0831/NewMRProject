@@ -107,7 +107,7 @@ public class HomingParticles : MonoBehaviour
             if (disA < 0.9f && disB < 0.9f && !_atkBool)
             {
                 _atkBool = true;
-                _playerSc.Atk();
+                _playerSc.Atk(10);
                 Invoke("AtkBoolReset", 2.0f);
             }
         }
