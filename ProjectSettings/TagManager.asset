@@ -15,6 +15,7 @@ TagManager:
   - GameFlow
   - ScoreManager
   - MoneyManager
+  - WarpArea
   layers:
   - Default
   - TransparentFX

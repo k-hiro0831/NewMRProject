@@ -46,6 +46,7 @@ public class LavaEnemy : MonoBehaviour
     private MouseTarget _mouse;
     [SerializeField]
     private HomingParticles _homing;
+    private bool _interval;
     #endregion
 
     void Start()
@@ -78,13 +79,24 @@ public class LavaEnemy : MonoBehaviour
 
     public void SetDestination()
     {
-        if (!_enemyMove)
+        float dis = Vector3.Distance(_player.transform.position,this.transform.position);
+
+        if (dis < 3.0f)
+        {
+            _interval = true;
+        }
+        else
+        {
+            _interval = false;
+        }
+
+        if (!_enemyMove && !_interval)
         {
             var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
             _myAgent.destination = endPoint;
         }
 
-        if (_enemyMove || _atk)
+        if (_enemyMove || _atk || _interval)
         {
             _myAgent.destination = this.gameObject.transform.position;
         }

@@ -47,6 +47,8 @@ public class FlyEnemy : MonoBehaviour{
     private int _enemyScore;
     private int _enemyMoney;
     private int _enemyAtk;
+    private bool _interval;
+    private EnemyAtkMethod _enemyAtkM;
     #endregion
 
     void Start()
@@ -70,6 +72,8 @@ public class FlyEnemy : MonoBehaviour{
 
         _enemyAtk = _scoreManage.FlyAtk(_enemyAtk);
         //this.GetComponent<EnemyManager>().EnemyFlyAtk(_enemyAtk);
+        _enemyAtkM = _box.GetComponent<EnemyAtkMethod>();
+        _enemyAtkM.EnemyAtk(_enemyAtk);
     }
 
     void Update()
@@ -84,18 +88,24 @@ public class FlyEnemy : MonoBehaviour{
 
     public void SetDestination()
     {
-        float dis = Vector3.Distance(this.transform.position,_player.transform.position);
-        if (dis > 8.0f && !_enemyMove)
+        float dis = Vector3.Distance(_player.transform.position, this.transform.position);
+
+        if (dis < 1.5f)
         {
-            _myAgent.destination = this.gameObject.transform.position;
+            _interval = true;
         }
-        if (dis < 8.0f && !_enemyMove)
+        else
+        {
+            _interval = false;
+        }
+
+        if (!_enemyMove && !_interval)
         {
             var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
             _myAgent.destination = endPoint;
         }
 
-        if (_enemyMove || _atk)
+        if (_enemyMove || _atk || _interval)
         {
             _myAgent.destination = this.gameObject.transform.position;
         }
