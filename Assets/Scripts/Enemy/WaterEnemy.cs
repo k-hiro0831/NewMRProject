@@ -44,6 +44,13 @@ public class WaterEnemy : MonoBehaviour
     private bool _interval;
     [SerializeField]
     private GameObject[] _WarpArea;
+    [SerializeField]
+    private SFXControllerV3D _sfx;
+    [SerializeField]
+    private ProgressControlV3D _pro;
+
+    [SerializeField]
+    private MouseTargetV3D _mouse;
     #endregion
 
     void Start()
@@ -122,9 +129,18 @@ public class WaterEnemy : MonoBehaviour
             yield return new WaitForSeconds(_rdm);
             _ani.SetBool("atk", true);
             _atk = true;
+            _mouse.Atk(_atk);
+            Invoke("AtkEff", 0.7f);
             yield return new WaitForSeconds(5.0f);
             _ani.SetBool("atk", false);
             _atk = false;
+            _mouse.Atk(_atk);
         }
+    }
+
+    private void AtkEff()
+    {
+        _sfx.EnemyAtk();
+        _pro.EnemyAtk();
     }
 }
