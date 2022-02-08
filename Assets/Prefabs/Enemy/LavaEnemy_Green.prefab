@@ -530,7 +530,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 4
@@ -564,6 +564,8 @@ MonoBehaviour:
   _enemyDes: {fileID: 3023369529664812073}
   _child: {fileID: 1422004390224824996}
   speed: 0.03
+  _mouse: {fileID: 0}
+  _homing: {fileID: 0}
 --- !u!114 &3023369529664812073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,7 +578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyHp: 0
 --- !u!195 &3756921943139200185
 NavMeshAgent:
   m_ObjectHideFlags: 0

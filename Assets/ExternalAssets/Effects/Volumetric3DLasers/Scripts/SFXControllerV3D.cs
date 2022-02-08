@@ -18,11 +18,16 @@ public class SFXControllerV3D : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Instantiate(waveSfxPrefabs[Random.Range(0, waveSfxPrefabs.Length)], transform.position, transform.rotation);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Instantiate(waveSfxPrefabs[Random.Range(0, waveSfxPrefabs.Length)], transform.position, transform.rotation);
+        //}
 
         loopingSFX.volume = globalProgress;
+    }
+
+    public void EnemyAtk()
+    {
+        Instantiate(waveSfxPrefabs[Random.Range(0, waveSfxPrefabs.Length)], transform.position, transform.rotation);
     }
 }

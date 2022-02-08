@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EnemControl : MonoBehaviour{
 
@@ -67,11 +68,11 @@ public class EnemControl : MonoBehaviour{
     private GameObject _parentBase;
     private GameObject[] _parent = default;
     [SerializeField, Header("敵フェーズのテキスト")]
-    private Text _PhaseText;
+    private TextMeshPro _PhaseText;
     [SerializeField, Header("1フェーズの時間のテキスト")]
-    private Text _TimeText;
+    private TextMeshPro _TimeText;
     [SerializeField, Header("カウントダウンテキスト")]
-    private Text _waitText;
+    private TextMeshPro _waitText;
 
     /// <summary>
     /// 敵生成位置
@@ -139,7 +140,7 @@ public class EnemControl : MonoBehaviour{
         {
             case EnemyPhase.phase1:
                 _phaseTime[0] -= Time.deltaTime;
-                _TimeText.text = "残り"+ Mathf.Floor(_phaseTime[0]) +"秒";
+                _TimeText.text = "LIMIT:"+ Mathf.Floor(_phaseTime[0]);
                 if (_phaseTime[0] == 0.0f || _phaseTime[0] <= 0.0f)
                 {
                     for (int i = 0; i< _enemyList.Count;i++)
@@ -148,9 +149,9 @@ public class EnemControl : MonoBehaviour{
                         _enemydes.EnemyRemove();
                     }
                     _phaseTime[0] = 0.0f;
-                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[0]) + "秒";
+                    _TimeText.text = "LIMIT:" + Mathf.Floor(_phaseTime[0]);
                     _enemyPosPuls = _enemysNumber[0] + _enemysNumber[1] + _enemysNumber[2];
-                    _PhaseText.text = "敵フェーズ:2";
+                    _PhaseText.text = "WAVE2";
                     enemyPhase = EnemyPhase.phaseWait;
                     _phaseJudge = false;
                     PhaseReset();
@@ -162,7 +163,7 @@ public class EnemControl : MonoBehaviour{
                 break;
             case EnemyPhase.phase2:
                 _phaseTime[1] -= Time.deltaTime;
-                _TimeText.text = "残り" + Mathf.Floor(_phaseTime[1]) + "秒";
+                _TimeText.text = "LIMIT:" + Mathf.Floor(_phaseTime[1]);
                 if (_phaseTime[1] == 0.0f || _phaseTime[1] <= 0.0f)
                 {
                     for (int i = 0; i < _enemyList.Count; i++)
@@ -171,9 +172,9 @@ public class EnemControl : MonoBehaviour{
                         _enemydes.EnemyRemove();
                     }
                     _phaseTime[1] = 0.0f;
-                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[1]) + "秒";
+                    _TimeText.text = "LIMIT:" + Mathf.Floor(_phaseTime[1]);
                     _enemyPosPuls = _enemysNumber[3] + _enemysNumber[4] + _enemysNumber[5] + _enemysNumber[6] + _enemysNumber[7];
-                    _PhaseText.text = "敵フェーズ:3";
+                    _PhaseText.text = "WAVE3";
                     enemyPhase = EnemyPhase.phaseWait;
                     _phaseJudge = false;
                     PhaseReset();
@@ -186,7 +187,7 @@ public class EnemControl : MonoBehaviour{
             case EnemyPhase.phase3:
 
                 _phaseTime[2] -= Time.deltaTime;
-                _TimeText.text = "残り" + Mathf.Floor(_phaseTime[2]) + "秒";
+                _TimeText.text = "LIMIT:" + Mathf.Floor(_phaseTime[2]);
                 if (_phaseTime[2] == 0.0f || _phaseTime[2] <= 0.0f)
                 {
                     for (int i = 0; i < _enemyList.Count; i++)
@@ -195,8 +196,8 @@ public class EnemControl : MonoBehaviour{
                         _enemydes.EnemyRemove();
                     }
                     _phaseTime[2] = 0.0f;
-                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[2]) + "秒";
-                    _PhaseText.text = "敵フェーズ:Boss";
+                    _TimeText.text = "LIMIT:" + Mathf.Floor(_phaseTime[2]);
+                    _PhaseText.text = "BOSSWAVE";
                     enemyPhase = EnemyPhase.phaseWait;
                     _phaseJudge = false;
                     PhaseReset();
@@ -208,7 +209,7 @@ public class EnemControl : MonoBehaviour{
                 break;
             case EnemyPhase.phase4:
                 _phaseTime[3] -= Time.deltaTime;
-                _TimeText.text = "残り" + Mathf.Floor(_phaseTime[3]) + "秒";
+                _TimeText.text = "LIMIT:" + Mathf.Floor(_phaseTime[3]);
                 if (_phaseTime[3] == 0.0f || _phaseTime[3] <= 0.0f)
                 {
                     for (int i = 0; i < _enemyList.Count; i++)
@@ -217,8 +218,9 @@ public class EnemControl : MonoBehaviour{
                         _enemydes.EnemyRemove();
                     }
                     _phaseTime[3] = 0.0f;
-                    _TimeText.text = "残り" + Mathf.Floor(_phaseTime[3]) + "秒";
-                    _PhaseText.text = "終了";
+                    _TimeText.text = "LIMIT:" + Mathf.Floor(_phaseTime[3]);
+                    _PhaseText.text = "END";
+                    _gameState = 2;
                     enemyPhase = EnemyPhase.phaseEnd;
                     //_phaseJudge = false;
                     //PhaseReset();
@@ -229,15 +231,15 @@ public class EnemControl : MonoBehaviour{
                 }
                 break;
             case EnemyPhase.phaseEnd:
-                _PhaseText.text = "ゲーム終了";
+                _PhaseText.text = "END";
                 _TimeText.text = "";
                 _gameFlow.End(_gameState);
                 break;
             case EnemyPhase.phaseWait:
                 _waitTime -= Time.deltaTime;
-                if (_PhaseText.text == "敵フェーズ:1")
+                if (_PhaseText.text == "WAVE1")
                 {
-                    _waitText.text = "第1フェーズまで"+ Mathf.Floor(_waitTime) + "秒";
+                    _waitText.text = "WAVE1:" + Mathf.Floor(_waitTime);
                     if (_waitTime < 0.0f)
                     {
                         _waitText.text = "";
@@ -247,9 +249,9 @@ public class EnemControl : MonoBehaviour{
                         PhaseReset();
                     }
                 }
-                if (_PhaseText.text == "敵フェーズ:2")
+                if (_PhaseText.text == "WAVE2:")
                 {
-                    _waitText.text = "第2フェーズまで" + Mathf.Floor(_waitTime) + "秒";
+                    _waitText.text = "WAVE2" + Mathf.Floor(_waitTime);
                     if (_waitTime < 0.0f)
                     {
                         _waitText.text = "";
@@ -259,9 +261,9 @@ public class EnemControl : MonoBehaviour{
                         PhaseReset();
                     }
                 }
-                if (_PhaseText.text == "敵フェーズ:3")
+                if (_PhaseText.text == "WAVE3:")
                 {
-                    _waitText.text = "第3フェーズまで" + Mathf.Floor(_waitTime) + "秒";
+                    _waitText.text = "WAVE3" + Mathf.Floor(_waitTime);
                     if (_waitTime < 0.0f)
                     {
                         _waitText.text = "";
@@ -271,9 +273,9 @@ public class EnemControl : MonoBehaviour{
                         PhaseReset();
                     }
                 }
-                if (_PhaseText.text == "敵フェーズ:Boss")
+                if (_PhaseText.text == "BossWAVE")
                 {
-                    _waitText.text = "Bossフェーズまで" + Mathf.Floor(_waitTime) + "秒";
+                    _waitText.text = "BOSSWAVE:" + Mathf.Floor(_waitTime);
                     if (_waitTime < 0.0f)
                     {
                         _waitText.text = "";
@@ -319,7 +321,7 @@ public class EnemControl : MonoBehaviour{
         //ウェーブの敵の数を初期化
         _enemyPos2 = _enemyPosPuls;
         //テキストを変更
-        _PhaseText.text = "敵フェーズ:1";
+        _PhaseText.text = "WAVE1";
         enemyPhase = EnemyPhase.phaseWait;
         _enem = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
         _gameFlow = GameObject.FindGameObjectWithTag("GameFlow").GetComponent<GameFlowManager>();
@@ -347,7 +349,7 @@ public class EnemControl : MonoBehaviour{
         {
             _phaseTimeTotal += _phaseTime[2];
             _enem.ScoreAdd((int)_phaseTimeTotal);
-            _PhaseText.text = "敵フェーズ:Boss";
+            _PhaseText.text = "BOSSWAVE";
             enemyPhase = EnemyPhase.phaseWait;
             _phaseJudge = false;
             PhaseReset();
@@ -389,7 +391,7 @@ public class EnemControl : MonoBehaviour{
         {
             _phaseTimeTotal += _phaseTime[1];
             _enem.ScoreAdd((int)_phaseTimeTotal);
-            _PhaseText.text = "敵フェーズ:3";
+            _PhaseText.text = "WAVE3";
             enemyPhase = EnemyPhase.phaseWait;
             _phaseJudge = false;
             PhaseReset();
@@ -425,7 +427,7 @@ public class EnemControl : MonoBehaviour{
         {
             _phaseTimeTotal += _phaseTime[0];
             _enem.ScoreAdd((int)_phaseTimeTotal);
-            _PhaseText.text = "敵フェーズ:2";
+            _PhaseText.text = "WAVE2";
             enemyPhase = EnemyPhase.phaseWait;
             _phaseJudge = false;
             PhaseReset();

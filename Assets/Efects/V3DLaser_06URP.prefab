@@ -9629,9 +9629,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4780260952772060938}
   - component: {fileID: 4886038275668559338}
+  - component: {fileID: 7658793956826130289}
+  - component: {fileID: 2388887933030800}
   m_Layer: 0
   m_Name: StartPointEffect
-  m_TagString: Untagged
+  m_TagString: EnemyAtk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9724,6 +9726,35 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   finalColor: {r: 0, g: 0.4627451, b: 1, a: 1}
+--- !u!54 &7658793956826130289
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4781531196047769484}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &2388887933030800
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4781531196047769484}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.94, y: 1.86, z: 3.12}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4781736673636861734
 GameObject:
   m_ObjectHideFlags: 0
@@ -68287,9 +68318,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4780341819581321502}
   - component: {fileID: 4886369537913353616}
+  - component: {fileID: 8456131610169983017}
+  - component: {fileID: 6722632066126742557}
   m_Layer: 0
   m_Name: EndPointEffect
-  m_TagString: Untagged
+  m_TagString: EnemyAtk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68383,6 +68416,35 @@ MonoBehaviour:
   - {fileID: 4654704700578741228}
   scalingComponents: []
   emit: 0
+--- !u!65 &8456131610169983017
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4782332866927479170}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.62, y: 2.17, z: 3.5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &6722632066126742557
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4782332866927479170}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4782365015477457376
 GameObject:
   m_ObjectHideFlags: 0

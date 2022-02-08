@@ -2029,7 +2029,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 4
@@ -2064,7 +2064,6 @@ MonoBehaviour:
   _child: {fileID: 5385866490118996587}
   speed: 0.03
   _box: {fileID: 3171370764174639502}
-  _enemyAtkM: {fileID: 2870883223253396083}
 --- !u!114 &8984777662765722130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2086,7 +2085,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8041402235526322913}
   m_Enabled: 0
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
