@@ -1109,7 +1109,6 @@ GameObject:
   - component: {fileID: 7799441172181166578}
   - component: {fileID: 7799441172181166577}
   - component: {fileID: 7799441172181166576}
-  - component: {fileID: 2306965715180145095}
   - component: {fileID: -894575184462736551}
   - component: {fileID: -304908612417433363}
   - component: {fileID: 7001560393777509769}
@@ -1128,7 +1127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7799441172181166583}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.502, z: 0}
+  m_LocalPosition: {x: 0, y: 3.5, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4062706665830621222}
@@ -1150,7 +1149,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &7799441172181166578
 BoxCollider:
@@ -1163,8 +1162,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.340624, z: 1}
-  m_Center: {x: 0, y: -0.470884, z: 0}
+  m_Size: {x: 1, y: 2.6519313, z: 1}
+  m_Center: {x: 0, y: -0.62653655, z: 0}
 --- !u!114 &7799441172181166577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1180,7 +1179,7 @@ MonoBehaviour:
   _player: {fileID: 0}
   _enemyDes: {fileID: 7799441172181166576}
   _child: {fileID: 1025408903806243381}
-  speed: 0.03
+  speed: 0.01
   _mouse: {fileID: 1493401944113328824}
   _homing: {fileID: 1491976179393843846}
 --- !u!114 &7799441172181166576
@@ -1195,28 +1194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!195 &2306965715180145095
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7799441172181166583}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.42
-  m_Speed: 0.3
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2.93
-  m_BaseOffset: 1.96
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &-894575184462736551
 MonoBehaviour:
   m_ObjectHideFlags: 0

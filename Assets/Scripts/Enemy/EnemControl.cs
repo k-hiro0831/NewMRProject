@@ -249,9 +249,9 @@ public class EnemControl : MonoBehaviour{
                         PhaseReset();
                     }
                 }
-                if (_PhaseText.text == "WAVE2:")
+                if (_PhaseText.text == "WAVE2")
                 {
-                    _waitText.text = "WAVE2" + Mathf.Floor(_waitTime);
+                    _waitText.text = "WAVE2:" + Mathf.Floor(_waitTime);
                     if (_waitTime < 0.0f)
                     {
                         _waitText.text = "";
@@ -261,9 +261,9 @@ public class EnemControl : MonoBehaviour{
                         PhaseReset();
                     }
                 }
-                if (_PhaseText.text == "WAVE3:")
+                if (_PhaseText.text == "WAVE3")
                 {
-                    _waitText.text = "WAVE3" + Mathf.Floor(_waitTime);
+                    _waitText.text = "WAVE3:" + Mathf.Floor(_waitTime);
                     if (_waitTime < 0.0f)
                     {
                         _waitText.text = "";
@@ -273,7 +273,7 @@ public class EnemControl : MonoBehaviour{
                         PhaseReset();
                     }
                 }
-                if (_PhaseText.text == "BossWAVE")
+                if (_PhaseText.text == "BOSSWAVE")
                 {
                     _waitText.text = "BOSSWAVE:" + Mathf.Floor(_waitTime);
                     if (_waitTime < 0.0f)
