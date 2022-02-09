@@ -67,6 +67,11 @@ public class GameFlowManager : MonoBehaviour
         //}
     }
 
+    public int ScoreCl()
+    {
+        return _score;
+    }
+
     public void StartClick()
     {
         _score = 0;
