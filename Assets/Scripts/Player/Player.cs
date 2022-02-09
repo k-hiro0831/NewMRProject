@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private AudioSource _damageSound = null;
+    [SerializeField]
+    private GameObject _damageUI;
+    private PlayerDamageEffect _damageScript;
+
     private bool _hit = false;
     private bool _atk = false;
     /// <summary>
@@ -19,6 +25,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private HpGauge _hpGauge;
 
+    private void Start()
+    {
+       // _damageScript = _damageUI.GetComponent<PlayerDamageEffect>();
+    }
+
     private void OnTriggerEnter(Collider other){
         if (other.gameObject.tag == "EnemyAtk")
         {
@@ -32,6 +43,8 @@ public class Player : MonoBehaviour
         {
             _hit = true;
             _hpGauge.MinusHp(_value);
+            //_damageSound.Play();
+            //_damageScript.StartEffect();
             Invoke("Hit", 2.0f);
         }
     }
