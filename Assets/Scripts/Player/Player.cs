@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _damageScript = _damageUI.GetComponent<PlayerDamageEffect>();
+       // _damageScript = _damageUI.GetComponent<PlayerDamageEffect>();
     }
 
     private void OnTriggerEnter(Collider other){
@@ -43,8 +43,8 @@ public class Player : MonoBehaviour
         {
             _hit = true;
             _hpGauge.MinusHp(_value);
-            _damageSound.Play();
-            _damageScript.StartEffect();
+            //_damageSound.Play();
+            //_damageScript.StartEffect();
             Invoke("Hit", 2.0f);
         }
     }
