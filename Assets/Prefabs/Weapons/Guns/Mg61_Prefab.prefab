@@ -107,7 +107,7 @@ MonoBehaviour:
   _muzzleFlash: {fileID: 4198177859038327141}
   _explosionEffect: {fileID: 7375017071851253136, guid: 8b76539b1033ae44eb4154fb12d922f1, type: 3}
   _rayObj: {fileID: 6747415060272681939}
-  _rayLength: 10
+  _rayLength: 30
   _bulletMax: 5
   _bulletCount: 0
   _power: 2

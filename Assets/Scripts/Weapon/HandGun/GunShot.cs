@@ -30,16 +30,12 @@ public class GunShot : MonoBehaviour, WeaponAttack
     [SerializeField]
     private int _bulletMax = 5;
     [SerializeField]
-    private int _bulletCount = 0;
-    [SerializeField]
     private int _power = 10;
     [SerializeField]
     private int _rate = 10;
 
     [SerializeField,Header("射撃の間隔")]
     private float _shotCoolTime = 1f;
-    private bool _isCoolTime = false;
-    private bool _isAttack = false;
 
     private GameObject _targetObj = null;
 
@@ -47,11 +43,10 @@ public class GunShot : MonoBehaviour, WeaponAttack
     [SerializeField,Header("敵の方向を向く速度")]
     private float _rotationSpeed = 0.5f;
     private Transform _rotationStart;
+    private Quaternion _rotationGoal;
 
     private void Start()
     {
-        _bulletCount = _bulletMax;
-        _isAttack = false; 
         _targetObj = null;
         _rayShot.Initialize(_rayObj, _rayLength);
         _flash = _muzzleFlash.GetComponent<ParticleSystem>();
@@ -59,30 +54,9 @@ public class GunShot : MonoBehaviour, WeaponAttack
 
     private void OnEnable()
     {
-        _bulletCount = _bulletMax;
-        _isAttack = false; 
         _targetObj = null;
         _rayShot.Initialize(_rayObj, _rayLength);
         _flash = _muzzleFlash.GetComponent<ParticleSystem>();
-    }
-
-    private void Update()
-    {
-        if (_isAttack)
-        {
-            //this.transform.LookAt(_targetObj.transform);
-
-            StartCoroutine(DirectionChange());
-            _hitObj = _rayShot.ReturnHitObj("Enemy");
-            if (_hitObj != null)
-            {
-                ShotBullet();
-            }
-            else
-            {
-                AttackEnd();
-            }
-        }
     }
 
     private void OnDrawGizmos()
@@ -97,9 +71,10 @@ public class GunShot : MonoBehaviour, WeaponAttack
     public void Attack(GameObject _target)
     {
         if (_target == null) { return; }
-        _bulletCount = _bulletMax;
         _targetObj = _target;
-        _isAttack = true;
+        
+        StartCoroutine(DirectionChange());
+
     }
     /// <summary>
     /// 攻撃終了処理
@@ -107,44 +82,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
     public void AttackEnd()
     {
         if (_targetObj.activeSelf == true) { return; }
-        _isAttack = false;
         _targetObj = null;
-    }
-
-    /// <summary>
-    /// 弾丸を発射する処理
-    /// </summary>
-    private void ShotBullet()
-    {
-        //クールタイム中、処理終了
-        if (_isCoolTime) { return; }
-
-        //決められた弾数発射する
-        _bulletCount--;
-        if (_bulletCount < 0)
-        {
-            _bulletCount = 0;
-            _isAttack = false;
-            _targetObj = null;
-
-            //処理終了
-            return;
-        }
-
-        //ヒットしたオブジェクトにダメージ
-        _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(_power);
-
-        //発射音
-        _shotAudio.Play();
-        //発射エフェクト
-        _flash.Play();
-        //衝突エフェクト
-        Vector3 createPos = _rayShot.ReturnHitPos();
-        Instantiate(_explosionEffect, createPos, Quaternion.identity);
-        //アニメーション再生
-        PlayFireAnim();
-        //クールタイム
-        StartCoroutine(ShotCoolTIme());
     }
 
     /// <summary>
@@ -155,14 +93,52 @@ public class GunShot : MonoBehaviour, WeaponAttack
     {
         _step = 0f;
         _rotationStart = this.transform;
-        //攻撃中の場合
-        while(_isAttack)
+        _rotationGoal = Quaternion.LookRotation((_targetObj.transform.position - _rotationStart.position).normalized);
+        //敵の方向を向く
+        while (this.transform.rotation != _rotationGoal)
         {
             _step += _rotationSpeed * Time.deltaTime;
-            this.transform.rotation = Quaternion.Slerp(_rotationStart.rotation, Quaternion.LookRotation
-                ((_targetObj.transform.position - _rotationStart.position).normalized), _step);
+            this.transform.rotation = Quaternion.Slerp(_rotationStart.rotation, _rotationGoal, _step);
             yield return null;
         }
+
+        //敵の方向を向いた後に攻撃処理
+        _hitObj = _rayShot.ReturnHitObj("Enemy");
+        if (_hitObj != null)
+        {
+            for (int i = 0; i < _bulletMax; i++)
+            {
+                StartCoroutine(ShotBullet());
+                yield return new WaitForSeconds(_shotCoolTime);
+            }
+        }
+        else
+        {
+            AttackEnd();
+        }
+        _targetObj = null;
+
+        yield break;
+    }
+
+    /// <summary>
+    /// 弾丸を発射する処理
+    /// </summary>
+    private IEnumerator ShotBullet()
+    {
+        //ヒットしたオブジェクトにダメージ
+        _hitObj.GetComponent<EnemyManager>().EnemyHpMinus(_power);
+
+        //発射音
+        _shotAudio.Play();
+        //発射エフェクト
+        _flash.Play();
+        //衝突エフェクト
+
+        Vector3 createPos = _rayShot.ReturnHitPos();
+        Instantiate(_explosionEffect, createPos, Quaternion.identity);
+        //アニメーション再生
+        PlayFireAnim();
 
         yield break;
     }
@@ -176,18 +152,6 @@ public class GunShot : MonoBehaviour, WeaponAttack
         if (_anim == null) { return; }
         //発射アニメーション
         _anim.Play(_fireAnimName);
-    }
-
-    /// <summary>
-    /// クールタイム処理
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator ShotCoolTIme()
-    {
-        _isCoolTime = true;
-        yield return new WaitForSeconds(_shotCoolTime);
-        _isCoolTime = false;
-        yield break;
     }
 
     public string ReturnWeaponName()
