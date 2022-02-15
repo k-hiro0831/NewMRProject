@@ -6,7 +6,6 @@ public class WeaponSelectUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject _selectUI = null;
-    private GameObject _selectParent = null;
 
     private bool _isOpen = false;
 
@@ -17,7 +16,6 @@ public class WeaponSelectUI : MonoBehaviour
 
     private void Start()
     {
-        _selectParent = this.gameObject;
         _isOpen = false;
         CloseSelectUI();
     }
@@ -43,5 +41,10 @@ public class WeaponSelectUI : MonoBehaviour
         _isOpen = false;
         _selectUI.SetActive(false);
         _closeSound.Play();
+    }
+
+    public bool ReturnOpenFlag()
+    {
+        return _isOpen;
     }
 }

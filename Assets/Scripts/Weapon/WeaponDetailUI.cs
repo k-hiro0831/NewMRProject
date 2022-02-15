@@ -14,6 +14,8 @@ public class WeaponDetailUI : MonoBehaviour
     private List<GameObject> _powerList = new List<GameObject>();
     [SerializeField]
     private List<GameObject> _rateList = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> _weaponList = new List<GameObject>();
 
     private void Start()
     {
@@ -25,7 +27,7 @@ public class WeaponDetailUI : MonoBehaviour
         
     }
 
-    public void UpdateWeaponUI(string _name,int _price,int _power,int _rate,bool _isLock)
+    public void UpdateWeaponUI(int _num,string _name,int _price,int _power,int _rate,bool _isLock)
     {
         _nameText.text = _name;
 
@@ -50,6 +52,7 @@ public class WeaponDetailUI : MonoBehaviour
         {
             _rateList[i].SetActive(true);
         }
+        _weaponList[_num].SetActive(true);
     }
 
     /// <summary>
@@ -64,6 +67,10 @@ public class WeaponDetailUI : MonoBehaviour
         for (int i = 0; i < _rateList.Count; i++)
         {
             _rateList[i].SetActive(false);
+        }
+        for (int i = 0; i < _weaponList.Count; i++)
+        {
+            _weaponList[i].SetActive(false);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace MRProject.Ray
     class RayShot
     {
         private RaycastHit _hit;
+        private RaycastHit _hit2;
         private bool _isHit = false;
 
         private GameObject _rayObj = null;
