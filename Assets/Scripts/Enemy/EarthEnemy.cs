@@ -9,8 +9,6 @@ public class EarthEnemy : MonoBehaviour
     [SerializeField]
     private GameObject _player;
 
-    private NavMeshAgent _myAgent;
-
     private EnemControl _enem = new EnemControl();
     [SerializeField]
     private EnemyManager _enemyDes;
@@ -52,7 +50,6 @@ public class EarthEnemy : MonoBehaviour
 
     void Start()
     {
-        _myAgent = GetComponent<NavMeshAgent>();
         _player = GameObject.FindGameObjectWithTag("MainCamera");
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = _child.GetComponent<Animator>();
@@ -74,36 +71,25 @@ public class EarthEnemy : MonoBehaviour
 
     void Update()
     {
-        _enemyMove = _enemyDes._enemyMovePB;
-        this.transform.LookAt(_player.transform);
-        if (_myAgent.pathStatus != NavMeshPathStatus.PathInvalid)
-        {
-            SetDestination();
-        }
-    }
+        //this.transform.LookAt(_player.transform);
+        Qua();
 
-    public void SetDestination()
-    {
+        _enemyMove = _enemyDes._enemyMovePB;
+
         float dis = Vector3.Distance(_player.transform.position, this.transform.position);
 
-        if (dis < 3.0f)
+        if (dis < 1.7f)
         {
             _interval = true;
         }
-        else
+        if (dis > 1.7f)
         {
             _interval = false;
         }
 
-        if (!_enemyMove && !_interval)
+        if (!_enemyMove && !_interval && !_atk)
         {
-            var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
-            _myAgent.destination = endPoint;
-        }
-
-        if (_enemyMove || _atk || _interval)
-        {
-            _myAgent.destination = this.gameObject.transform.position;
+            transform.position = Vector3.MoveTowards(this.transform.position, _player.transform.position, speed * 0.1f);
         }
     }
 
@@ -124,5 +110,14 @@ public class EarthEnemy : MonoBehaviour
             _box.SetActive(false);
             _atk = false;
         }
+    }
+
+    private void Qua()
+    {
+        Vector3 vector3 = _player.transform.position - this.transform.position;
+        vector3.y = 0f;
+
+        Quaternion quaternion = Quaternion.LookRotation(vector3);
+        this.transform.rotation = quaternion;
     }
 }

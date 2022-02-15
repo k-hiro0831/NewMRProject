@@ -1992,7 +1992,6 @@ GameObject:
   - component: {fileID: 1280255761872904840}
   - component: {fileID: 2247558287833189755}
   - component: {fileID: 8984777662765722130}
-  - component: {fileID: 6294237424511230867}
   - component: {fileID: -6449811366129028464}
   - component: {fileID: -5890570618498882847}
   - component: {fileID: 4436384660227976021}
@@ -2011,7 +2010,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8041402235526322913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.4, z: 0}
+  m_LocalPosition: {x: 0, y: 3.5, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 8999644310239441016}
@@ -2029,10 +2028,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &1280255761872904840
 BoxCollider:
@@ -2045,8 +2044,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.180067, z: 2.1085503}
-  m_Center: {x: 0, y: -0.3464428, z: 0.55427504}
+  m_Size: {x: 1, y: 2.9178908, z: 2.1085503}
+  m_Center: {x: 0, y: -0.7153541, z: 0.5542751}
 --- !u!114 &2247558287833189755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2064,7 +2063,6 @@ MonoBehaviour:
   _child: {fileID: 5385866490118996587}
   speed: 0.03
   _box: {fileID: 3171370764174639502}
-  _enemyAtkM: {fileID: 2870883223253396083}
 --- !u!114 &8984777662765722130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2077,28 +2075,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206af7ef6d249f44bad2d973e81ba161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!195 &6294237424511230867
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8041402235526322913}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 0.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 2.23
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &-6449811366129028464
 MonoBehaviour:
   m_ObjectHideFlags: 0

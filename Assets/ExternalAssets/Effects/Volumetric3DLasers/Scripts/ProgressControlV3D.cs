@@ -27,6 +27,18 @@ public class ProgressControlV3D : MonoBehaviour {
     private LightLineV3D[] lils;
     private Renderer[] renderers;
 
+    private GameObject _player;
+
+    private Vector3 _pos;
+
+    bool _atk;
+
+    bool _check;
+
+    bool _atkBool;
+
+    private Player _playerSc;
+
     private void Start()
     {
         globalProgress = 1f;
@@ -34,6 +46,8 @@ public class ProgressControlV3D : MonoBehaviour {
         lls = GetComponentsInChildren<LaserLineV3D>(true);
         lils = GetComponentsInChildren<LightLineV3D>(true);
         renderers = GetComponentsInChildren<Renderer>(true);
+        _player = GameObject.FindGameObjectWithTag("MainCamera");
+        _playerSc = _player.GetComponent<Player>();
     }
 
     public void ChangeColor(Color color)
@@ -41,8 +55,25 @@ public class ProgressControlV3D : MonoBehaviour {
         finalColor = color;
     }
 
+    public void Atk(bool atk)
+    {
+        _atk = atk;
+    }
+
     void Update()
     {
+
+        if (_atk && !_check)
+        {
+            _pos = _player.transform.position;
+            _check = true;
+        }
+
+        if (!_atk)
+        {
+            _check = false;
+        }
+
         // Control Gamma and Linear modes
         foreach (Renderer rend in renderers)
         {
@@ -87,20 +118,20 @@ public class ProgressControlV3D : MonoBehaviour {
             globalImpactProgress += Time.deltaTime * globalImpactProgressSpeed;
         }
 
-        if (Input.GetMouseButton(0) || always == true)
-        {
-            globalProgress = 0f;
-            endPointEffect.emit = true;
-        }
-        else
-        {
-            endPointEffect.emit = false;
-        }
+        //if (Input.GetMouseButton(0) || always == true)
+        //{
+        //    globalProgress = 0f;
+        //    endPointEffect.emit = true;
+        //}
+        //else
+        //{
+        //    endPointEffect.emit = false;
+        //}
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            globalImpactProgress = 0f;
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    globalImpactProgress = 0f;
+        //}
 
         if (always == true)
         {
@@ -129,4 +160,12 @@ public class ProgressControlV3D : MonoBehaviour {
 
         sfxcontroller.SetGlobalProgress(1f - globalProgress);
     }
+
+    public void EnemyAtk()
+    {
+        globalProgress = 0f;
+        endPointEffect.emit = true;
+    }
+
+
 }

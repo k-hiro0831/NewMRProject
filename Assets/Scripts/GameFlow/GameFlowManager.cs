@@ -67,11 +67,17 @@ public class GameFlowManager : MonoBehaviour
         //}
     }
 
+    public int ScoreCl()
+    {
+        return _score;
+    }
+
     public void StartClick()
     {
+        _score = 0;
+
         if (flow == Flow.clear || flow == Flow.gameover)
         {
-            _score = 0;
             flow = Flow.main;
         }
         _button[0].SetActive(false);
@@ -82,9 +88,10 @@ public class GameFlowManager : MonoBehaviour
 
     public void RestartClick()
     {
+        _score = 0;
+
         if (flow == Flow.clear || flow == Flow.gameover)
         {
-            _score = 0;
             flow = Flow.main;
         }
         _button[0].SetActive(false);
@@ -115,13 +122,13 @@ public class GameFlowManager : MonoBehaviour
     {
         if (flow == Flow.clear)
         {
-            _button[1].SetActive(true);
+            _button[0].SetActive(true);
             SceneManager.LoadScene(_nextSceneName[1]);
         }
 
         if (flow == Flow.gameover)
         {
-            _button[1].SetActive(true);
+            _button[0].SetActive(true);
             SceneManager.LoadScene(_nextSceneName[2]);
         }
     }

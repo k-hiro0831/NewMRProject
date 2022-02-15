@@ -28,18 +28,6 @@ public class HpGauge : MonoBehaviour
         _hpImage.fillAmount = _hp / 100;
     }
 
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    PlusHp(10);
-        //}
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-        //    MinusHp(10);
-        //}
-    }
-
     /// <summary>
     /// HP‚ğ‘‚â‚·ˆ—
     /// </summary>

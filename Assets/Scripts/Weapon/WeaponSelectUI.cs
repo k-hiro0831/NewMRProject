@@ -22,18 +22,6 @@ public class WeaponSelectUI : MonoBehaviour
         CloseSelectUI();
     }
 
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    OpenSelectUI();
-        //}
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    CloseSelectUI();
-        //}
-    }
-
     /// <summary>
     /// •Šíw“ü‰æ–Ê‚ğŠJ‚­
     /// </summary>

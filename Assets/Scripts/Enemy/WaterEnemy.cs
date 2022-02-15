@@ -44,6 +44,12 @@ public class WaterEnemy : MonoBehaviour
     private bool _interval;
     [SerializeField]
     private GameObject[] _WarpArea;
+    [SerializeField]
+    private Vector3 _posAtk;
+    [SerializeField]
+    private ParticleSystem _atkEff;
+    bool _atkBool;
+    private Player _playerSc;
     #endregion
 
     void Start()
@@ -63,8 +69,9 @@ public class WaterEnemy : MonoBehaviour
         _enemyMoney = _scoreManage.WaterMoney(_enemyMoney);
         this.GetComponent<EnemyManager>().EnemyMoney(_enemyMoney);
         GameObject Area = GameObject.FindGameObjectWithTag("WarpArea");
+        _playerSc = _player.GetComponent<Player>();
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             _WarpArea[i] = Area.transform.GetChild(i).gameObject;
         }
@@ -72,17 +79,16 @@ public class WaterEnemy : MonoBehaviour
 
     void Update()
     {
-        _enemyMove = _enemyDes._enemyMovePB;
-        this.transform.LookAt(_player.transform);
-        if (_myAgent.pathStatus != NavMeshPathStatus.PathInvalid)
-        {
-            SetDestination();
-        }
-    }
+        Qua();
 
-    public void SetDestination()
-    {
+        _enemyMove = _enemyDes._enemyMovePB;
+
         float dis = Vector3.Distance(_player.transform.position, this.transform.position);
+
+        if (_atk)
+        {
+            AtkEff();
+        }
 
         if (dis < 5.0f)
         {
@@ -93,21 +99,9 @@ public class WaterEnemy : MonoBehaviour
             _interval = false;
         }
 
-        if (dis > 10.0f)
+        if (!_enemyMove && !_interval && !_atk)
         {
-            int rum = Random.Range(0, 2);
-            this.transform.position = _WarpArea[rum].transform.position;
-        }
-
-        if (!_enemyMove && !_interval)
-        {
-            var endPoint = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
-            _myAgent.destination = endPoint;
-        }
-
-        if (_enemyMove || _atk || _interval)
-        {
-            _myAgent.destination = this.gameObject.transform.position;
+            transform.position = Vector3.MoveTowards(this.transform.position, _player.transform.position, speed * 0.1f);
         }
     }
 
@@ -122,9 +116,41 @@ public class WaterEnemy : MonoBehaviour
             yield return new WaitForSeconds(_rdm);
             _ani.SetBool("atk", true);
             _atk = true;
+            _atkEff.transform.position = this.transform.position;
+            _posAtk = _player.transform.position;
+            _atkEff.Play();
             yield return new WaitForSeconds(5.0f);
             _ani.SetBool("atk", false);
             _atk = false;
         }
+    }
+
+    private void AtkEff()
+    {
+        _atkEff.transform.position = Vector3.MoveTowards(_atkEff.transform.position, _posAtk, speed * 5f);
+        float disA = Vector3.Distance(_posAtk, _atkEff.transform.position);
+        float disB = Vector3.Distance(_player.transform.position, _posAtk);
+
+        if (disA < 0.9f && disB < 0.9f && !_atkBool)
+        {
+            _atkBool = true;
+            _playerSc.Atk(7);
+            Invoke("AtkBoolReset", 2.0f);
+        }
+
+    }
+
+    private void AtkBoolReset()
+    {
+        _atkBool = false;
+    }
+
+    private void Qua()
+    {
+        Vector3 vector3 = _player.transform.position - this.transform.position;
+        vector3.y = 0f;
+
+        Quaternion quaternion = Quaternion.LookRotation(vector3);
+        this.transform.rotation = quaternion;
     }
 }
