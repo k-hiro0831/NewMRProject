@@ -78,11 +78,11 @@ public class EarthEnemy : MonoBehaviour
 
         float dis = Vector3.Distance(_player.transform.position, this.transform.position);
 
-        if (dis < 1.5f)
+        if (dis < 1.7f)
         {
             _interval = true;
         }
-        if (dis > 1.5f)
+        if (dis > 1.7f)
         {
             _interval = false;
         }
