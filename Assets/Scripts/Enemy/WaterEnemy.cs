@@ -45,12 +45,11 @@ public class WaterEnemy : MonoBehaviour
     [SerializeField]
     private GameObject[] _WarpArea;
     [SerializeField]
-    private SFXControllerV3D _sfx;
+    private Vector3 _posAtk;
     [SerializeField]
-    private ProgressControlV3D _pro;
-
-    [SerializeField]
-    private MouseTargetV3D _mouse;
+    private ParticleSystem _atkEff;
+    bool _atkBool;
+    private Player _playerSc;
     #endregion
 
     void Start()
@@ -70,8 +69,9 @@ public class WaterEnemy : MonoBehaviour
         _enemyMoney = _scoreManage.WaterMoney(_enemyMoney);
         this.GetComponent<EnemyManager>().EnemyMoney(_enemyMoney);
         GameObject Area = GameObject.FindGameObjectWithTag("WarpArea");
+        _playerSc = _player.GetComponent<Player>();
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             _WarpArea[i] = Area.transform.GetChild(i).gameObject;
         }
@@ -79,18 +79,22 @@ public class WaterEnemy : MonoBehaviour
 
     void Update()
     {
-        //this.transform.LookAt(_player.transform);
         Qua();
 
         _enemyMove = _enemyDes._enemyMovePB;
 
         float dis = Vector3.Distance(_player.transform.position, this.transform.position);
 
-        if (dis < 1.5f)
+        if (_atk)
+        {
+            AtkEff();
+        }
+
+        if (dis < 5.0f)
         {
             _interval = true;
         }
-        if (dis > 1.5f)
+        if (dis > 5.0f)
         {
             _interval = false;
         }
@@ -112,19 +116,33 @@ public class WaterEnemy : MonoBehaviour
             yield return new WaitForSeconds(_rdm);
             _ani.SetBool("atk", true);
             _atk = true;
-            _mouse.Atk(_atk);
-            Invoke("AtkEff", 0.7f);
+            _atkEff.transform.position = this.transform.position;
+            _posAtk = _player.transform.position;
+            _atkEff.Play();
             yield return new WaitForSeconds(5.0f);
             _ani.SetBool("atk", false);
             _atk = false;
-            _mouse.Atk(_atk);
         }
     }
 
     private void AtkEff()
     {
-        _sfx.EnemyAtk();
-        _pro.EnemyAtk();
+        _atkEff.transform.position = Vector3.MoveTowards(_atkEff.transform.position, _posAtk, speed * 5f);
+        float disA = Vector3.Distance(_posAtk, _atkEff.transform.position);
+        float disB = Vector3.Distance(_player.transform.position, _posAtk);
+
+        if (disA < 0.9f && disB < 0.9f && !_atkBool)
+        {
+            _atkBool = true;
+            _playerSc.Atk(7);
+            Invoke("AtkBoolReset", 2.0f);
+        }
+
+    }
+
+    private void AtkBoolReset()
+    {
+        _atkBool = false;
     }
 
     private void Qua()

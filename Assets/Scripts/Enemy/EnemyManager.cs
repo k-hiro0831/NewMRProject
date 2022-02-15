@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour{
     {
         get { return _enemyMove; }
     }
-    private EnemControl _enem = new EnemControl();
+    private NewEnemyControl _newEnem;
     private int _enemyHp;
     private EnemyValueManager _scoreManage;
     private int _enemyScore;
@@ -29,7 +29,7 @@ public class EnemyManager : MonoBehaviour{
             _ani = this.gameObject.transform.GetChild(0).GetComponent<Animator>();
         }
         _rb = GetComponent<Rigidbody>();
-        _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
+        _newEnem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<NewEnemyControl>();
         _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
         _money = GameObject.FindGameObjectWithTag("MoneyManager").GetComponent<MoneyManager>();
     }
@@ -91,7 +91,9 @@ public class EnemyManager : MonoBehaviour{
         yield return new WaitForSeconds(3.0f);
         _scoreManage.ScoreAdd(_enemyScore);
         _money.MoneyPlus(_enemyMoney);
-        _enem.Removed(this.gameObject);
+        //_enem.Removed(this.gameObject);
+        //_newEnem.EnemyValueMinus(1);
+        _newEnem.EnemyWaveCount(1);
         this.gameObject.SetActive(false);
         yield break;
     }
@@ -99,7 +101,7 @@ public class EnemyManager : MonoBehaviour{
     private IEnumerator RobotRemove()
     {
         yield return new WaitForSeconds(3.0f);
-        _enem.Removed(this.gameObject);
+        //_enem.Removed(this.gameObject);
         this.gameObject.SetActive(false);
     }
 }

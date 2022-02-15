@@ -76,11 +76,11 @@ public class LavaEnemy : MonoBehaviour
 
         float dis = Vector3.Distance(_player.transform.position, this.transform.position);
 
-        if (dis < 1.5f)
+        if (dis < 5.0f)
         {
             _interval = true;
         }
-        if (dis > 1.5f)
+        if (dis > 5.0f)
         {
             _interval = false;
         }
