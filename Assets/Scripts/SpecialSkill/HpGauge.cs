@@ -16,7 +16,7 @@ public class HpGauge : MonoBehaviour
     [SerializeField]
     private Player _player;
     [SerializeField]
-    private EnemControl _enem;
+    private NewEnemyControl _enem;
 
     private const int _hpMinus = 1;
 

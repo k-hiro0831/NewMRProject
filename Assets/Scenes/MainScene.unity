@@ -2614,9 +2614,8 @@ MonoBehaviour:
   - {fileID: 29270944}
   - {fileID: 914714355}
   - {fileID: 829876719}
-  _enemyValue: 0
-  _enemyCount: 0
-  _waveEnd: 0
+  _enemyWaveCount: 0
+  _gameState: 0
 --- !u!4 &718293847
 Transform:
   m_ObjectHideFlags: 0
@@ -4154,7 +4153,7 @@ MonoBehaviour:
   _hpImageObj: {fileID: 1131297431}
   _hp: 0
   _player: {fileID: 1063731118}
-  _enem: {fileID: 1307177523}
+  _enem: {fileID: 718293846}
 --- !u!4 &1025390748
 Transform:
   m_ObjectHideFlags: 0
@@ -6059,6 +6058,7 @@ GameObject:
   - component: {fileID: 1404763677}
   - component: {fileID: 1404763676}
   - component: {fileID: 1404763675}
+  - component: {fileID: 1404763678}
   m_Layer: 0
   m_Name: ObjectList
   m_TagString: List
@@ -6110,6 +6110,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1404763678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404763674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8ceee04098d704d9d4f7e08681536f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _facingThreshold: 80
+  _rayRange: 12.6
+  _radius: 0.5
+  _attackCoolTime: 3.24
+  g_xrayColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1411167767
 GameObject:
   m_ObjectHideFlags: 0
