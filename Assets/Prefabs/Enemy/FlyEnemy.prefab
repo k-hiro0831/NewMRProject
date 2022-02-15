@@ -1444,7 +1444,7 @@ MonoBehaviour:
   _player: {fileID: 0}
   _enemyDes: {fileID: 8157439940616393110}
   _child: {fileID: 1902346068021852978}
-  speed: 0.01
+  speed: 0.05
   _enemyMove: 0
   _box: {fileID: 1500107694965003381}
   _interval: 0
