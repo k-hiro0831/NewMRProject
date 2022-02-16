@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour{
     #region"variable"
     private Rigidbody _rb;
     private Animator _ani;
+    private BoxCollider _collider;
     private bool _enemyMove;
     public bool _enemyMovePB
     {
@@ -24,6 +25,7 @@ public class EnemyManager : MonoBehaviour{
     void Start()
     {
         _ani = GetComponent<Animator>();
+        _collider = GetComponent<BoxCollider>();
         if (_ani == null)
         {
             _ani = this.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -46,6 +48,7 @@ public class EnemyManager : MonoBehaviour{
             if (!x)
             {
                 EnemyDes();
+                _collider.enabled = false;
                 bool x = true;
             }  
         }
