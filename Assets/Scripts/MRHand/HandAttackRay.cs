@@ -24,6 +24,12 @@ public class HandAttackRay : MonoBehaviour
     [SerializeField,Range(0.0f,5.0f),Header("攻撃のクールタイム")]
     private float _attackCoolTime = default;
 
+    [SerializeField, Header("右手からRayオブジェクト")]
+    private GameObject _rayObjectRight = default;
+
+    [SerializeField, Header("左手からRayオブジェクト")]
+    private GameObject _rayObjectLeft = default;
+
     [SerializeField]
     private Color g_xrayColor = default;
 
@@ -82,15 +88,15 @@ public class HandAttackRay : MonoBehaviour
     private void AttackRay()
     {
         AttackFlagSystem();
-        // 右手のみ判定したいので右手を取得
-        var jointedHand = HandJointUtils.FindHand(Handedness.Right);
+        
         // 手のひらが認識できているか
-        if (jointedHand.TryGetJoint(TrackedHandJoint.Palm, out MixedRealityPose palmPose))
+        if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm,Handedness.Right, out MixedRealityPose palmPose))
         {
+            
             //指の先端オブジェクト
             MixedRealityPose indexKnucklePose, wristPose;
             //手首と人差し指の根本を取得
-            if(jointedHand.TryGetJoint(TrackedHandJoint.IndexKnuckle,out indexKnucklePose) &&jointedHand.TryGetJoint(TrackedHandJoint.Wrist,out wristPose))
+            if(HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, Handedness.Right, out indexKnucklePose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.Wrist,Handedness.Right , out wristPose))
             {
                 //手首から人差し指の根本に向けてのベクトルを計算
                 _attackRayVector3 = (indexKnucklePose.Position - wristPose.Position).normalized;
@@ -102,8 +108,52 @@ public class HandAttackRay : MonoBehaviour
                     RayHitAttack(_attackRayHit.collider.gameObject);
                 }
 
+
+                _rayObjectRight.SetActive(true);
+                //オブジェクト位置を変更
+                _rayObjectRight.transform.position = wristPose.Position;
+                //オブジェクトの向きを変更
+                _rayObjectRight.transform.LookAt(indexKnucklePose.Position);
             }
 
+        }
+        else
+        {
+            _rayObjectRight.SetActive(false);
+        }
+
+        
+        // 手のひらが認識できているか
+        if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, Handedness.Left, out MixedRealityPose palmPoseLeft))
+        {
+            
+            //指の先端オブジェクト
+            MixedRealityPose indexKnucklePoseLeft, wristPoseLeft;
+            //手首と人差し指の根本を取得
+            if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, Handedness.Left,out indexKnucklePoseLeft) && HandJointUtils.TryGetJointPose(TrackedHandJoint.Wrist, Handedness.Left,out wristPoseLeft))
+            {
+                //手首から人差し指の根本に向けてのベクトルを計算
+                _attackRayVector3 = (indexKnucklePoseLeft.Position - wristPoseLeft.Position).normalized;
+                _drawRayStartPosition = wristPoseLeft.Position;
+                //レイを飛ばして当たっているか判定、敵に当たっていた場合に走る
+                if (Physics.SphereCast(_drawRayStartPosition, _radius, _attackRayVector3, out _attackRayHit, _rayRange) &&
+                    _attackRayHit.collider.gameObject.transform.tag == TAG_NAME_ENEMY)
+                {
+                    RayHitAttack(_attackRayHit.collider.gameObject);
+                }
+
+                //左手攻撃ray処理
+                _rayObjectLeft.SetActive(true);
+                //rayオブジェクトの位置変更
+                _rayObjectLeft.transform.position = wristPoseLeft.Position;
+                //rayオブジェクトの向き変更
+                _rayObjectLeft.transform.LookAt(indexKnucklePoseLeft.Position);
+
+            }
+        }
+        else
+        {
+            _rayObjectLeft.SetActive(false);
         }
     }
 
@@ -131,8 +181,10 @@ public class HandAttackRay : MonoBehaviour
             if (_attackCoolTimeCount > _attackCoolTime)
             {
                 _attackFlag = true;
+                _attackCoolTimeCount = 0;
             }
         }
+        
     }
 
     private void OnDrawGizmos()
