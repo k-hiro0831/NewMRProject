@@ -12,6 +12,12 @@ public class Player : MonoBehaviour
 
     private bool _hit = false;
     private bool _atk = false;
+    private bool _rec = false;
+    [SerializeField]
+    private GameObject _hissatsu;
+
+    private bool _hissatsuNow;
+
     /// <summary>
     /// プレイヤーHP外部参照元
     /// </summary>
@@ -30,10 +36,44 @@ public class Player : MonoBehaviour
        _damageScript = _damageUI.GetComponent<PlayerDamageEffect>();
     }
 
+    private void Update()
+    {
+        //ここ呼び出すと必殺技
+        if (Input.GetKeyDown(KeyCode.P) && !_hissatsuNow)
+        {
+            _hissatsu.gameObject.SetActive(true);
+            _hissatsuNow = true;
+            Invoke("Col", 0.5f);
+            Invoke("Col2", 3.0f);
+        }
+    }
+
+    private void Col()
+    {
+        _hissatsu.GetComponent<Collider>().enabled = true;
+    }
+
+    private void Col2()
+    {
+        _hissatsuNow = false;
+        _hissatsu.GetComponent<Collider>().enabled = false;
+        _hissatsu.gameObject.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other){
         if (other.gameObject.tag == "EnemyAtk")
         {
             //Atk();
+        }
+    }
+
+    public void Recovery()
+    {
+        if (!_rec)
+        {
+            _rec = true;
+            _hpGauge.PlusHp(20);
+            Invoke("Rec", 2.0f);
         }
     }
 
@@ -55,5 +95,10 @@ public class Player : MonoBehaviour
 
     private void Hit(){
         _hit = false;
+    }
+
+    private void Rec()
+    {
+        _rec = false;
     }
 }

@@ -16,6 +16,8 @@ TagManager:
   - ScoreManager
   - MoneyManager
   - WarpArea
+  - Move
+  - Recovery
   layers:
   - Default
   - TransparentFX
