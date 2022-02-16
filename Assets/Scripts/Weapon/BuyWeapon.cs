@@ -82,7 +82,7 @@ public class BuyWeapon : MonoBehaviour
         _selectName = _selectPrefab.GetComponent<GunShot>().ReturnWeaponName();
 
         //詳細UIを更新
-        _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
+        _uiScript.UpdateWeaponUI(_selectNum, _selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public class BuyWeapon : MonoBehaviour
             _weaponButtonList[_selectNum].GetComponent<WeaponSelected>().UnLock();
             _selectIsLock = false;
             //詳細UIを更新
-            _uiScript.UpdateWeaponUI(_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
+            _uiScript.UpdateWeaponUI(_selectNum,_selectName, _selectPrice, _selectPower, _selectRate, _selectIsLock);
 
             //武器入れ替え
             //選択中の武器を非表示

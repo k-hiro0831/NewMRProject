@@ -11,14 +11,14 @@ public class HandMenuButton : MonoBehaviour
 
     public void MenuOpenClose()
     {
+        _isOpen = _selectScript.ReturnOpenFlag();
+
         if (_isOpen)
         {
-            _isOpen = false;
             _selectScript.CloseSelectUI();
         }
         else
         {
-            _isOpen = true;
             _selectScript.OpenSelectUI();
         }
     }
