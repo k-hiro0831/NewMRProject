@@ -50,6 +50,7 @@ public class FlyEnemy : MonoBehaviour{
     [SerializeField]
     private bool _interval;
     private EnemyAtkMethod _enemyAtkM;
+    private bool _move;
     #endregion
 
     void Start()
@@ -59,7 +60,6 @@ public class FlyEnemy : MonoBehaviour{
         _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _rdm = Random.Range(3, 8);
-        StartCoroutine("Atk");
         _box.SetActive(false);
         _enemyhp = 1;
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
@@ -94,12 +94,28 @@ public class FlyEnemy : MonoBehaviour{
             _interval = false;
         }
 
-        if (!_enemyMove && !_interval && !_atk)
+        if (!_enemyMove && !_interval && !_atk && _move)
         {
             transform.position = Vector3.MoveTowards(this.transform.position, _player.transform.position, speed * 0.1f);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Move" && !_move)
+        {
+            StartCoroutine("Atk");
+            _move = true;
+        }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Move" && _move)
+        {
+            StopCoroutine("Atk");
+            _move = false;
+        }
+    }
     private IEnumerator Atk()
     {
         if (_enemyMove)

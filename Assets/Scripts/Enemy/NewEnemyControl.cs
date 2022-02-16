@@ -37,6 +37,10 @@ public class NewEnemyControl : MonoBehaviour
     private TextMeshPro _waitText;
     [SerializeField, Header("敵出現場所")]
     private GameObject[] _enemyPos = default;
+    [SerializeField, Header("回復")]
+    private ParticleSystem[] _recovery = default;
+    [SerializeField, Header("次のウェーブまでの時間")]
+    private float _nextWaitTime = default;
 
     /// <summary>
     /// Wave親オブジェクト
@@ -70,13 +74,14 @@ public class NewEnemyControl : MonoBehaviour
     private int _enemyValue;
 
     private int _enemyCount;
-    [SerializeField]
+
     private int _enemyWaveCount;
+
+    private int _nextRe;
 
     /// <summary>
     /// 現在の状態
     /// </summary>
-    [SerializeField]
     private int _gameState;
 
     //random数値
@@ -87,6 +92,8 @@ public class NewEnemyControl : MonoBehaviour
 
     private EnemyValueManager _enem;
     private GameFlowManager _gameFlow;
+
+
 
     #endregion
 
@@ -109,7 +116,7 @@ public class NewEnemyControl : MonoBehaviour
         }
         _PhaseText.text = "WAIT...";
         ObjSet();
-        _waitTime = 11.0f;
+        _waitTime = _nextWaitTime;
         _enem = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
         _gameFlow = GameObject.FindGameObjectWithTag("GameFlow").GetComponent<GameFlowManager>();
     }
@@ -141,6 +148,7 @@ public class NewEnemyControl : MonoBehaviour
                 }
                 if (_enemyWaveCount == _maxEnemyCount)
                 {
+                    _recovery[0].gameObject.SetActive(true);
                     _enem.ScoreAdd((int)_phaseTimeTotal);
                     enemyPhase = EnemyPhase.WaveWait;
                 }
@@ -166,6 +174,7 @@ public class NewEnemyControl : MonoBehaviour
                 }
                 if (_enemyWaveCount == _maxEnemyCount)
                 {
+                    _recovery[0].gameObject.SetActive(true);
                     _enem.ScoreAdd((int)_phaseTimeTotal);
                     enemyPhase = EnemyPhase.WaveWait;
                 }
@@ -191,6 +200,7 @@ public class NewEnemyControl : MonoBehaviour
                 }
                 if (_enemyWaveCount == _maxEnemyCount)
                 {
+                    _recovery[0].gameObject.SetActive(true);
                     _enem.ScoreAdd((int)_phaseTimeTotal);
                     enemyPhase = EnemyPhase.WaveWait;
                 }
@@ -235,7 +245,7 @@ public class NewEnemyControl : MonoBehaviour
                     {
                         _waveEnd = false;
                         _waitText.text = "";
-                        _waitTime = 11.0f;
+                        _waitTime = _nextWaitTime;
                         _PhaseText.text = "WAVEBOSS";
                         _maxEnemyCount = _numberOfEnemies[3];
                         _enemyWaveCount = 0;
@@ -252,7 +262,7 @@ public class NewEnemyControl : MonoBehaviour
                     {
                         _waveEnd = false;
                         _waitText.text = "";
-                        _waitTime = 11.0f;
+                        _waitTime = _nextWaitTime;
                         _PhaseText.text = "WAVE3";
                         _maxEnemyCount = _numberOfEnemies[2];
                         _enemyWaveCount = 0;
@@ -269,7 +279,7 @@ public class NewEnemyControl : MonoBehaviour
                     {
                         _waveEnd = false;
                         _waitText.text = "";
-                        _waitTime = 11.0f;
+                        _waitTime = _nextWaitTime;
                         _PhaseText.text = "WAVE2";
                         _maxEnemyCount = _numberOfEnemies[1];
                         _enemyWaveCount = 0;
@@ -286,7 +296,7 @@ public class NewEnemyControl : MonoBehaviour
                     {
                         _waveEnd = false;
                         _waitText.text = "";
-                        _waitTime = 11.0f;
+                        _waitTime = _nextWaitTime;
                         _PhaseText.text = "WAVE1";
                         _maxEnemyCount = _numberOfEnemies[0];
                         _enemyWaveCount = 0;

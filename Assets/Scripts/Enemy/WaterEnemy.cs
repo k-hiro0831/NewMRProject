@@ -50,6 +50,8 @@ public class WaterEnemy : MonoBehaviour
     private ParticleSystem _atkEff;
     bool _atkBool;
     private Player _playerSc;
+    [SerializeField]
+    private bool _move;
     #endregion
 
     void Start()
@@ -59,8 +61,7 @@ public class WaterEnemy : MonoBehaviour
         _enem = GameObject.FindGameObjectWithTag("EnemyCnt").GetComponent<EnemControl>();
         _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _rdm = 5;
-        StartCoroutine("Atk");
+        _rdm = Random.Range(6, 10);
         _enemyhp = Random.Range(4, 7);
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
         _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
@@ -99,12 +100,28 @@ public class WaterEnemy : MonoBehaviour
             _interval = false;
         }
 
-        if (!_enemyMove && !_interval && !_atk)
+        if (!_enemyMove && !_interval && !_atk && _move)
         {
             transform.position = Vector3.MoveTowards(this.transform.position, _player.transform.position, speed * 0.1f);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Move" && !_move)
+        {
+            StartCoroutine("Atk");
+            _move = true;
+        }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Move" && _move)
+        {
+            StopCoroutine("Atk");
+            _move = false;
+        }
+    }
     private IEnumerator Atk()
     {
         if (_enemyMove)

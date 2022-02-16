@@ -47,6 +47,7 @@ public class LavaEnemy : MonoBehaviour
     [SerializeField]
     private HomingParticles _homing;
     private bool _interval;
+    private bool _move;
     #endregion
 
     void Start()
@@ -57,8 +58,7 @@ public class LavaEnemy : MonoBehaviour
         _ani = _child.GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _rdm = Random.Range(7, 10);
-        StartCoroutine("Atk");
-        _enemyhp = Random.Range(10, 15);
+        _enemyhp = 100;
         this.GetComponent<EnemyManager>().EnemyHp(_enemyhp);
         _scoreManage = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<EnemyValueManager>();
         _enemyScore = _scoreManage.Lava(_enemyScore);
@@ -85,12 +85,28 @@ public class LavaEnemy : MonoBehaviour
             _interval = false;
         }
 
-        if (!_enemyMove && !_interval && !_atk)
+        if (!_enemyMove && !_interval && !_atk && _move)
         {
             transform.position = Vector3.MoveTowards(this.transform.position, _player.transform.position, speed * 0.1f);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Move" && !_move)
+        {
+            StartCoroutine("Atk");
+            _move = true;
+        }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Move" && _move)
+        {
+            StopCoroutine("Atk");
+            _move = false;
+        }
+    }
     private IEnumerator Atk()
     {
         if (_enemyMove)
