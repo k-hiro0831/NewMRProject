@@ -354,15 +354,15 @@ public class NewEnemyControl : MonoBehaviour
             Puls();
             if (_PhaseText.text == "WAVE1")
             {
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(20.0f);
             }
             if (_PhaseText.text == "WAVE2")
             {
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(15.0f);
             }
             if (_PhaseText.text == "WAVE3")
             {
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(10.0f);
             }
             if (_PhaseText.text == "WAVEBOSS")
             {
