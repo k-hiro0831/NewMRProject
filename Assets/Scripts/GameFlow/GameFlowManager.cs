@@ -123,14 +123,21 @@ public class GameFlowManager : MonoBehaviour
         if (flow == Flow.clear)
         {
             _button[0].SetActive(true);
+            _button[2].SetActive(true);
             SceneManager.LoadScene(_nextSceneName[1]);
         }
 
         if (flow == Flow.gameover)
         {
             _button[0].SetActive(true);
+            _button[2].SetActive(true);
             SceneManager.LoadScene(_nextSceneName[2]);
         }
+    }
+
+    public void GameExit()
+    {
+        Application.Quit();
     }
 
     private void ScoreSearch()
