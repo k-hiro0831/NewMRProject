@@ -104,6 +104,7 @@ public class GunShot : MonoBehaviour, WeaponAttack
 
         //“G‚Ì•ûŒü‚ğŒü‚¢‚½Œã‚ÉUŒ‚ˆ—
         _hitObj = _rayShot.ReturnHitObj("Enemy");
+
         if (_hitObj != null)
         {
             for (int i = 0; i < _bulletMax; i++)

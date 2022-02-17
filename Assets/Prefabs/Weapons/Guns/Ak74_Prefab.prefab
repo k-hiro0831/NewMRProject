@@ -218,9 +218,8 @@ MonoBehaviour:
   _muzzleFlash: {fileID: 2963289145304077928}
   _explosionEffect: {fileID: 7375017071851253136, guid: 8b76539b1033ae44eb4154fb12d922f1, type: 3}
   _rayObj: {fileID: 354596188678830046}
-  _rayLength: 30
+  _rayLength: 100
   _bulletMax: 1
-  _bulletCount: 0
   _power: 4
   _rate: 3
   _shotCoolTime: 0.1
@@ -268,7 +267,7 @@ MonoBehaviour:
   rotateLerpTime: 0.001
   scaleLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 8504918197248467006, guid: 1932ededc4932fa4996cdb904df8fff8, type: 3}
+  constraintsManager: {fileID: -6019602475839835686}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:
