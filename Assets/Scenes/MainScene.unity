@@ -8343,7 +8343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _facingThreshold: 80
   _rayRange: 12.6
-  _radius: 0.3
+  _radius: 0.05
   _attackCoolTime: 1
   _rayObjectRight: {fileID: 1233830242}
   _rayObjectLeft: {fileID: 1341691286}
